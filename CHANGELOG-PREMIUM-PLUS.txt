@@ -1,0 +1,11 @@
+LOGANATOR SHOP V16.1 PREMIUM PLUS — MODIFICATIONS
+
+1. Ajout de l’onglet Rapports Premium.
+2. Rapport d’inventaire avec produits, stock faible, produits épuisés et valeur théorique du stock.
+3. Export CSV des stocks et rapport CSV regroupant catalogue, commandes locales et promotions locales.
+4. Rapport imprimable compatible avec « Enregistrer au format PDF ».
+5. Téléchargement groupé des images dans une archive ZIP avec manifeste des images ignorées.
+6. Vérification d’accès Premium pour les comptes de la liste intégrée et tentative de vérification des membres de la table Supabase premium_members.
+7. Boutons groupés ZIP et exports dans l’espace Produits et Rapports.
+
+Les données locales ne sont pas synchronisées automatiquement entre appareils.
