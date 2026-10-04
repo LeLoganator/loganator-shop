@@ -359,7 +359,7 @@ async function bootV12(){if(!supabaseReady()){document.getElementById('accountBt
 bootV12();
 </script>\n
 <script>
-/* LOGANATOR V16 PREMIUM */
+/* LOGANATOR V16.1 PREMIUM */
 const V16_OWNER_EMAILS=['gauducheaulogan@gmail.com','leloganator@gmail.com','alexisprouillac@gmail.com','theteamsloganator@gmail.com'];
 let v16Stats={};
 function v16Esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
@@ -372,6 +372,7 @@ const _add=window.add; window.add=function(id,size){v16Track('cart_add',id);retu
 function v16SetTab(name){document.querySelectorAll('[data-v16-tab]').forEach(b=>b.classList.toggle('active',b.dataset.v16Tab===name));document.querySelectorAll('[data-v16-section]').forEach(s=>s.classList.toggle('active',s.dataset.v16Section===name));if(name==='overview')v16LoadStats();if(name==='orders')v16LoadOrders();if(name==='members')loadPremiumMembers();if(name==='promos')v16LoadPromos();if(name==='tools')v16LoadTools();if(name==='site')v16LoadSettings()}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-v16-tab]');if(b)v16SetTab(b.dataset.v16Tab)});
 function v16Notice(m,ok=true){premiumMessage(m,ok)}
+async function v16SchemaCheck(){if(!LOGANATOR_SB||!v16Can())return;const tables=['product_meta','store_settings','promo_codes','orders','order_items','analytics_events'];const missing=[];for(const t of tables){const r=await LOGANATOR_SB.from(t).select('*',{count:'exact',head:true});if(r.error && /relation|table|schema cache|does not exist|Could not find/i.test(r.error.message||''))missing.push(t)}if(missing.length)v16Notice('⚠️ Tables Premium manquantes : '+missing.join(', ')+'. Exécute premium_v16_1.sql dans Supabase.',false)}
 async function v16LoadStats(){if(!v16Can()||!LOGANATOR_SB)return;const {data,error}=await LOGANATOR_SB.from('analytics_events').select('event_type,product_id,metadata,created_at').order('created_at',{ascending:false}).limit(1000);if(error){v16Notice('⚠️ Analytics indisponibles : '+error.message,false);return}const a=data||[];document.getElementById('v16Visits').textContent=a.filter(x=>x.event_type==='visit').length;document.getElementById('v16Views').textContent=a.filter(x=>x.event_type==='product_view').length;document.getElementById('v16Adds').textContent=a.filter(x=>x.event_type==='cart_add').length;const orders=await LOGANATOR_SB.from('orders').select('id,total,status,created_at,email').limit(1000);document.getElementById('v16Orders').textContent=(orders.data||[]).length;const counts={};a.filter(x=>x.event_type==='product_view').forEach(x=>counts[x.product_id]=(counts[x.product_id]||0)+1);const pop=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,5);document.getElementById('v16Popular').innerHTML=pop.length?pop.map(([id,n])=>{const p=products.find(x=>String(x.id)===String(id));return `<div class="v16-line"><span>${v16Esc(p?.name||'Produit')}</span><b>${n} vues</b></div>`}).join(''):'<div class="v16-muted">Pas encore assez de données.</div>';const alerts=products.filter(p=>Number(p.stock??0)<=3);document.getElementById('v16Alerts').innerHTML=alerts.length?alerts.map(p=>`<div class="v16-alert">⚠️ <b>${v16Esc(p.name)}</b> : stock faible (${Number(p.stock??0)})</div>`).join(''):'<div class="v16-good">✅ Aucun stock faible.</div>';document.getElementById('v16Recent').innerHTML=a.slice(0,8).map(x=>`<div class="v16-line"><span>${v16Esc(x.event_type)}</span><span class="v16-muted">${new Date(x.created_at).toLocaleString('fr-FR')}</span></div>`).join('')||'<div class="v16-muted">Aucune activité.</div>'}
 async function v16RefreshProducts(){await v12LoadProducts();render();renderPremiumList();v16LoadStats();v16LoadTools()}
 function renderPremiumList(){const box=document.getElementById('premiumList');if(!box)return;box.innerHTML=products.map(p=>{const stock=Number(p.stock??0);const badge=p.badge||((stock<=0)?'ÉPUISÉ':p.is_new?'NEW':p.is_popular?'BEST-SELLER':'');return `<div class="admin-card"><img src="${v16Esc(p.image)}" alt="${v16Esc(p.name)}"><div><b>${v16Esc(p.name)}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${v16Esc(normalizeCategory(p.cat))} · Stock: ${stock}</div><div style="margin-top:6px">${badge?`<span class="v16-badge">${v16Esc(badge)}</span>`:''} ${p.is_featured?'⭐':''}</div></div><div class="admin-actions"><button class="btn" onclick='editPremiumProduct(${JSON.stringify(p.id)})'>✏️ Modifier</button><button class="btn" onclick='deletePremiumProduct(${JSON.stringify(p.id)})'>🗑️ Supprimer</button></div></div>`}).join('')}
@@ -392,6 +393,117 @@ async function v16SetOrderStatus(id,status){const {error}=await LOGANATOR_SB.fro
 async function v16ViewOrder(id){const {data,error}=await LOGANATOR_SB.from('order_items').select('*').eq('order_id',id);if(error)return alert(error.message);alert((data||[]).map(x=>`${x.product_name} × ${x.quantity} — ${x.size||'sans taille'}`).join('\n')||'Commande vide')}
 async function v16LoadTools(){if(!v16Can())return;const low=products.filter(p=>Number(p.stock??0)<=3);const missing=products.filter(p=>!p.description||!p.image);document.getElementById('v16SmartTools').innerHTML=`<div class="v16-line">🔥 Produits à mettre en avant <b>${products.filter(p=>p.is_popular||p.is_featured).length}</b></div><div class="v16-line">⚠️ Stocks faibles <b>${low.length}</b></div><div class="v16-line">📝 Fiches à compléter <b>${missing.length}</b></div><div class="v16-line">🆕 Nouveautés <b>${products.filter(p=>p.is_new!==false).length}</b></div>`;document.getElementById('v16Quality').innerHTML=products.map(p=>{const issues=[];if(!p.name)issues.push('nom');if(!p.description)issues.push('description');if(!p.image)issues.push('image');if(Number(p.price)<=0)issues.push('prix');return `<div class="v16-line"><span>${v16Esc(p.name)}</span><span class="${issues.length?'v16-danger':'v16-good'}">${issues.length?'⚠️ '+issues.join(', '):'✅ OK'}</span></div>`}).join('')}
 const _openPremium=window.openPremium;window.openPremium=async function(){if(!v16Can())return alert('Accès réservé aux membres PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open');v16LoadStats();v16LoadSettings();v16LoadPromos();v16LoadTools()};
+</script>
+
+<script>
+/* LOGANATOR V16.1 ZERO SUPABASE SETUP
+   Premium extras are stored locally in this browser. No SQL/table/RLS is required.
+   Core catalog continues to read the existing public `products` table when available.
+*/
+(function(){
+  const KEY='loganator_v16_zero_setup_v1';
+  const load=()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}};
+  const save=x=>localStorage.setItem(KEY,JSON.stringify(x));
+  let store=load();
+  store.products=Array.isArray(store.products)?store.products:[];
+  store.settings=store.settings||{};
+  store.promos=Array.isArray(store.promos)?store.promos:[];
+  store.orders=Array.isArray(store.orders)?store.orders:[];
+  store.members=Array.isArray(store.members)?store.members:[];
+  store.events=Array.isArray(store.events)?store.events:[];
+  save(store);
+
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const uid=()=> 'local-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
+  const localProducts=()=>store.products;
+  const mergeProduct=(p)=>{const i=store.products.findIndex(x=>String(x.id)===String(p.id)); if(i>=0)store.products[i]={...store.products[i],...p}; else store.products.push(p); save(store)};
+  const removeProduct=id=>{store.products=store.products.filter(x=>String(x.id)!==String(id));save(store)};
+  const applyMeta=()=>{
+    products.forEach(p=>{const m=store.products.find(x=>String(x.id)===String(p.id));if(m)Object.assign(p,m)});
+    store.products.filter(p=>String(p.id).startsWith('local-')).forEach(p=>{if(!products.some(x=>String(x.id)===String(p.id)))products.push(p)});
+  };
+  const can=()=>typeof v16Can==='function' ? v16Can() : isLoganatorPremium();
+  const notice=(m,ok=false)=>{if(typeof v16Notice==='function')v16Notice(m,ok);else if(typeof premiumMessage==='function')premiumMessage(m,ok)};
+
+  // Replace the product form so the original Supabase-writing listener cannot run.
+  const oldForm=document.getElementById('premiumForm');
+  if(oldForm){
+    const clean=oldForm.cloneNode(true); oldForm.replaceWith(clean);
+    clean.addEventListener('submit',async e=>{
+      e.preventDefault(); if(!can()) return alert('Accès Premium requis.');
+      const id=document.getElementById('premiumId').value.trim();
+      const file=document.getElementById('premiumImage').files[0];
+      let image='';
+      if(file){image=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+      const old=products.find(x=>String(x.id)===String(id))||{};
+      const p={
+        ...old,
+        id:id||uid(),
+        name:document.getElementById('premiumName').value.trim(),
+        price:Number(document.getElementById('premiumPrice').value)||0,
+        compare_at_price:document.getElementById('premiumCompare').value?Number(document.getElementById('premiumCompare').value):null,
+        cat:document.getElementById('premiumCat').value,
+        category:document.getElementById('premiumCat').value,
+        stock:Number(document.getElementById('premiumStock').value)||0,
+        sizes:document.getElementById('premiumSizes').value.split(',').map(x=>x.trim()).filter(Boolean),
+        badge:document.getElementById('premiumBadge').value||null,
+        description:document.getElementById('premiumDetails').value.trim(),
+        details:document.getElementById('premiumDetails').value.trim().split(/\r?\n/).map(x=>x.trim()).filter(Boolean),
+        is_featured:document.getElementById('premiumFeatured').checked,
+        is_popular:document.getElementById('premiumPopular').checked,
+        is_new:document.getElementById('premiumNew').checked,
+        is_published:document.getElementById('premiumPublished').checked,
+        publish_at:document.getElementById('premiumPublishAt').value?new Date(document.getElementById('premiumPublishAt').value).toISOString():null,
+        image:image||old.image||localFallbackImage(old),
+        image_url:image||old.image_url||old.image||''
+      };
+      mergeProduct(p); applyMeta(); closeEditor(); render(); renderPremiumList(); v16LoadTools(); notice('✅ Produit enregistré dans ce navigateur — aucun SQL ni nouvelle table.',true);
+    });
+  }
+
+  window.editPremiumProduct=function(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById('premiumEditorTitle').textContent='Modifier un produit';document.getElementById('premiumId').value=id;document.getElementById('premiumName').value=p.name||'';document.getElementById('premiumPrice').value=p.price||0;document.getElementById('premiumCompare').value=p.compare_at_price||'';document.getElementById('premiumCat').value=normalizeCategory(p.cat)||'Hauts';document.getElementById('premiumStock').value=p.stock??0;document.getElementById('premiumSizes').value=(p.sizes||sizes(p)).join(',');document.getElementById('premiumBadge').value=p.badge||'';document.getElementById('premiumDetails').value=p.description||((p.details||[]).join('\n'));document.getElementById('premiumFeatured').checked=!!p.is_featured;document.getElementById('premiumPopular').checked=!!p.is_popular;document.getElementById('premiumNew').checked=p.is_new!==false;document.getElementById('premiumPublished').checked=p.is_published!==false;document.getElementById('premiumPublishAt').value=p.publish_at?new Date(p.publish_at).toISOString().slice(0,16):'';document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')};
+  window.newPremiumProduct=function(){document.getElementById('premiumEditorTitle').textContent='Ajouter un produit';['premiumId','premiumName','premiumCompare','premiumPublishAt','premiumDetails'].forEach(id=>document.getElementById(id).value='');document.getElementById('premiumPrice').value=0;document.getElementById('premiumCat').value='Hauts';document.getElementById('premiumStock').value=0;document.getElementById('premiumSizes').value='XS,S,M,L,XL';document.getElementById('premiumBadge').value='';document.getElementById('premiumFeatured').checked=false;document.getElementById('premiumPopular').checked=false;document.getElementById('premiumNew').checked=true;document.getElementById('premiumPublished').checked=true;document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')};
+  window.deletePremiumProduct=function(id){if(!can()||!confirm('Supprimer ce produit de la configuration locale ?'))return;removeProduct(id);const i=products.findIndex(x=>String(x.id)===String(id));if(i>=0)products.splice(i,1);render();renderPremiumList();v16LoadTools();notice('🗑️ Produit supprimé de ce navigateur.',true)};
+
+  window.renderPremiumList=function(){const box=document.getElementById('premiumList');if(!box)return;box.innerHTML=products.map(p=>{const stock=Number(p.stock??0);const badge=p.badge||((stock<=0)?'ÉPUISÉ':p.is_new?'NEW':p.is_popular?'BEST-SELLER':'');return `<div class="admin-card"><img src="${esc(p.image)}" alt="${esc(p.name)}"><div><b>${esc(p.name)}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${esc(normalizeCategory(p.cat))} · Stock: ${stock}</div><div style="margin-top:6px">${badge?`<span class="v16-badge">${esc(badge)}</span>`:''} ${p.is_featured?'⭐':''}</div></div><div class="admin-actions"><button class="btn" onclick='editPremiumProduct(${JSON.stringify(p.id)})'>✏️ Modifier</button><button class="btn" onclick='deletePremiumProduct(${JSON.stringify(p.id)})'>🗑️ Supprimer</button></div></div>`}).join('')||'<div class="v16-muted">Aucun produit.</div>'};
+
+  // Site editor: local draft + local published copy.
+  window.v16LoadSettings=function(){if(!can())return;const x=store.settings.draft||{};document.getElementById('v16HeroTitle').value=x.heroTitle||'PORTE TON LOGANATOR.';document.getElementById('v16HeroText').value=x.heroText||'La boutique de la chaîne, avec les vraies photos de tes créations.';document.getElementById('v16HeroButton').value=x.heroButton||'VOIR LA COLLECTION';document.getElementById('v16BannerText').value=x.bannerText||'🚚 LIVRAISON OFFERTE À PARTIR DE 80€';document.getElementById('v16DropText').value=x.dropText||'';['New','Popular','Promos','Drop'].forEach(k=>{const el=document.getElementById('v16Show'+k);if(el)el.checked=x['show'+k]!==false});v16PreviewSettings()};
+  window.v16SaveDraft=function(){if(!can())return;store.settings.draft=v16SettingsObj();save(store);notice('💾 Brouillon enregistré dans ce navigateur.',true)};
+  window.v16PublishDraft=function(){if(!can())return;store.settings.published=v16SettingsObj();store.settings.draft=store.settings.published;save(store);notice('🚀 Publication locale terminée. Aucun SQL nécessaire.',true)};
+
+  // Promotions: local only.
+  window.v16LoadPromos=function(){const box=document.getElementById('v16PromoList');if(!box)return;box.innerHTML=store.promos.map(p=>`<div class="v16-line"><span><b>${esc(p.code)}</b> · ${p.type==='percent'?p.value+'%':Number(p.value).toFixed(2)+'€'} ${p.active?'🟢':'🔴'}</span><button class="btn" onclick='v16TogglePromo(${JSON.stringify(p.id)},${JSON.stringify(!p.active)})'>${p.active?'Désactiver':'Activer'}</button></div>`).join('')||'<div class="v16-muted">Aucun code.</div>'};
+  window.v16CreatePromo=function(){if(!can())return;const d={id:uid(),code:document.getElementById('v16PromoCode').value.trim().toUpperCase(),type:document.getElementById('v16PromoType').value,value:Number(document.getElementById('v16PromoValue').value)||0,min_order:Number(document.getElementById('v16PromoMin').value)||0,max_uses:Number(document.getElementById('v16PromoMax').value)||null,starts_at:document.getElementById('v16PromoStart').value||null,ends_at:document.getElementById('v16PromoEnd').value||null,active:true};if(!d.code)return alert('Entre un code.');store.promos.unshift(d);save(store);['v16PromoCode','v16PromoValue','v16PromoMin','v16PromoMax','v16PromoStart','v16PromoEnd'].forEach(id=>document.getElementById(id).value='');v16LoadPromos();notice('🏷️ Promotion créée localement.',true)};
+  window.v16TogglePromo=function(id,active){const p=store.promos.find(x=>String(x.id)===String(id));if(p){p.active=active;save(store);v16LoadPromos()}};
+
+  // Orders: local workspace, ready for future checkout integration.
+  window.v16LoadOrders=function(){const box=document.getElementById('v16OrderRows');if(!box)return;box.innerHTML=store.orders.map(o=>`<tr><td>${new Date(o.created_at||Date.now()).toLocaleString('fr-FR')}</td><td>${esc(o.email||'—')}</td><td>${Number(o.total||0).toFixed(2)}€</td><td><select onchange='v16SetOrderStatus(${JSON.stringify(o.id)},this.value)'><option value="pending" ${o.status==='pending'?'selected':''}>En attente</option><option value="preparation" ${o.status==='preparation'?'selected':''}>Préparation</option><option value="shipped" ${o.status==='shipped'?'selected':''}>Expédiée</option><option value="delivered" ${o.status==='delivered'?'selected':''}>Livrée</option><option value="cancelled" ${o.status==='cancelled'?'selected':''}>Annulée</option></select></td><td>${esc(o.payment_status||'—')}</td><td><button class="btn" onclick='v16ViewOrder(${JSON.stringify(o.id)})'>Voir</button></td></tr>`).join('')||'<tr><td colspan="6">Aucune commande locale.</td></tr>'};
+  window.v16SetOrderStatus=function(id,status){const o=store.orders.find(x=>String(x.id)===String(id));if(o){o.status=status;save(store);notice('✅ Statut local mis à jour.',true)}};
+  window.v16ViewOrder=function(id){const o=store.orders.find(x=>String(x.id)===String(id));alert(o?((o.items||[]).map(x=>`${x.product_name} × ${x.quantity} — ${x.size||'sans taille'}`).join('\n')||'Commande vide'):'Commande introuvable')};
+
+  // Premium members: use the four built-in Premium accounts + local additions. No DB write.
+  window.loadPremiumMembers=function(){const box=document.getElementById('premiumMembersList');if(!box)return;const all=[...new Set([...LOGANATOR_PREMIUM,...store.members])];box.innerHTML=all.map(email=>`<div class="admin-card" style="grid-template-columns:1fr auto"><div><b>${esc(email)}</b><div class="muted">Membre PREMIUM ${LOGANATOR_PREMIUM.includes(email)?'principal':'local'}</div></div>${LOGANATOR_PREMIUM.includes(email)?'':'<button class="btn" onclick=\'removePremiumMember('+JSON.stringify(email)+')\'>🗑️ Retirer</button>'}</div>`).join('')};
+  window.addPremiumMember=function(){const e=document.getElementById('premiumMemberEmail'),email=e.value.trim().toLowerCase();if(!email.includes('@'))return alert('E-mail invalide.');if(!store.members.includes(email))store.members.push(email);save(store);e.value='';loadPremiumMembers();notice('👑 Membre ajouté localement.',true)};
+  window.removePremiumMember=function(email){if(!confirm('Retirer '+email+' de la liste locale Premium ?'))return;store.members=store.members.filter(x=>x!==email);save(store);loadPremiumMembers()};
+  window.openPremiumMembers=async function(){if(!can())return;document.getElementById('premiumMembersModal').classList.add('open');loadPremiumMembers()};
+  window.closePremiumMembers=function(){document.getElementById('premiumMembersModal').classList.remove('open')};
+
+  window.v16LoadTools=function(){if(!can())return;applyMeta();const low=products.filter(p=>Number(p.stock??0)<=3);const missing=products.filter(p=>!p.description||!p.image);document.getElementById('v16SmartTools').innerHTML=`<div class="v16-line">🔥 Produits à mettre en avant <b>${products.filter(p=>p.is_popular||p.is_featured).length}</b></div><div class="v16-line">⚠️ Stocks faibles <b>${low.length}</b></div><div class="v16-line">📝 Fiches à compléter <b>${missing.length}</b></div><div class="v16-line">🆕 Nouveautés <b>${products.filter(p=>p.is_new!==false).length}</b></div><div class="v16-line">💾 Données Premium locales <b>${store.products.length}</b></div>`;document.getElementById('v16Quality').innerHTML=products.map(p=>{const issues=[];if(!p.name)issues.push('nom');if(!p.description)issues.push('description');if(!p.image)issues.push('image');if(Number(p.price)<=0)issues.push('prix');return `<div class="v16-line"><span>${esc(p.name)}</span><span class="${issues.length?'v16-danger':'v16-good'}">${issues.length?'⚠️ '+issues.join(', '):'✅ OK'}</span></div>`}).join('')};
+
+  // Stats: calculate from local events instead of requiring analytics_events.
+  window.v16LoadStats=function(){if(!can())return;const ev=store.events||[];const views=ev.filter(x=>x.type==='view').length;const fav=ev.filter(x=>x.type==='favorite').length;const cart=ev.filter(x=>x.type==='cart').length;const visits=ev.filter(x=>x.type==='visit').length;const orders=store.orders.length;const map={};ev.filter(x=>x.type==='view').forEach(x=>map[x.product_id]=(map[x.product_id]||0)+1);const popular=Object.entries(map).sort((a,b)=>b[1]-a[1])[0];const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};set('v16Visits',visits);set('v16Views',views);set('v16Favorites',fav);set('v16CartAdds',cart);set('v16Orders',orders);set('v16Popular',popular?products.find(p=>String(p.id)===String(popular[0]))?.name||'—':'—');};
+
+  // Apply local metadata after Supabase catalog loading.
+  const oldLoad=window.v12LoadProducts;
+  window.v12LoadProducts=async function(){if(oldLoad)await oldLoad();applyMeta();renderPremiumList();};
+  const oldOpen=window.openPremium;
+  window.openPremium=async function(){if(!can())return alert('Accès réservé aux membres PREMIUM 👑');await v12LoadProducts();applyMeta();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open');v16LoadStats();v16LoadSettings();v16LoadPromos();v16LoadOrders();v16LoadTools();loadPremiumMembers()};
+
+  // Small visual notice explaining the mode.
+  const msg=document.getElementById('premiumMsg');
+  if(msg){msg.textContent='⚡ MODE SANS CONFIGURATION SUPABASE : les fonctions Premium avancées sont enregistrées dans ce navigateur. Aucun SQL, aucune nouvelle table, aucune clé secrète.';msg.className='admin-msg ok'}
+})();
 </script>
 </body>
 </html>
