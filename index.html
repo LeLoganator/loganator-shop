@@ -162,17 +162,63 @@ render();update();
   </div>
 </div>
 
-<div class="admin-modal" id="premiumModal" onclick="if(event.target===this)closePremium()"><div class="admin-box"><button class="admin-close" onclick="closePremium()">×</button><span class="premium">👑 COMPTE PREMIUM</span><h2>Gestion de la boutique</h2><p class="muted">Tout ce que tu publies ici est enregistré en ligne et visible par les visiteurs.</p><div id="premiumMsg" class="admin-msg">Connexion à Supabase…</div><div class="admin-actions" style="margin-top:14px"><button class="btn" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" onclick="premiumLogout()">Se déconnecter</button></div><div id="premiumList" class="admin-grid"></div></div></div>
+<div class="admin-modal" id="premiumModal" onclick="if(event.target===this)closePremium()"><div class="admin-box"><button class="admin-close" onclick="closePremium()">×</button><span class="premium">👑 COMPTE PREMIUM</span><h2>Gestion de la boutique</h2><p class="muted">Tout ce que tu publies ici est enregistré en ligne et visible par les visiteurs.</p><div id="premiumMsg" class="admin-msg">Connexion à Supabase…</div><div class="admin-actions" style="margin-top:14px"><button class="btn" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" id="manageMembersBtn" onclick="openPremiumMembers()" style="display:none">⭐ Gérer les membres PREMIUM</button><button class="btn" onclick="premiumLogout()">Se déconnecter</button></div><div id="premiumMembersPanel" style="display:none;margin-top:18px;padding-top:18px;border-top:1px solid #252530"><h3 style="margin:0 0 8px">⭐ Membres PREMIUM</h3><p class="muted" style="margin:0 0 12px">Ajoute l'adresse e-mail d'une personne. Elle devra ensuite créer son compte avec cette même adresse.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="premiumMemberEmail" type="email" placeholder="email@exemple.com" style="flex:1;min-width:220px;padding:12px;border:1px solid #292936;border-radius:10px;background:#09090d;color:#fff;font:inherit"><button class="primary" onclick="addPremiumMember()">➕ AJOUTER</button></div><div id="premiumMembersList" style="margin-top:12px"></div></div><div id="premiumList" class="admin-grid"></div></div></div>
 <div class="admin-modal" id="premiumEditor" onclick="if(event.target===this)closeEditor()"><div class="admin-box"><button class="admin-close" onclick="closeEditor()">×</button><span class="premium">👑 PREMIUM</span><h2 id="premiumEditorTitle">Modifier un produit</h2><form class="admin-form" id="premiumForm"><input type="hidden" id="premiumId"><label class="full">Nom<input id="premiumName" required></label><label>Prix (€)<input id="premiumPrice" type="number" step="0.01" min="0" required></label><label>Catégorie<input id="premiumCat" required></label><label class="full">Description (une ligne par information)<textarea id="premiumDetails"></textarea></label><label class="full">Changer l'image<input id="premiumImage" type="file" accept="image/*"></label><button class="primary full" type="submit">💾 ENREGISTRER ET PUBLIER</button></form></div></div>
 
 <script>
 const LOGANATOR_SUPABASE_URL="https://aidaqphingkvvevgbeyk.supabase.co";
 const LOGANATOR_SUPABASE_KEY="sb_publishable_g3yTfPLGBasbLU4Q3LEi0w_P6b8ROLM";
 const LOGANATOR_PREMIUM=["gauducheaulogan@gmail.com","leloganator@gmail.com","alexisprouillac@gmail.com","theteamsloganator@gmail.com"];
-let LOGANATOR_SB=null, LOGANATOR_USER=null;
+const LOGANATOR_OWNERS=[...LOGANATOR_PREMIUM];
+let LOGANATOR_SB=null, LOGANATOR_USER=null, LOGANATOR_PREMIUM_MEMBERS=[];
 function supabaseReady(){return LOGANATOR_SUPABASE_URL.startsWith("https://")&&LOGANATOR_SUPABASE_KEY.length>20}
 function premiumEmail(){return (LOGANATOR_USER?.email||"").toLowerCase()}
-function isLoganatorPremium(){return !!LOGANATOR_USER&&LOGANATOR_PREMIUM.includes(premiumEmail())}
+function isLoganatorOwner(){return !!LOGANATOR_USER&&LOGANATOR_OWNERS.includes(premiumEmail())}
+function isLoganatorPremium(){return !!LOGANATOR_USER&&(isLoganatorOwner()||LOGANATOR_PREMIUM_MEMBERS.includes(premiumEmail()))}
+async function loadPremiumMembers(){
+  if(!LOGANATOR_SB||!LOGANATOR_USER){LOGANATOR_PREMIUM_MEMBERS=[];return}
+  const {data,error}=await LOGANATOR_SB.from('premium_members').select('email').order('created_at',{ascending:true});
+  if(error){console.warn('Supabase premium_members:',error.message);return;}
+  LOGANATOR_PREMIUM_MEMBERS=(data||[]).map(x=>String(x.email||'').trim().toLowerCase()).filter(Boolean);
+}
+function renderPremiumMembers(){
+  const box=document.getElementById('premiumMembersList');
+  if(!box)return;
+  if(!isLoganatorOwner()){box.innerHTML='';return;}
+  if(!LOGANATOR_PREMIUM_MEMBERS.length){box.innerHTML='<div class="admin-msg">Aucun membre supplémentaire.</div>';return;}
+  box.innerHTML=LOGANATOR_PREMIUM_MEMBERS.map(email=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #202028"><span>👤 ${email}</span><button class="btn" onclick='removePremiumMember(${JSON.stringify(email)})'>🗑️ Retirer</button></div>`).join('');
+}
+window.openPremiumMembers=function(){
+  if(!isLoganatorOwner())return;
+  const panel=document.getElementById('premiumMembersPanel');
+  panel.style.display=panel.style.display==='none'?'block':'none';
+  renderPremiumMembers();
+}
+window.addPremiumMember=async function(){
+  if(!isLoganatorOwner())return;
+  const input=document.getElementById('premiumMemberEmail');
+  const email=input.value.trim().toLowerCase();
+  if(!email||!email.includes('@'))return alert('Entre une adresse e-mail valide.');
+  const {error}=await LOGANATOR_SB.from('premium_members').insert({email});
+  if(error){
+    if(error.code==='23505')return alert('Cette adresse est déjà PREMIUM.');
+    return alert('Erreur : '+error.message);
+  }
+  input.value='';
+  await loadPremiumMembers();
+  renderPremiumMembers();
+  premiumMessage('✅ Membre PREMIUM ajouté.',true);
+}
+window.removePremiumMember=async function(email){
+  if(!isLoganatorOwner())return;
+  if(LOGANATOR_OWNERS.includes(email))return alert('Les 4 comptes propriétaires ne peuvent pas être retirés ici.');
+  if(!confirm('Retirer '+email+' des membres PREMIUM ?'))return;
+  const {error}=await LOGANATOR_SB.from('premium_members').delete().eq('email',email);
+  if(error)return alert('Erreur : '+error.message);
+  await loadPremiumMembers();
+  renderPremiumMembers();
+  premiumMessage('✅ Membre PREMIUM retiré.',true);
+}
 function showAccountMessage(m){const el=document.getElementById('accountArea');if(el)el.innerHTML=m}
 window.openAccount=async function(){
  if(!supabaseReady()){showAccountMessage('<div class="notice">⚠️ Le système de compte est prêt, mais il faut encore connecter ton projet Supabase.</div>');document.getElementById('accountModal').classList.add('open');return}
@@ -182,12 +228,12 @@ window.openAccount=async function(){
  document.getElementById('accountModal').classList.add('open');
 }
 function v12msg(m){const e=document.getElementById('v12Msg');if(e)e.textContent=m}
-window.v12Login=async function(){const email=document.getElementById('v12Email').value.trim(),password=document.getElementById('v12Password').value;if(!email||!password)return v12msg('Remplis les deux champs.');const {error}=await LOGANATOR_SB.auth.signInWithPassword({email,password});if(error)return v12msg(error.message);closeModal('accountModal');if(LOGANATOR_PREMIUM.includes(email.toLowerCase()))openPremium()}
+window.v12Login=async function(){const email=document.getElementById('v12Email').value.trim(),password=document.getElementById('v12Password').value;if(!email||!password)return v12msg('Remplis les deux champs.');const {error}=await LOGANATOR_SB.auth.signInWithPassword({email,password});if(error)return v12msg(error.message);LOGANATOR_USER=(await LOGANATOR_SB.auth.getUser()).data.user;await loadPremiumMembers();closeModal('accountModal');if(isLoganatorPremium())openPremium()}
 window.v12Signup=async function(){const email=document.getElementById('v12Email').value.trim(),password=document.getElementById('v12Password').value;if(!email||password.length<6)return v12msg('E-mail valide + mot de passe de 6 caractères minimum.');const {error}=await LOGANATOR_SB.auth.signUp({email,password,options:{emailRedirectTo:location.href}});v12msg(error?error.message:'✅ Compte créé. Vérifie ton e-mail si une confirmation est demandée.')}
 window.v12Reset=async function(){const email=document.getElementById('v12Email').value.trim();if(!email)return v12msg('Entre ton e-mail.');const {error}=await LOGANATOR_SB.auth.resetPasswordForEmail(email,{redirectTo:location.href});v12msg(error?'❌ '+error.message:'✅ Si le compte existe, un e-mail de réinitialisation a été envoyé.')}
 window.premiumLogout=async function(){if(LOGANATOR_SB)await LOGANATOR_SB.auth.signOut();LOGANATOR_USER=null;closePremium();closeModal('accountModal');document.getElementById('accountBtn').textContent='👤 COMPTE'}
 function premiumMessage(m,ok=false){const e=document.getElementById('premiumMsg');e.textContent=m;e.className='admin-msg'+(ok?' ok':'')}
-window.openPremium=async function(){if(!isLoganatorPremium())return alert('Accès réservé aux 4 comptes PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open')}
+window.openPremium=async function(){await loadPremiumMembers();if(!isLoganatorPremium())return alert('Accès réservé aux comptes PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('manageMembersBtn').style.display=isLoganatorOwner()?'inline-flex':'none';document.getElementById('premiumModal').classList.add('open')}
 window.closePremium=function(){document.getElementById('premiumModal').classList.remove('open')}
 window.closeEditor=function(){document.getElementById('premiumEditor').classList.remove('open')}
 function localFallbackImage(p){
@@ -214,7 +260,7 @@ window.newPremiumProduct=function(){document.getElementById('premiumEditorTitle'
 async function v12Upload(file){const name=file.name.toLowerCase().replace(/[^a-z0-9._-]/g,'-');const path='products/'+Date.now()+'-'+name;const {error}=await LOGANATOR_SB.storage.from('product-images').upload(path,file);if(error)throw error;return LOGANATOR_SB.storage.from('product-images').getPublicUrl(path).data.publicUrl}
 document.getElementById('premiumForm').addEventListener('submit',async e=>{e.preventDefault();if(!isLoganatorPremium())return;const id=document.getElementById('premiumId').value;const details=document.getElementById('premiumDetails').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);const payload={name:document.getElementById('premiumName').value.trim(),price:Number(document.getElementById('premiumPrice').value),category:document.getElementById('premiumCat').value.trim(),description:details.join('\n')};const file=document.getElementById('premiumImage').files[0];if(!payload.name||!payload.category)return alert('Remplis le nom et la catégorie.');try{if(file)payload.image_url=await v12Upload(file);else if(id){const old=products.find(x=>String(x.id)===String(id));payload.image_url=old?.image_url||old?.image||localFallbackImage(old||payload)}else payload.image_url=localFallbackImage(payload);let r=id?await LOGANATOR_SB.from('products').update(payload).eq('id',id):await LOGANATOR_SB.from('products').insert(payload);if(r.error)throw r.error;closeEditor();await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Modification publiée pour tout le monde !',true)}catch(err){alert('Erreur : '+err.message)}});
 window.deletePremiumProduct=async function(id){if(!isLoganatorPremium()||!confirm('Supprimer ce produit pour tout le monde ?'))return;const {error}=await LOGANATOR_SB.from('products').delete().eq('id',id);if(error)return alert('Erreur : '+error.message);await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Produit supprimé pour tout le monde.',true)}
-async function bootV12(){if(!supabaseReady()){document.getElementById('accountBtn').textContent='👤 COMPTE';return}LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SUPABASE_URL,LOGANATOR_SUPABASE_KEY);const {data}=await LOGANATOR_SB.auth.getSession();LOGANATOR_USER=data.session?.user||null;LOGANATOR_SB.auth.onAuthStateChange((_event,session)=>{LOGANATOR_USER=session?.user||null;document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':LOGANATOR_USER?'👤 '+LOGANATOR_USER.email.split('@')[0]:'👤 COMPTE'});if(LOGANATOR_USER)document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 '+LOGANATOR_USER.email.split('@')[0];await v12LoadProducts();render()}
+async function bootV12(){if(!supabaseReady()){document.getElementById('accountBtn').textContent='👤 COMPTE';return}LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SUPABASE_URL,LOGANATOR_SUPABASE_KEY);const {data}=await LOGANATOR_SB.auth.getSession();LOGANATOR_USER=data.session?.user||null;if(LOGANATOR_USER)await loadPremiumMembers();LOGANATOR_SB.auth.onAuthStateChange(async (_event,session)=>{LOGANATOR_USER=session?.user||null;await loadPremiumMembers();document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':LOGANATOR_USER?'👤 '+LOGANATOR_USER.email.split('@')[0]:'👤 COMPTE'});if(LOGANATOR_USER)document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 '+LOGANATOR_USER.email.split('@')[0];await v12LoadProducts();render()}
 bootV12();
 </script>\n</body>
 </html>
