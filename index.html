@@ -106,14 +106,14 @@ const products=[
  {id:3,name:"Baggy LOGANATOR",price:59.9,cat:"Bas",image:"photo-13.png",details:["Baggy LOGANATOR","Coupe large / streetwear","Design LOGANATOR","Tailles à définir"]},
  {id:4,name:"Chaussures LOGANATOR",price:79.9,cat:"Chaussures",image:"photo-6.png",details:["Chaussures LOGANATOR","Design personnalisé LOGANATOR","Photo produit incluse","Tailles à définir"]}
 ];
-let cart=JSON.parse(localStorage.getItem('loganatorCart')||'[]').filter(x=>[1,2,3,4].includes(x.id));
+let cart=JSON.parse(localStorage.getItem('loganatorCart')||'[]');
 let selectedProduct=null, selectedPayment="Carte bancaire";
 
 function save(){localStorage.setItem('loganatorCart',JSON.stringify(cart));update()}
 function update(){document.getElementById('count').textContent=cart.reduce((s,x)=>s+x.qty,0)}
-function add(id){let x=cart.find(a=>a.id===id);if(x)x.qty++;else cart.push({id,qty:1});save();alert('Ajouté au panier 🛒')}
+function add(id){let x=cart.find(a=>String(a.id)===String(id));if(x)x.qty++;else cart.push({id,qty:1});save();alert('Ajouté au panier 🛒')}
 function openProduct(id){
- selectedProduct=products.find(p=>p.id===id);
+ selectedProduct=products.find(p=>String(p.id)===String(id));
  document.getElementById('detailImage').src=selectedProduct.image;
  document.getElementById('detailImage').alt=selectedProduct.name;
  document.getElementById('detailName').textContent=selectedProduct.name;
@@ -127,8 +127,8 @@ function openProduct(id){
 function closeModal(id){document.getElementById(id).classList.remove('open')}
 function openCheckout(){
  if(!cart.length)return alert('Ton panier est vide 😴');
- let items=cart.map(x=>{let p=products.find(p=>p.id===x.id);return `<div>• ${p.name} × ${x.qty} — ${(p.price*x.qty).toFixed(2)}€</div>`}).join('');
- let total=cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0);
+ let items=cart.map(x=>{let p=products.find(p=>String(p.id)===String(x.id));return `<div>• ${p.name} × ${x.qty} — ${(p.price*x.qty).toFixed(2)}€</div>`}).join('');
+ let total=cart.reduce((s,x)=>s+products.find(p=>String(p.id)===String(x.id)).price*x.qty,0);
  document.getElementById('checkoutItems').innerHTML=items;
  document.getElementById('checkoutTotal').textContent="TOTAL : "+total.toFixed(2)+"€";
  document.querySelectorAll('.pay-option').forEach(b=>b.classList.toggle('selected',b.dataset.pay===selectedPayment));
@@ -138,13 +138,13 @@ function showCart(){openCheckout()}
 function finishCheckout(){alert("Mode sélectionné : "+selectedPayment+"\\n\\nLe paiement réel n'est pas encore connecté.")}
 function render(){
  document.getElementById('grid').innerHTML=products.map(p=>`
- <article class="card" onclick="openProduct(${p.id})">
+ <article class="card" onclick='openProduct(${JSON.stringify(p.id)})'>
    <div class="photo"><img src="${p.image}" alt="${p.name}"></div>
    <div class="info"><span class="tag">LOGANATOR</span><h3>${p.name}</h3>
    <div class="row"><span class="price">${p.price.toFixed(2)}€</span><span class="muted">${p.cat}</span></div>
-   <button class="buy" onclick="event.stopPropagation();add(${p.id})">AJOUTER AU PANIER</button></div>
+   <button class="buy" onclick='event.stopPropagation();add(${JSON.stringify(p.id)})'>AJOUTER AU PANIER</button></div>
  </article>`).join('');
- document.getElementById('gallery').innerHTML=products.map(p=>`<img src="${p.image}" alt="${p.name}" onclick="openProduct(${p.id})" style="cursor:pointer">`).join('');
+ document.getElementById('gallery').innerHTML=products.map(p=>`<img src="${p.image}" alt="${p.name}" onclick='openProduct(${JSON.stringify(p.id)})' style="cursor:pointer">`).join('');
 }
 document.querySelectorAll('.pay-option').forEach(b=>b.addEventListener('click',()=>{selectedPayment=b.dataset.pay;document.querySelectorAll('.pay-option').forEach(x=>x.classList.toggle('selected',x===b))}));
 render();update();
@@ -154,8 +154,8 @@ render();update();
 <div class="admin-modal" id="premiumEditor" onclick="if(event.target===this)closeEditor()"><div class="admin-box"><button class="admin-close" onclick="closeEditor()">×</button><span class="premium">👑 PREMIUM</span><h2 id="premiumEditorTitle">Modifier un produit</h2><form class="admin-form" id="premiumForm"><input type="hidden" id="premiumId"><label class="full">Nom<input id="premiumName" required></label><label>Prix (€)<input id="premiumPrice" type="number" step="0.01" min="0" required></label><label>Catégorie<input id="premiumCat" required></label><label class="full">Description (une ligne par information)<textarea id="premiumDetails"></textarea></label><label class="full">Changer l'image<input id="premiumImage" type="file" accept="image/*"></label><button class="primary full" type="submit">💾 ENREGISTRER ET PUBLIER</button></form></div></div>
 
 <script>
-const LOGANATOR_SUPABASE_URL="COLLE_ICI_TON_URL_SUPABASE";
-const LOGANATOR_SUPABASE_KEY="COLLE_ICI_TA_CLE_PUBLISHABLE";
+const LOGANATOR_SUPABASE_URL="https://aidaqphingkvvevgbeyk.supabase.co";
+const LOGANATOR_SUPABASE_KEY="sb_publishable_g3yTfPLGBasbLU4Q3LEi0w_P6b8ROLM";
 const LOGANATOR_PREMIUM=["gauducheaulogan@gmail.com","leloganator@gmail.com","alexisprouillac@gmail.com","theteamsloganator@gmail.com"];
 let LOGANATOR_SB=null, LOGANATOR_USER=null;
 function supabaseReady(){return LOGANATOR_SUPABASE_URL.startsWith("https://")&&LOGANATOR_SUPABASE_KEY.length>20}
@@ -178,15 +178,30 @@ function premiumMessage(m,ok=false){const e=document.getElementById('premiumMsg'
 window.openPremium=async function(){if(!isLoganatorPremium())return alert('Accès réservé aux 4 comptes PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open')}
 window.closePremium=function(){document.getElementById('premiumModal').classList.remove('open')}
 window.closeEditor=function(){document.getElementById('premiumEditor').classList.remove('open')}
-async function v12LoadProducts(){if(!LOGANATOR_SB)return;const {data,error}=await LOGANATOR_SB.from('store_products').select('*').order('id');if(!error&&data&&data.length){products.splice(0,products.length,...data.map(p=>({...p,details:Array.isArray(p.details)?p.details:[]})));}}
-function renderPremiumList(){document.getElementById('premiumList').innerHTML=products.map(p=>`<div class="admin-card"><img src="${p.image}" alt=""><div><b>${p.name}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${p.cat}</div></div><div class="admin-actions"><button class="btn" onclick="editPremiumProduct(${p.id})">✏️ Modifier</button><button class="btn" onclick="deletePremiumProduct(${p.id})">🗑️ Supprimer</button></div></div>`).join('')}
-window.editPremiumProduct=function(id){const p=products.find(x=>x.id===id);if(!p)return;document.getElementById('premiumEditorTitle').textContent='Modifier le produit';document.getElementById('premiumId').value=id;document.getElementById('premiumName').value=p.name;document.getElementById('premiumPrice').value=p.price;document.getElementById('premiumCat').value=p.cat;document.getElementById('premiumDetails').value=(p.details||[]).join('\
-');document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')}
+function localFallbackImage(p){
+ const n=(p.name||'').toLowerCase();
+ if(n.includes('hoodie')) return 'photo-5.jpg';
+ if(n.includes('doudoune')) return 'photo-9.png';
+ if(n.includes('baggy')) return 'photo-13.png';
+ if(n.includes('chauss')) return 'photo-6.png';
+ return 'photo-5.jpg';
+}
+function dbToProduct(p){
+ const description=(p.description||'').trim();
+ return {...p,cat:p.category||'',image:p.image_url||localFallbackImage(p),details:description?description.split(/\r?\n/).map(x=>x.trim()).filter(Boolean):[p.name||'Produit LOGANATOR']};
+}
+async function v12LoadProducts(){
+ if(!LOGANATOR_SB)return;
+ const {data,error}=await LOGANATOR_SB.from('products').select('*').order('created_at',{ascending:true});
+ if(error){console.warn('Supabase products:',error.message);return;}
+ if(data&&data.length){products.splice(0,products.length,...data.map(dbToProduct));}
+}
+function renderPremiumList(){document.getElementById('premiumList').innerHTML=products.map(p=>`<div class="admin-card"><img src="${p.image}" alt="${p.name}"><div><b>${p.name}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${p.cat}</div></div><div class="admin-actions"><button class="btn" onclick='editPremiumProduct(${JSON.stringify(p.id)})'>✏️ Modifier</button><button class="btn" onclick='deletePremiumProduct(${JSON.stringify(p.id)})'>🗑️ Supprimer</button></div></div>`).join('')}
+window.editPremiumProduct=function(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById('premiumEditorTitle').textContent='Modifier le produit';document.getElementById('premiumId').value=id;document.getElementById('premiumName').value=p.name;document.getElementById('premiumPrice').value=p.price;document.getElementById('premiumCat').value=p.cat;document.getElementById('premiumDetails').value=(p.details||[]).join('\n');document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')}
 window.newPremiumProduct=function(){document.getElementById('premiumEditorTitle').textContent='Ajouter un produit';document.getElementById('premiumId').value='';document.getElementById('premiumName').value='';document.getElementById('premiumPrice').value='0';document.getElementById('premiumCat').value='';document.getElementById('premiumDetails').value='';document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')}
 async function v12Upload(file){const name=file.name.toLowerCase().replace(/[^a-z0-9._-]/g,'-');const path='products/'+Date.now()+'-'+name;const {error}=await LOGANATOR_SB.storage.from('product-images').upload(path,file);if(error)throw error;return LOGANATOR_SB.storage.from('product-images').getPublicUrl(path).data.publicUrl}
-document.getElementById('premiumForm').addEventListener('submit',async e=>{e.preventDefault();if(!isLoganatorPremium())return;const id=document.getElementById('premiumId').value;const payload={name:document.getElementById('premiumName').value.trim(),price:Number(document.getElementById('premiumPrice').value),cat:document.getElementById('premiumCat').value.trim(),details:document.getElementById('premiumDetails').value.split('\
-').map(x=>x.trim()).filter(Boolean)};const file=document.getElementById('premiumImage').files[0];if(!payload.name||!payload.cat)return alert('Remplis le nom et la catégorie.');try{if(file)payload.image=await v12Upload(file);else if(id)payload.image=products.find(x=>x.id===Number(id))?.image||'photo-5.jpg';else payload.image='photo-5.jpg';let r=id?await LOGANATOR_SB.from('store_products').update(payload).eq('id',Number(id)):await LOGANATOR_SB.from('store_products').insert(payload);if(r.error)throw r.error;closeEditor();await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Modification publiée pour tout le monde !',true)}catch(err){alert('Erreur : '+err.message)}});
-window.deletePremiumProduct=async function(id){if(!isLoganatorPremium()||!confirm('Supprimer ce produit pour tout le monde ?'))return;const {error}=await LOGANATOR_SB.from('store_products').delete().eq('id',id);if(error)return alert('Erreur : '+error.message);await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Produit supprimé pour tout le monde.',true)}
+document.getElementById('premiumForm').addEventListener('submit',async e=>{e.preventDefault();if(!isLoganatorPremium())return;const id=document.getElementById('premiumId').value;const details=document.getElementById('premiumDetails').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);const payload={name:document.getElementById('premiumName').value.trim(),price:Number(document.getElementById('premiumPrice').value),category:document.getElementById('premiumCat').value.trim(),description:details.join('\n')};const file=document.getElementById('premiumImage').files[0];if(!payload.name||!payload.category)return alert('Remplis le nom et la catégorie.');try{if(file)payload.image_url=await v12Upload(file);else if(id){const old=products.find(x=>String(x.id)===String(id));payload.image_url=old?.image_url||old?.image||localFallbackImage(old||payload)}else payload.image_url=localFallbackImage(payload);let r=id?await LOGANATOR_SB.from('products').update(payload).eq('id',id):await LOGANATOR_SB.from('products').insert(payload);if(r.error)throw r.error;closeEditor();await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Modification publiée pour tout le monde !',true)}catch(err){alert('Erreur : '+err.message)}});
+window.deletePremiumProduct=async function(id){if(!isLoganatorPremium()||!confirm('Supprimer ce produit pour tout le monde ?'))return;const {error}=await LOGANATOR_SB.from('products').delete().eq('id',id);if(error)return alert('Erreur : '+error.message);await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Produit supprimé pour tout le monde.',true)}
 async function bootV12(){if(!supabaseReady()){document.getElementById('accountBtn').textContent='👤 COMPTE';return}LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SUPABASE_URL,LOGANATOR_SUPABASE_KEY);const {data}=await LOGANATOR_SB.auth.getSession();LOGANATOR_USER=data.session?.user||null;LOGANATOR_SB.auth.onAuthStateChange((_event,session)=>{LOGANATOR_USER=session?.user||null;document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':LOGANATOR_USER?'👤 '+LOGANATOR_USER.email.split('@')[0]:'👤 COMPTE'});if(LOGANATOR_USER)document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 '+LOGANATOR_USER.email.split('@')[0];await v12LoadProducts();render()}
 bootV12();
 </script>\n</body>
