@@ -36,19 +36,7 @@ footer{padding:35px 5%;border-top:1px solid var(--line);text-align:center;color:
 <style>
 .admin-modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;padding:20px;z-index:300}.admin-modal.open{display:flex}.admin-box{width:min(1100px,100%);max-height:92vh;overflow:auto;background:#111118;border:1px solid #292936;border-radius:20px;padding:28px;position:relative}.admin-close{position:absolute;right:14px;top:12px;border:1px solid #292936;background:#09090d;color:#fff;border-radius:50%;width:38px;height:38px;font-size:22px;cursor:pointer}.admin-grid{display:grid;gap:12px;margin-top:18px}.admin-card{display:grid;grid-template-columns:90px 1fr auto;gap:14px;align-items:center;padding:12px;border:1px solid #292936;border-radius:14px;background:#0b0b10}.admin-card img{width:90px;height:90px;object-fit:cover;border-radius:10px}.admin-actions{display:flex;gap:8px;flex-wrap:wrap}.admin-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.admin-form .full{grid-column:1/-1}.admin-form label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:800}.admin-form input,.admin-form textarea{padding:12px;border:1px solid #292936;border-radius:10px;background:#09090d;color:#fff;font:inherit}.admin-form textarea{min-height:100px}.premium{display:inline-block;padding:6px 10px;border-radius:999px;background:#2a1646;color:#d8b4fe;font-weight:900;font-size:12px}.admin-msg{margin-top:12px;padding:11px;border-radius:10px;background:#0b0b10;color:#aaa9b5}.admin-msg.ok{color:#86efac}.admin-msg.err{color:#fda4af}@media(max-width:700px){.admin-card{grid-template-columns:65px 1fr}.admin-card img{width:65px;height:65px}.admin-actions{grid-column:1/-1}.admin-form{grid-template-columns:1fr}.admin-form .full{grid-column:auto}}
 </style>
-<style>
-.v15-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 22px}
-.v15-search{flex:1 1 260px;min-width:180px;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#0b0b10;color:#fff;font:inherit}
-.v15-filters{display:flex;gap:8px;flex-wrap:wrap}.v15-filter{border:1px solid var(--line);background:#111118;color:#ddd;border-radius:999px;padding:10px 14px;cursor:pointer;font-weight:800}.v15-filter.active{border-color:#a78bfa;background:#211936;color:#fff}
-.v15-empty{padding:30px;border:1px dashed var(--line);border-radius:16px;color:var(--muted);text-align:center;grid-column:1/-1}
-.v15-cart-list{display:grid;gap:10px;margin:15px 0}.v15-cart-row{display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:#0b0b10}.v15-cart-row img{width:70px;height:70px;object-fit:cover;border-radius:10px}
-.v15-qty{display:flex;align-items:center;gap:7px;margin-top:7px}.v15-qty button{width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:#15151d;color:#fff;cursor:pointer;font-weight:900}.v15-remove{border:0;background:none;color:#fca5a5;cursor:pointer;font-weight:800}
-.v15-cart-total{display:flex;justify-content:space-between;padding:15px 0;border-top:1px solid var(--line);font-size:20px;font-weight:900}.v15-shipping{padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:#101017;color:#c4b5fd;font-size:13px}
-.v15-size{margin:15px 0}.v15-size label{display:block;font-weight:800;font-size:13px;margin-bottom:8px}.v15-sizes{display:flex;gap:8px;flex-wrap:wrap}.v15-size-btn{min-width:46px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#0b0b10;color:#fff;cursor:pointer;font-weight:900}.v15-size-btn.selected{border-color:#a78bfa;background:#211936}
-.v15-fav{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#09090dcc;color:#fff;cursor:pointer;font-size:19px;z-index:3}.photo{position:relative}
-.v15-stat{padding:15px;border:1px solid var(--line);border-radius:14px;background:#0b0b10}.v15-stat b{font-size:24px;display:block;margin-top:4px}
-@media(max-width:700px){.v15-cart-row{grid-template-columns:60px 1fr}.v15-cart-row>.v15-line-total{grid-column:2}.v15-cart-row img{width:60px;height:60px}}
-</style></head>
+</head>
 <body>
 <div class="top">🚚 LIVRAISON OFFERTE À PARTIR DE 80€</div>
 <nav><div class="logo">LOGANATOR</div><div class="links"><a href="#shop">SHOP</a><a href="#drop">DROP</a><a href="#vetements">VÊTEMENTS</a></div><div style="display:flex;gap:8px;align-items:center"><button class="btn" id="accountBtn" onclick="openAccount()">👤 COMPTE</button><button class="btn" onclick="showCart()">🛒 <span id="count">0</span></button></div></nav>
@@ -57,12 +45,7 @@ footer{padding:35px 5%;border-top:1px solid var(--line);text-align:center;color:
 
 <section class="section" id="drop"><div class="drop"><div class="kicker">DROP #01</div><h2>LOGANATOR COLLECTION</h2><p class="muted">Hoodie, doudoune, baggy et chaussures.</p></div></section>
 
-<section class="section" id="shop"><h2>La collection</h2>
-<div class="v15-toolbar"><input id="v15Search" class="v15-search" type="search" placeholder="🔎 Rechercher un produit...">
-<div class="v15-filters" id="v15Filters">
-<button class="v15-filter active" data-filter="Tous">TOUS</button><button class="v15-filter" data-filter="Haut">HAUT</button>
-<button class="v15-filter" data-filter="Doudoune">DOUDOUNE</button><button class="v15-filter" data-filter="Bas">BAS</button><button class="v15-filter" data-filter="Chaussures">CHAUSSURES</button>
-</div></div><div class="grid" id="grid"></div></section>
+<section class="section" id="shop"><h2>La collection</h2><div class="grid" id="grid"></div></section>
 
 <section class="section" id="vetements"><h2>Tes vêtements 👕</h2><p class="muted">Clique sur un vêtement pour voir la grande image et tous ses détails.</p><div class="gallery" id="gallery"></div></section>
 
@@ -79,7 +62,6 @@ footer{padding:35px 5%;border-top:1px solid var(--line);text-align:center;color:
         <div class="detail-price" id="detailPrice"></div>
         <p id="detailCat" class="muted"></p>
         <ul id="detailList" class="detail-list"></ul>
-        <div class="v15-size"><label>TAILLE</label><div class="v15-sizes" id="v15Sizes"></div></div>
         <button class="primary" style="width:100%;margin-top:12px" id="detailAdd">AJOUTER AU PANIER 🛒</button>
         <button class="buy" style="margin-top:10px" id="detailBuy">ACHETER / CHOISIR LE PAIEMENT</button>
       </div>
@@ -94,9 +76,8 @@ footer{padding:35px 5%;border-top:1px solid var(--line);text-align:center;color:
       <span class="tag">COMMANDE LOGANATOR</span>
       <h2>Mode de paiement</h2>
       <p class="muted">Choisis un mode de paiement pour la démonstration du checkout.</p>
-      <div id="checkoutItems" class="v15-cart-list"></div>
-      <div id="v15Shipping" class="v15-shipping"></div>
-      <div class="v15-cart-total"><span>TOTAL</span><span id="checkoutTotal"></span></div>
+      <div id="checkoutItems" class="detail-list"></div>
+      <div class="checkout-total" id="checkoutTotal"></div>
       <h3>📦 Où doit-on livrer ?</h3>
       <div class="delivery-form">
         <div class="field"><label for="firstName">Prénom</label><input id="firstName" autocomplete="given-name" placeholder="Logan"></div>
@@ -120,30 +101,37 @@ footer{padding:35px 5%;border-top:1px solid var(--line);text-align:center;color:
 
 <script>
 const products=[
-{id:1,name:"Hoodie LOGANATOR",price:49.9,cat:"Haut",image:"photo-5.jpg",details:["Hoodie LOGANATOR","Design officiel LOGANATOR","Photo produit incluse","Tailles à définir"]},
-{id:2,name:"Doudoune LOGANATOR",price:89.9,cat:"Doudoune",image:"photo-9.png",details:["Doudoune LOGANATOR","Coupe épaisse et large","Design blanc LOGANATOR","Tailles à définir"]},
-{id:3,name:"Baggy LOGANATOR",price:59.9,cat:"Bas",image:"photo-13.png",details:["Baggy LOGANATOR","Coupe large / streetwear","Design LOGANATOR","Tailles à définir"]},
-{id:4,name:"Chaussures LOGANATOR",price:79.9,cat:"Chaussures",image:"photo-6.png",details:["Chaussures LOGANATOR","Design personnalisé LOGANATOR","Photo produit incluse","Tailles à définir"]}];
-let cart=JSON.parse(localStorage.getItem('loganatorCart')||'[]'),favorites=JSON.parse(localStorage.getItem('loganatorFavorites')||'[]');
-let selectedProduct=null,selectedPayment="Carte bancaire",selectedFilter="Tous",selectedSize="";
-function save(){localStorage.setItem('loganatorCart',JSON.stringify(cart));update()} function update(){document.getElementById('count').textContent=cart.reduce((s,x)=>s+x.qty,0)}
-function fav(id){return favorites.map(String).includes(String(id))} function toggleFav(id){id=String(id);favorites=fav(id)?favorites.filter(x=>String(x)!==id):[...favorites,id];localStorage.setItem('loganatorFavorites',JSON.stringify(favorites));render()}
-function sizes(p){return p.cat==="Chaussures"?["36","37","38","39","40","41","42","43","44","45"]:["XS","S","M","L","XL","XXL"]}
-function add(id,size){const p=products.find(x=>String(x.id)===String(id));size=size||selectedSize||sizes(p)[0];let x=cart.find(a=>String(a.id)===String(id)&&a.size===size);if(x)x.qty++;else cart.push({id:p.id,qty:1,size});save();alert("Ajouté au panier 🛒")}
-function changeQty(id,size,d){let x=cart.find(a=>String(a.id)===String(id)&&a.size===size);if(!x)return;x.qty+=d;if(x.qty<1)cart=cart.filter(a=>a!==x);save();renderCheckout()}
-function removeCart(id,size){cart=cart.filter(a=>!(String(a.id)===String(id)&&a.size===size));save();renderCheckout()}
-function openProduct(id){selectedProduct=products.find(p=>String(p.id)===String(id));if(!selectedProduct)return;selectedSize="";
-document.getElementById('detailImage').src=selectedProduct.image;document.getElementById('detailImage').alt=selectedProduct.name;document.getElementById('detailName').textContent=selectedProduct.name;document.getElementById('detailPrice').textContent=selectedProduct.price.toFixed(2)+"€";document.getElementById('detailCat').textContent=selectedProduct.cat;document.getElementById('detailList').innerHTML=selectedProduct.details.map(x=>`<li>${x}</li>`).join('');
-document.getElementById('v15Sizes').innerHTML=sizes(selectedProduct).map(x=>`<button class="v15-size-btn" type="button" data-size="${x}">${x}</button>`).join('');
-document.querySelectorAll('#v15Sizes button').forEach(b=>b.onclick=()=>{selectedSize=b.dataset.size;document.querySelectorAll('#v15Sizes button').forEach(x=>x.classList.toggle('selected',x===b))});
-document.getElementById('detailAdd').onclick=()=>add(selectedProduct.id);document.getElementById('detailBuy').onclick=()=>{add(selectedProduct.id);closeModal('detailModal');openCheckout()};document.getElementById('detailModal').classList.add('open')}
-function closeModal(id){const e=document.getElementById(id);if(e)e.classList.remove('open')}
-function renderCheckout(){let total=0;document.getElementById('checkoutItems').innerHTML=cart.length?cart.map(x=>{const p=products.find(p=>String(p.id)===String(x.id));const line=p.price*x.qty;total+=line;return `<div class="v15-cart-row"><img src="${p.image}" alt="${p.name}"><div><b>${p.name}</b><div class="muted">${p.price.toFixed(2)}€ · Taille ${x.size}</div><div class="v15-qty"><button onclick='changeQty(${JSON.stringify(p.id)},${JSON.stringify(x.size)},-1)'>−</button><b>${x.qty}</b><button onclick='changeQty(${JSON.stringify(p.id)},${JSON.stringify(x.size)},1)'>+</button><button class="v15-remove" onclick='removeCart(${JSON.stringify(p.id)},${JSON.stringify(x.size)})'>Supprimer</button></div></div><div class="v15-line-total"><b>${line.toFixed(2)}€</b></div></div>`}).join(''):'<div class="v15-empty">Ton panier est vide 😴</div>';document.getElementById('checkoutTotal').textContent=total.toFixed(2)+"€";document.getElementById('v15Shipping').textContent=total>=80?"🚚 Livraison offerte !":"🚚 Livraison offerte à partir de 80€ — encore "+(80-total).toFixed(2)+"€"}
-function openCheckout(){if(!cart.length)return alert("Ton panier est vide 😴");renderCheckout();document.getElementById('checkoutModal').classList.add('open')} function showCart(){openCheckout()}
-function finishCheckout(){const ids=["firstName","lastName","address","postcode","city"],missing=ids.some(id=>!document.getElementById(id).value.trim());document.getElementById('formError').classList.toggle('show',missing);if(missing)return;alert("Mode sélectionné : "+selectedPayment+"\n\nLe paiement réel n'est pas encore connecté.")}
-function render(){const q=(document.getElementById('v15Search')?.value||"").toLowerCase();const list=products.filter(p=>(selectedFilter==="Tous"||p.cat===selectedFilter)&&(!q||p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)));document.getElementById('grid').innerHTML=list.length?list.map(p=>`<article class="card" onclick='openProduct(${JSON.stringify(p.id)})'><div class="photo"><img src="${p.image}" alt="${p.name}"><button class="v15-fav" onclick='event.stopPropagation();toggleFav(${JSON.stringify(p.id)})'>${fav(p.id)?"♥":"♡"}</button></div><div class="info"><span class="tag">LOGANATOR</span><h3>${p.name}</h3><div class="row"><span class="price">${p.price.toFixed(2)}€</span><span class="muted">${p.cat}</span></div><button class="buy" onclick='event.stopPropagation();add(${JSON.stringify(p.id)})'>AJOUTER AU PANIER</button></div></article>`).join(''):'<div class="v15-empty">Aucun produit ne correspond.</div>';document.getElementById('gallery').innerHTML=products.map(p=>`<img src="${p.image}" alt="${p.name}" onclick='openProduct(${JSON.stringify(p.id)})' style="cursor:pointer">`).join('')}
-document.getElementById('v15Search').oninput=render;document.querySelectorAll('#v15Filters button').forEach(b=>b.onclick=()=>{selectedFilter=b.dataset.filter;document.querySelectorAll('#v15Filters button').forEach(x=>x.classList.toggle('active',x===b));render()});
-document.querySelectorAll('.pay-option').forEach(b=>b.classList.toggle('selected',b.dataset.pay===selectedPayment));
+ {id:1,name:"Hoodie LOGANATOR",price:49.9,cat:"Haut",image:"photo-5.jpg",details:["Hoodie LOGANATOR","Design officiel LOGANATOR","Photo produit incluse","Tailles à définir"]},
+ {id:2,name:"Doudoune LOGANATOR",price:89.9,cat:"Doudoune",image:"photo-9.png",details:["Doudoune LOGANATOR","Coupe épaisse et large","Design blanc LOGANATOR","Tailles à définir"]},
+ {id:3,name:"Baggy LOGANATOR",price:59.9,cat:"Bas",image:"photo-13.png",details:["Baggy LOGANATOR","Coupe large / streetwear","Design LOGANATOR","Tailles à définir"]},
+ {id:4,name:"Chaussures LOGANATOR",price:79.9,cat:"Chaussures",image:"photo-6.png",details:["Chaussures LOGANATOR","Design personnalisé LOGANATOR","Photo produit incluse","Tailles à définir"]}
+];
+let cart=JSON.parse(localStorage.getItem('loganatorCart')||'[]');
+let selectedProduct=null, selectedPayment="Carte bancaire";
+
+function save(){localStorage.setItem('loganatorCart',JSON.stringify(cart));update()}
+function update(){document.getElementById('count').textContent=cart.reduce((s,x)=>s+x.qty,0)}
+function add(id){let x=cart.find(a=>String(a.id)===String(id));if(x)x.qty++;else cart.push({id,qty:1});save();alert('Ajouté au panier 🛒')}
+function openProduct(id){
+ selectedProduct=products.find(p=>String(p.id)===String(id));
+ document.getElementById('detailImage').src=selectedProduct.image;
+ document.getElementById('detailImage').alt=selectedProduct.name;
+ document.getElementById('detailName').textContent=selectedProduct.name;
+ document.getElementById('detailPrice').textContent=selectedProduct.price.toFixed(2)+"€";
+ document.getElementById('detailCat').textContent=selectedProduct.cat;
+ document.getElementById('detailList').innerHTML=selectedProduct.details.map(x=>`<li>${x}</li>`).join('');
+ document.getElementById('detailAdd').onclick=()=>add(selectedProduct.id);
+ document.getElementById('detailBuy').onclick=()=>{add(selectedProduct.id);closeModal('detailModal');openCheckout()};
+ document.getElementById('detailModal').classList.add('open');
+}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function openCheckout(){
+ if(!cart.length)return alert('Ton panier est vide 😴');
+ let items=cart.map(x=>{let p=products.find(p=>String(p.id)===String(x.id));return `<div>• ${p.name} × ${x.qty} — ${(p.price*x.qty).toFixed(2)}€</div>`}).join('');
+ let total=cart.reduce((s,x)=>s+products.find(p=>String(p.id)===String(x.id)).price*x.qty,0);
+ document.getElementById('checkoutItems').innerHTML=items;
+ document.getElementById('checkoutTotal').textContent="TOTAL : "+total.toFixed(2)+"€";
+ document.querySelectorAll('.pay-option').forEach(b=>b.classList.toggle('selected',b.dataset.pay===selectedPayment));
  document.getElementById('checkoutModal').classList.add('open');
 }
 function showCart(){openCheckout()}
@@ -163,10 +151,18 @@ render();update();
 </script>
 
 <div class="modal" id="accountModal" onclick="if(event.target===this)closeModal('accountModal')">
-<div class="panel"><button class="close" onclick="closeModal('accountModal')">×</button>
-<div class="detail-info"><span class="tag">LOGANATOR</span><h2 id="authTitle">Connexion / création de compte</h2><div id="accountArea"></div></div></div></div>
-<div class="admin-modal" id="premiumModal" onclick="if(event.target===this)closePremium()"><div class="admin-box"><button class="admin-close" onclick="closePremium()">×</button><span class="premium">👑 COMPTE PREMIUM</span><h2>Gestion de la boutique</h2><p class="muted">Tout ce que tu publies ici est enregistré en ligne et visible par les visiteurs.</p><div id="premiumMsg" class="admin-msg">Connexion à Supabase…</div><div class="admin-actions" style="margin-top:14px"><button class="btn" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" onclick="openPremiumMembers()">👑 GÉRER LES MEMBRES PREMIUM</button><button class="btn" onclick="premiumLogout()">Se déconnecter</button></div><div id="premiumList" class="admin-grid"></div></div></div>
-<div class="admin-modal" id="premiumMembersModal" onclick="if(event.target===this)closePremiumMembers()"><div class="admin-box"><button class="admin-close" onclick="closePremiumMembers()">×</button><span class="premium">👑 PREMIUM</span><h2>Membres PREMIUM</h2><p class="muted">Ajoute ou retire les membres PREMIUM.</p><div class="admin-actions"><input id="premiumMemberEmail" type="email" placeholder="nouveau@email.com" style="flex:1;min-width:220px;padding:12px;border:1px solid #292936;border-radius:10px;background:#09090d;color:#fff"><button class="primary" onclick="addPremiumMember()">➕ AJOUTER</button></div><div id="premiumMembersList" class="admin-grid"></div></div></div><div class="admin-modal" id="premiumEditor" onclick="if(event.target===this)closeEditor()"><div class="admin-box"><button class="admin-close" onclick="closeEditor()">×</button><span class="premium">👑 PREMIUM</span><h2 id="premiumEditorTitle">Modifier un produit</h2><form class="admin-form" id="premiumForm"><input type="hidden" id="premiumId"><label class="full">Nom<input id="premiumName" required></label><label>Prix (€)<input id="premiumPrice" type="number" step="0.01" min="0" required></label><label>Catégorie<input id="premiumCat" required></label><label class="full">Description (une ligne par information)<textarea id="premiumDetails"></textarea></label><label class="full">Changer l'image<input id="premiumImage" type="file" accept="image/*"></label><button class="primary full" type="submit">💾 ENREGISTRER ET PUBLIER</button></form></div></div>
+  <div class="panel">
+    <button class="close" onclick="closeModal('accountModal')">×</button>
+    <div class="detail-info">
+      <span class="tag">LOGANATOR</span>
+      <h2 id="authTitle">Connexion / création de compte</h2>
+      <div id="accountArea"></div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-modal" id="premiumModal" onclick="if(event.target===this)closePremium()"><div class="admin-box"><button class="admin-close" onclick="closePremium()">×</button><span class="premium">👑 COMPTE PREMIUM</span><h2>Gestion de la boutique</h2><p class="muted">Tout ce que tu publies ici est enregistré en ligne et visible par les visiteurs.</p><div id="premiumMsg" class="admin-msg">Connexion à Supabase…</div><div class="admin-actions" style="margin-top:14px"><button class="btn" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" onclick="premiumLogout()">Se déconnecter</button></div><div id="premiumList" class="admin-grid"></div></div></div>
+<div class="admin-modal" id="premiumEditor" onclick="if(event.target===this)closeEditor()"><div class="admin-box"><button class="admin-close" onclick="closeEditor()">×</button><span class="premium">👑 PREMIUM</span><h2 id="premiumEditorTitle">Modifier un produit</h2><form class="admin-form" id="premiumForm"><input type="hidden" id="premiumId"><label class="full">Nom<input id="premiumName" required></label><label>Prix (€)<input id="premiumPrice" type="number" step="0.01" min="0" required></label><label>Catégorie<input id="premiumCat" required></label><label class="full">Description (une ligne par information)<textarea id="premiumDetails"></textarea></label><label class="full">Changer l'image<input id="premiumImage" type="file" accept="image/*"></label><button class="primary full" type="submit">💾 ENREGISTRER ET PUBLIER</button></form></div></div>
 
 <script>
 const LOGANATOR_SUPABASE_URL="https://aidaqphingkvvevgbeyk.supabase.co";
@@ -178,19 +174,20 @@ function premiumEmail(){return (LOGANATOR_USER?.email||"").toLowerCase()}
 function isLoganatorPremium(){return !!LOGANATOR_USER&&LOGANATOR_PREMIUM.includes(premiumEmail())}
 function showAccountMessage(m){const el=document.getElementById('accountArea');if(el)el.innerHTML=m}
 window.openAccount=async function(){
+ if(!LOGANATOR_SB && window.supabase) LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SUPABASE_URL,LOGANATOR_SUPABASE_KEY);
  if(!supabaseReady()){showAccountMessage('<div class="notice">⚠️ Le système de compte est prêt, mais il faut encore connecter ton projet Supabase.</div>');document.getElementById('accountModal').classList.add('open');return}
- if(LOGANATOR_USER&&(isLoganatorPremium()||await v15CheckPremium(premiumEmail()))){openPremium();return}
+ if(LOGANATOR_USER&&isLoganatorPremium()){openPremium();return}
  const title=document.getElementById('authTitle');title.textContent=LOGANATOR_USER?'Mon compte':'Connexion / création de compte';
  showAccountMessage(LOGANATOR_USER?`<p>Connecté avec <b>${LOGANATOR_USER.email}</b>.</p><button class="btn" onclick="premiumLogout()">Se déconnecter</button>`:`<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" onclick="v12Login()">SE CONNECTER</button><button class="btn" onclick="v12Signup()">CRÉER UN COMPTE</button><button class="btn" onclick="v12Reset()">MOT DE PASSE OUBLIÉ</button></div><div id="v12Msg" class="notice">Les comptes sont gérés par Supabase.</div>`);
  document.getElementById('accountModal').classList.add('open');
 }
 function v12msg(m){const e=document.getElementById('v12Msg');if(e)e.textContent=m}
-window.v12Login=async function(){const email=document.getElementById('v12Email').value.trim(),password=document.getElementById('v12Password').value;if(!email||!password)return v12msg('Remplis les deux champs.');const {error}=await LOGANATOR_SB.auth.signInWithPassword({email,password});if(error)return v12msg(error.message);closeModal('accountModal');if(await v15CheckPremium(email.toLowerCase()))openPremium()}
+window.v12Login=async function(){const email=document.getElementById('v12Email').value.trim(),password=document.getElementById('v12Password').value;if(!email||!password)return v12msg('Remplis les deux champs.');const {error}=await LOGANATOR_SB.auth.signInWithPassword({email,password});if(error)return v12msg(error.message);closeModal('accountModal');if(LOGANATOR_PREMIUM.includes(email.toLowerCase()))openPremium()}
 window.v12Signup=async function(){const email=document.getElementById('v12Email').value.trim(),password=document.getElementById('v12Password').value;if(!email||password.length<6)return v12msg('E-mail valide + mot de passe de 6 caractères minimum.');const {error}=await LOGANATOR_SB.auth.signUp({email,password,options:{emailRedirectTo:location.href}});v12msg(error?error.message:'✅ Compte créé. Vérifie ton e-mail si une confirmation est demandée.')}
 window.v12Reset=async function(){const email=document.getElementById('v12Email').value.trim();if(!email)return v12msg('Entre ton e-mail.');const {error}=await LOGANATOR_SB.auth.resetPasswordForEmail(email,{redirectTo:location.href});v12msg(error?'❌ '+error.message:'✅ Si le compte existe, un e-mail de réinitialisation a été envoyé.')}
 window.premiumLogout=async function(){if(LOGANATOR_SB)await LOGANATOR_SB.auth.signOut();LOGANATOR_USER=null;closePremium();closeModal('accountModal');document.getElementById('accountBtn').textContent='👤 COMPTE'}
 function premiumMessage(m,ok=false){const e=document.getElementById('premiumMsg');e.textContent=m;e.className='admin-msg'+(ok?' ok':'')}
-window.openPremium=async function(){if(!(isLoganatorPremium()||await v15CheckPremium(premiumEmail())))return alert('Accès réservé aux membres PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open')}
+window.openPremium=async function(){if(!isLoganatorPremium())return alert('Accès réservé aux 4 comptes PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open')}
 window.closePremium=function(){document.getElementById('premiumModal').classList.remove('open')}
 window.closeEditor=function(){document.getElementById('premiumEditor').classList.remove('open')}
 function localFallbackImage(p){
@@ -217,13 +214,6 @@ window.newPremiumProduct=function(){document.getElementById('premiumEditorTitle'
 async function v12Upload(file){const name=file.name.toLowerCase().replace(/[^a-z0-9._-]/g,'-');const path='products/'+Date.now()+'-'+name;const {error}=await LOGANATOR_SB.storage.from('product-images').upload(path,file);if(error)throw error;return LOGANATOR_SB.storage.from('product-images').getPublicUrl(path).data.publicUrl}
 document.getElementById('premiumForm').addEventListener('submit',async e=>{e.preventDefault();if(!isLoganatorPremium())return;const id=document.getElementById('premiumId').value;const details=document.getElementById('premiumDetails').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);const payload={name:document.getElementById('premiumName').value.trim(),price:Number(document.getElementById('premiumPrice').value),category:document.getElementById('premiumCat').value.trim(),description:details.join('\n')};const file=document.getElementById('premiumImage').files[0];if(!payload.name||!payload.category)return alert('Remplis le nom et la catégorie.');try{if(file)payload.image_url=await v12Upload(file);else if(id){const old=products.find(x=>String(x.id)===String(id));payload.image_url=old?.image_url||old?.image||localFallbackImage(old||payload)}else payload.image_url=localFallbackImage(payload);let r=id?await LOGANATOR_SB.from('products').update(payload).eq('id',id):await LOGANATOR_SB.from('products').insert(payload);if(r.error)throw r.error;closeEditor();await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Modification publiée pour tout le monde !',true)}catch(err){alert('Erreur : '+err.message)}});
 window.deletePremiumProduct=async function(id){if(!isLoganatorPremium()||!confirm('Supprimer ce produit pour tout le monde ?'))return;const {error}=await LOGANATOR_SB.from('products').delete().eq('id',id);if(error)return alert('Erreur : '+error.message);await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Produit supprimé pour tout le monde.',true)}
-
-async function v15CheckPremium(email){if(!LOGANATOR_SB||!email)return false;if(LOGANATOR_PREMIUM.includes(email.toLowerCase()))return true;const {data}=await LOGANATOR_SB.from('premium_members').select('email').eq('email',email.toLowerCase()).maybeSingle();return !!data}
-async function openPremiumMembers(){if(!(isLoganatorPremium()||await v15CheckPremium(premiumEmail())))return;document.getElementById('premiumMembersModal').classList.add('open');await loadPremiumMembers()}
-function closePremiumMembers(){document.getElementById('premiumMembersModal').classList.remove('open')}
-async function loadPremiumMembers(){const box=document.getElementById('premiumMembersList');const {data,error}=await LOGANATOR_SB.from('premium_members').select('*').order('created_at');if(error){box.innerHTML='<div class="admin-msg err">'+error.message+'</div>';return}box.innerHTML=(data||[]).map(m=>`<div class="admin-card" style="grid-template-columns:1fr auto"><div><b>${m.email}</b><div class="muted">Membre PREMIUM</div></div><button class="btn" onclick='removePremiumMember(${JSON.stringify(m.email)})'>🗑️ Retirer</button></div>`).join('')}
-async function addPremiumMember(){const e=document.getElementById('premiumMemberEmail'),email=e.value.trim().toLowerCase();if(!email.includes('@'))return alert("E-mail invalide.");const {error}=await LOGANATOR_SB.from('premium_members').insert({email});if(error)return alert("Erreur : "+error.message);e.value="";await loadPremiumMembers()}
-async function removePremiumMember(email){if(!confirm("Retirer "+email+" de PREMIUM ?"))return;const {error}=await LOGANATOR_SB.from('premium_members').delete().eq('email',email);if(error)return alert("Erreur : "+error.message);await loadPremiumMembers()}
 async function bootV12(){if(!supabaseReady()){document.getElementById('accountBtn').textContent='👤 COMPTE';return}LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SUPABASE_URL,LOGANATOR_SUPABASE_KEY);const {data}=await LOGANATOR_SB.auth.getSession();LOGANATOR_USER=data.session?.user||null;LOGANATOR_SB.auth.onAuthStateChange((_event,session)=>{LOGANATOR_USER=session?.user||null;document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':LOGANATOR_USER?'👤 '+LOGANATOR_USER.email.split('@')[0]:'👤 COMPTE'});if(LOGANATOR_USER)document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 '+LOGANATOR_USER.email.split('@')[0];await v12LoadProducts();render()}
 bootV12();
 </script>\n</body>
