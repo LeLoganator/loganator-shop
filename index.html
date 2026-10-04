@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LOGAN — Shop</title>
+<style>
+:root{--bg:#08080b;--card:#111117;--muted:#a6a6b0;--text:#fff;--accent:#8b5cf6;--accent2:#c084fc;--line:#24242d}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}.top{background:#fff;color:#000;text-align:center;padding:8px;font-size:13px;font-weight:700}
+nav{position:sticky;top:0;z-index:10;background:rgba(8,8,11,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:16px 5%}
+.logo{font-size:25px;font-weight:900;letter-spacing:3px}.links{display:flex;gap:24px;color:#ddd}.actions{display:flex;gap:10px}.btn{border:1px solid var(--line);background:#111117;color:#fff;border-radius:12px;padding:10px 14px;cursor:pointer}
+.hero{padding:90px 7%;min-height:520px;display:flex;align-items:center;background:radial-gradient(circle at 80% 30%,#6d28d955,transparent 35%),radial-gradient(circle at 20% 70%,#c084fc22,transparent 30%)}
+.hero h1{font-size:clamp(48px,9vw,110px);line-height:.9;margin:15px 0}.hero p{color:var(--muted);font-size:18px;max-width:600px}.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:0;font-weight:800;padding:14px 20px;border-radius:12px;color:#fff;cursor:pointer}
+.section{padding:55px 5%}.section h2{font-size:36px;margin:0 0 25px}.drop{border:1px solid var(--line);border-radius:20px;padding:28px;background:linear-gradient(120deg,#17131f,#0d0d12);margin-bottom:40px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:25px}.controls input,.controls select{background:#111117;color:#fff;border:1px solid var(--line);padding:12px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}.pic{height:260px;display:grid;place-items:center;font-size:90px;background:linear-gradient(135deg,#191922,#0e0e13)}.info{padding:16px}.tag{font-size:11px;color:#d8b4fe;font-weight:800}.price{font-weight:900;font-size:19px}.muted{color:var(--muted);font-size:14px}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.fav{cursor:pointer;font-size:22px}.buy{width:100%;margin-top:12px;padding:11px;border:0;border-radius:10px;background:#fff;color:#000;font-weight:800;cursor:pointer}
+footer{border-top:1px solid var(--line);padding:35px 5%;color:var(--muted);text-align:center}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.links{display:none}}
+@media(max-width:550px){.grid{grid-template-columns:1fr}.hero{padding:65px 6%}.pic{height:220px}}
+</style>
+</head>
+<body>
+<div class="top">🚚 LIVRAISON OFFERTE À PARTIR DE 80€</div>
+<nav>
+  <div class="logo">LOGAN</div>
+  <div class="links"><a href="#shop">SHOP</a><a href="#drops">DROPS</a><a href="#about">À PROPOS</a></div>
+  <div class="actions"><button class="btn" onclick="showCart()">🛒 <span id="cartCount">0</span></button></div>
+</nav>
+
+<section class="hero">
+<div>
+<div class="tag">LOGAN SHOP</div>
+<h1>PORTE TON<br>LOGAN.</h1>
+<p>Bienvenue dans la boutique officielle LOGAN. Des pièces pensées pour représenter ton style.</p>
+<button class="primary" onclick="randomProduct()">SURPRENDS-MOI ✨</button>
+</div>
+</section>
+
+<section class="section" id="drops">
+<div class="drop"><div class="tag">DROP #01</div><h2>LOGAN ESSENTIALS</h2><p class="muted">La première collection. Simple, premium, LOGAN.</p></div>
+</section>
+
+<section class="section" id="shop">
+<h2>Collection</h2>
+<div class="controls">
+<input id="search" placeholder="Rechercher..." oninput="render()">
+<select id="cat" onchange="render()"><option value="all">Toutes les catégories</option><option value="haut">Haut</option><option value="veste">Veste</option><option value="bas">Bas</option><option value="accessoire">Accessoire</option></select>
+<select id="sort" onchange="render()"><option value="recommended">Recommandé</option><option value="low">Prix croissant</option><option value="high">Prix décroissant</option></select>
+</div>
+<div class="grid" id="grid"></div>
+</section>
+
+<section class="section" id="about">
+<div class="drop"><h2>À propos de LOGAN</h2><p class="muted">LOGAN est une marque créée autour de la chaîne et de la communauté. Merci de faire partie de l'aventure ❤️</p></div>
+</section>
+
+<footer>© 2026 LOGAN — Boutique officielle</footer>
+
+<script>
+const products=[
+{id:1,name:"Hoodie LOGAN",price:49.90,cat:"haut",emoji:"🧥",tag:"BEST-SELLER"},
+{id:2,name:"T-Shirt LOGAN L",price:24.90,cat:"haut",emoji:"👕",tag:"ESSENTIAL"},
+{id:3,name:"Doudoune LOGAN",price:89.90,cat:"veste",emoji:"🧥",tag:"DROP #01"},
+{id:4,name:"Veste LOGAN",price:69.90,cat:"veste",emoji:"🧥",tag:"NEW"},
+{id:5,name:"Baggy LOGAN",price:59.90,cat:"bas",emoji:"👖",tag:"NEW"},
+{id:6,name:"Jogging LOGAN",price:44.90,cat:"bas",emoji:"👖",tag:"ESSENTIAL"},
+{id:7,name:"Casquette L",price:19.90,cat:"accessoire",emoji:"🧢",tag:"ACCESSOIRE"},
+{id:8,name:"Sac LOGAN",price:29.90,cat:"accessoire",emoji:"🎒",tag:"NEW"}
+];
+let cart=JSON.parse(localStorage.getItem("loganCart")||"[]");
+function save(){localStorage.setItem("loganCart",JSON.stringify(cart));updateCount()}
+function updateCount(){document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0)}
+function add(id){let p=cart.find(x=>x.id===id);if(p)p.qty++;else cart.push({id,qty:1});save();alert("Ajouté au panier 🛒")}
+function render(){
+ let q=document.getElementById("search").value.toLowerCase(),c=document.getElementById("cat").value,s=document.getElementById("sort").value;
+ let a=products.filter(p=>(p.name.toLowerCase().includes(q))&&(c==="all"||p.cat===c));
+ if(s==="low")a.sort((x,y)=>x.price-y.price);if(s==="high")a.sort((x,y)=>y.price-x.price);
+ document.getElementById("grid").innerHTML=a.map(p=>`<div class="card"><div class="pic">${p.emoji}</div><div class="info"><div class="row"><span class="tag">${p.tag}</span><span class="fav">♡</span></div><h3>${p.name}</h3><div class="row"><span class="price">${p.price.toFixed(2)}€</span><span class="muted">${p.cat}</span></div><button class="buy" onclick="add(${p.id})">AJOUTER AU PANIER</button></div></div>`).join("");
+}
+function showCart(){
+ if(!cart.length){alert("Ton panier est vide 😴");return}
+ let total=cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0);
+ let txt=cart.map(x=>{let p=products.find(p=>p.id===x.id);return `${p.name} x${x.qty} — ${(p.price*x.qty).toFixed(2)}€`}).join("\\n");
+ alert(txt+"\\n\\nTOTAL : "+total.toFixed(2)+"€\\n\\n⚠️ Paiement non connecté : ceci est une démo.");
+}
+function randomProduct(){let p=products[Math.floor(Math.random()*products.length)];alert("✨ Essaie : "+p.name+" — "+p.price.toFixed(2)+"€");document.getElementById("shop").scrollIntoView({behavior:"smooth"})}
+updateCount();render();
+</script>
+</body>
+</html>
