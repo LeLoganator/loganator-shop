@@ -40,8 +40,8 @@ function save(){localStorage.setItem('loganatorCart',JSON.stringify(cart));updat
 function update(){document.getElementById('count').textContent=cart.reduce((s,x)=>s+x.qty,0)}
 function add(id){let x=cart.find(a=>a.id===id);if(x)x.qty++;else cart.push({id,qty:1});save();alert('Ajouté au panier 🛒')}
 function render(){
- document.getElementById('grid').innerHTML=products.map(p=>`<article class="card"><div class="photo"><img src="images/${p.image}" alt="${p.name}"></div><div class="info"><span class="tag">LOGANATOR</span><h3>${p.name}</h3><div class="row"><span class="price">${p.price.toFixed(2)}€</span><span class="muted">${p.cat}</span></div><button class="buy" onclick="add(${p.id})">AJOUTER AU PANIER</button></div></article>`).join('');
- document.getElementById('gallery').innerHTML=["photo-1.png", "photo-2.jpg", "photo-3.png", "photo-4.png", "photo-5.jpg", "photo-6.png", "photo-7.png", "photo-8.png", "photo-9.png", "photo-10.png", "photo-11.jpg", "photo-12.jpg", "photo-13.png", "photo-14.png"].map(n=>`<img src="images/${n}" alt="Photo LOGANATOR">`).join('');
+ document.getElementById('grid').innerHTML=products.map(p=>`<article class="card"><div class="photo"><img src="${p.image}" alt="${p.name}"></div><div class="info"><span class="tag">LOGANATOR</span><h3>${p.name}</h3><div class="row"><span class="price">${p.price.toFixed(2)}€</span><span class="muted">${p.cat}</span></div><button class="buy" onclick="add(${p.id})">AJOUTER AU PANIER</button></div></article>`).join('');
+ document.getElementById('gallery').innerHTML=["photo-1.png", "photo-2.jpg", "photo-3.png", "photo-4.png", "photo-5.jpg", "photo-6.png", "photo-7.png", "photo-8.png", "photo-9.png", "photo-10.png", "photo-11.jpg", "photo-12.jpg", "photo-13.png", "photo-14.png"].map(n=>`<img src="${n}" alt="Photo LOGANATOR">`).join('');
 }
 function showCart(){if(!cart.length)return alert('Ton panier est vide 😴');let t=cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0);alert('Articles : '+cart.reduce((s,x)=>s+x.qty,0)+'\nTOTAL : '+t.toFixed(2)+'€\n\n⚠️ Paiement non connecté pour le moment.')}
 render();update();
