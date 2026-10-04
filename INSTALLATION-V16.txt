@@ -1,0 +1,33 @@
+LOGANATOR SHOP — V16 PREMIUM
+
+1) SUPABASE
+- Ouvre Supabase > SQL Editor.
+- Copie/colle tout le contenu de premium_v16.sql.
+- Exécute le script.
+- Ne mets JAMAIS de clé service-role dans le site.
+
+2) GITHUB PAGES
+- Décompresse LOGANATOR-SHOP-V16-PREMIUM.zip.
+- Remplace les fichiers du dépôt avec les fichiers du ZIP.
+- Le fichier index.html et les photos doivent rester à la racine.
+
+3) CE QUE LA V16 AJOUTE
+- Dashboard PREMIUM à onglets.
+- Gestion avancée des produits : prix, prix avant promo, stock, tailles, badges, nouveauté, populaire, à la une, publication programmée.
+- Éditeur du HERO et de plusieurs textes/sections.
+- Brouillon + prévisualisation + publication.
+- Codes promo : pourcentage/fixe, dates, minimum d'achat, limite d'utilisation, activation/désactivation.
+- Commandes et statuts : attente, préparation, expédiée, livrée, annulée.
+- Statistiques : visites, vues produits, ajouts panier, commandes, activité récente.
+- Alertes de stock faible.
+- Contrôle qualité des fiches produits.
+- Gestion des membres PREMIUM.
+- Outils intelligents pour repérer les produits à compléter et les stocks faibles.
+- Journal d'activité et tables dédiées.
+- RLS Supabase pour protéger les opérations PREMIUM.
+
+4) PAIEMENT
+La V16 NE SIMULE PAS un paiement réel. Les commandes disposent d'un statut de paiement mais aucun paiement réel n'est déclaré comme effectué tant qu'un vrai prestataire n'est pas connecté.
+
+5) IMPORTANT SUR LES RLS
+Le SQL V16 ajoute les protections nécessaires. Si le projet possède d'anciennes policies Supabase qui autorisent déjà les écritures publiques sur products ou d'autres tables, elles doivent être supprimées avant mise en production, sinon une ancienne policy trop permissive peut rester active.
