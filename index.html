@@ -150,6 +150,17 @@ document.querySelectorAll('.pay-option').forEach(b=>b.addEventListener('click',(
 render();update();
 </script>
 
+<div class="modal" id="accountModal" onclick="if(event.target===this)closeModal('accountModal')">
+  <div class="panel">
+    <button class="close" onclick="closeModal('accountModal')">×</button>
+    <div class="detail-info">
+      <span class="tag">LOGANATOR</span>
+      <h2 id="authTitle">Connexion / création de compte</h2>
+      <div id="accountArea"></div>
+    </div>
+  </div>
+</div>
+
 <div class="admin-modal" id="premiumModal" onclick="if(event.target===this)closePremium()"><div class="admin-box"><button class="admin-close" onclick="closePremium()">×</button><span class="premium">👑 COMPTE PREMIUM</span><h2>Gestion de la boutique</h2><p class="muted">Tout ce que tu publies ici est enregistré en ligne et visible par les visiteurs.</p><div id="premiumMsg" class="admin-msg">Connexion à Supabase…</div><div class="admin-actions" style="margin-top:14px"><button class="btn" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" onclick="premiumLogout()">Se déconnecter</button></div><div id="premiumList" class="admin-grid"></div></div></div>
 <div class="admin-modal" id="premiumEditor" onclick="if(event.target===this)closeEditor()"><div class="admin-box"><button class="admin-close" onclick="closeEditor()">×</button><span class="premium">👑 PREMIUM</span><h2 id="premiumEditorTitle">Modifier un produit</h2><form class="admin-form" id="premiumForm"><input type="hidden" id="premiumId"><label class="full">Nom<input id="premiumName" required></label><label>Prix (€)<input id="premiumPrice" type="number" step="0.01" min="0" required></label><label>Catégorie<input id="premiumCat" required></label><label class="full">Description (une ligne par information)<textarea id="premiumDetails"></textarea></label><label class="full">Changer l'image<input id="premiumImage" type="file" accept="image/*"></label><button class="primary full" type="submit">💾 ENREGISTRER ET PUBLIER</button></form></div></div>
 
