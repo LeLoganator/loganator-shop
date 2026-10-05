@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+<title>LOGANATOR homme en doudoune bleue</title>
+<desc>Illustration stylisée d'un homme portant une doudoune bleue LOGANATOR sur un fond bleu nuit.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#020712"/><stop offset=".52" stop-color="#061b4a"/><stop offset="1" stop-color="#00102b"/></linearGradient>
+ <radialGradient id="glow"><stop stop-color="#1976ff" stop-opacity=".55"/><stop offset="1" stop-color="#1976ff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b2f88"/><stop offset=".45" stop-color="#1268e8"/><stop offset="1" stop-color="#06205c"/></linearGradient>
+ <linearGradient id="coat2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#2587ff"/><stop offset="1" stop-color="#07327d"/></linearGradient>
+ <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f1b18d"/><stop offset="1" stop-color="#9b5b4d"/></linearGradient>
+ <filter id="soft"><feGaussianBlur stdDeviation="20"/></filter>
+ <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="15" flood-color="#000" flood-opacity=".55"/></filter>
+</defs>
+<rect width="900" height="620" rx="34" fill="url(#bg)"/>
+<circle cx="680" cy="150" r="230" fill="url(#glow)" filter="url(#soft)"/>
+<path d="M0 505 C180 420 270 555 430 475 S730 420 900 500 V620 H0Z" fill="#010611" opacity=".75"/>
+<g opacity=".8" fill="#3f9cff">
+ <circle cx="85" cy="110" r="3"/><circle cx="145" cy="180" r="2"/><circle cx="760" cy="92" r="3"/><circle cx="815" cy="210" r="2"/><circle cx="695" cy="420" r="3"/><circle cx="160" cy="420" r="2"/>
+</g>
+<!-- head -->
+<g filter="url(#shadow)">
+ <path d="M350 140 Q365 80 445 75 Q525 80 545 145 L520 205 Q492 238 448 239 Q400 235 370 205Z" fill="#111827" stroke="#3d93ff" stroke-width="5"/>
+ <path d="M386 142 Q397 105 447 100 Q498 105 512 145 Q500 178 449 181 Q400 178 386 142Z" fill="#0a1020"/>
+ <path d="M410 157 Q449 145 486 158 Q482 207 449 218 Q414 207 410 157Z" fill="url(#skin)"/>
+ <path d="M418 151 Q436 140 454 149 M468 149 Q486 140 500 152" fill="none" stroke="#111827" stroke-width="7" stroke-linecap="round"/>
+ <path d="M433 184 Q449 193 466 184" fill="none" stroke="#5d2d2b" stroke-width="5" stroke-linecap="round"/>
+ <path d="M391 128 Q425 83 482 96 Q510 102 526 131 Q497 116 470 117 Q435 116 391 128Z" fill="#0b1220"/>
+</g>
+<!-- neck --> <path d="M415 208 L415 252 Q449 274 484 252 L484 208Z" fill="url(#skin)"/>
+<!-- torso / puffer -->
+<g filter="url(#shadow)">
+ <path d="M315 258 Q360 230 413 238 L449 274 L486 238 Q540 230 585 260 Q635 330 646 530 Q555 575 449 566 Q345 575 254 530 Q267 330 315 258Z" fill="url(#coat)" stroke="#2d8cff" stroke-width="6"/>
+ <!-- collar -->
+ <path d="M365 246 Q410 235 449 274 Q411 305 373 286Z" fill="#08245c" stroke="#49a0ff" stroke-width="4"/>
+ <path d="M533 246 Q490 235 449 274 Q487 305 525 286Z" fill="#08245c" stroke="#49a0ff" stroke-width="4"/>
+ <!-- puffer panels -->
+ <path d="M329 290 Q380 318 449 318 Q520 318 570 290" fill="none" stroke="#58a9ff" stroke-opacity=".55" stroke-width="7"/>
+ <path d="M307 355 Q375 385 449 385 Q526 385 593 355" fill="none" stroke="#58a9ff" stroke-opacity=".5" stroke-width="7"/>
+ <path d="M286 425 Q368 454 449 454 Q532 454 614 425" fill="none" stroke="#58a9ff" stroke-opacity=".48" stroke-width="7"/>
+ <path d="M271 493 Q360 522 449 522 Q540 522 628 493" fill="none" stroke="#58a9ff" stroke-opacity=".4" stroke-width="7"/>
+ <!-- zipper --> <path d="M449 280 L449 540" stroke="#d7e9ff" stroke-opacity=".75" stroke-width="5"/>
+ <!-- logo -->
+ <g transform="translate(385 345) rotate(-6)">
+   <path d="M35 10 L8 112 L78 72 L59 116 L-5 151 L-30 128 L-4 15Z" fill="#0a1020" stroke="#06132d" stroke-width="12" stroke-linejoin="round"/>
+   <path d="M38 10 L11 112 L81 72 L62 116 L-2 151 L-27 128 L-1 15Z" fill="#1680ff" stroke="#8dc5ff" stroke-width="3" stroke-linejoin="round"/>
+   <path d="M14 25 L39 18" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+ </g>
+ <!-- sleeves -->
+ <path d="M315 270 Q270 290 240 360 L205 475 Q198 505 229 518 Q257 529 273 500 L332 384Z" fill="url(#coat2)" stroke="#2d8cff" stroke-width="6"/>
+ <path d="M583 270 Q628 290 658 360 L693 475 Q700 505 669 518 Q641 529 625 500 L566 384Z" fill="url(#coat2)" stroke="#2d8cff" stroke-width="6"/>
+</g>
+<!-- text -->
+<text x="54" y="90" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="32" letter-spacing="5">LOGANATOR</text>
+<text x="55" y="125" fill="#4da0ff" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="16" letter-spacing="3">BLUE • STREET • PREMIUM</text>
+<path d="M55 145 H265" stroke="#1680ff" stroke-width="4" stroke-linecap="round"/>
+</svg>
