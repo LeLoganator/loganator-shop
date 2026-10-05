@@ -1,0 +1,9 @@
+LOGANATOR V21 — VERSION CORRIGÉE
+
+1. Décompresse ce ZIP.
+2. Mets TOUS les fichiers dans ton dépôt GitHub Pages, au même niveau que index.html.
+3. Remplace l'ancien index.html et les anciennes photos si demandé.
+4. Attends le déploiement GitHub Pages puis recharge le site avec Ctrl+F5.
+
+Cette version corrige notamment le problème de script JavaScript qui empêchait la page de fonctionner correctement.
+La recherche accepte aussi des requêtes simples comme « baggy », « doudoune », « hoodie », « chaussures » et des limites de prix comme « moins de 70€ ».

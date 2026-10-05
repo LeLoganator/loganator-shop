@@ -283,6 +283,33 @@ function productSearchText(p){
  ].join(' ').toLowerCase();
 }
 
+function smartQueryMatch(p,q){
+ if(!q)return true;
+ const text=productSearchText(p);
+ const cat=normalizeCategory(p.cat).toLowerCase();
+ const name=(p.name||'').toLowerCase();
+ const price=Number(p.price)||0;
+ const terms=q.normalize('NFD').replace(/[\u0300-\u036f]/g,'').split(/\s+/).filter(Boolean);
+ const categoryTerms={
+   hoodie:['hoodie','sweat','sweatshirt','haut','hauts'],
+   doudoune:['doudoune','doudounes','puffer','veste'],
+   baggy:['baggy','pantalon','bas','bottom'],
+   chaussure:['chaussure','chaussures','shoe','shoes','basket','baskets']
+ };
+ for(const [key,words] of Object.entries(categoryTerms)){
+   if(words.some(w=>terms.includes(w))){
+     const ok=(key==='hoodie'&&name.includes('hoodie'))||(key==='doudoune'&&name.includes('doudoune'))||(key==='baggy'&&name.includes('baggy'))||(key==='chaussure'&&name.includes('chauss'));
+     if(!ok)return false;
+   }
+ }
+ const maxMatch=q.match(/(?:moins de|inferieur a|inférieur à|max|sous)\s*(?:€|euros?)?\s*(\d+(?:[.,]\d+)?)/i)||q.match(/(\d+(?:[.,]\d+)?)\s*€\s*(?:max|maximum)/i);
+ if(maxMatch && price>Number(maxMatch[1].replace(',','.')))return false;
+ const minMatch=q.match(/(?:plus de|au dessus de|supérieur à|minimum)\s*(?:€|euros?)?\s*(\d+(?:[.,]\d+)?)/i);
+ if(minMatch && price<Number(minMatch[1].replace(',','.')))return false;
+ const cleaned=terms.filter(t=>!['moins','plus','de','du','la','le','un','une','a','à','euros','euro','max','maximum','minimum','inferieur','inférieur','superieur','supérieur'].includes(t));
+ return cleaned.every(t=>text.includes(t));
+}
+
 function render(){
  const input=document.getElementById('v15Search');
  const q=(input?.value||'').trim().toLowerCase();
@@ -290,7 +317,7 @@ function render(){
  const list=products.filter(p=>{
    const category=normalizeCategory(p.cat);
    const matchesCategory=selectedFilter==="Tous"||category===selectedFilter;
-   const matchesSearch=!q||productSearchText(p).includes(q);
+   const matchesSearch=smartQueryMatch(p,q);
    return matchesCategory&&matchesSearch;
  });
 
