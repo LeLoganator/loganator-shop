@@ -1,0 +1,7 @@
+LOGANATOR V21 — INSTALLATION
+
+1. Décompresse ce ZIP.
+2. Envoie TOUS les fichiers dans ton dépôt GitHub.
+3. Garde index.html et toutes les images photo-*.png/jpg dans le même dossier.
+4. Ne supprime pas les images.
+5. Attends quelques instants que GitHub Pages se mette à jour.
