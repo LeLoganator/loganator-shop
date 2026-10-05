@@ -1,23 +1,17 @@
-LOGANATOR SHOP V16.1 — PREMIUM PLUS (ÉDITION AMÉLIORÉE)
+LOGANATOR SHOP V16.1 — MODE ZERO CONFIGURATION SUPABASE
 
-INSTALLATION
-1. Décompresse cette archive.
-2. Remplace les fichiers du site par ceux de cette archive (conserve les mêmes noms de fichiers).
-3. Recharge le site avec Ctrl + F5.
-4. Connecte-toi avec un compte Premium autorisé et ouvre le Centre de contrôle LOGANATOR.
+1. Ouvre le ZIP.
+2. Envoie les fichiers sur ton dépôt GitHub Pages.
+3. Ouvre le site.
+4. Connecte-toi avec ton compte Premium.
 
-FONCTIONS PREMIUM
-- Dashboard et alertes de stock faible.
-- Gestion des produits, duplication, édition du stock et téléchargement individuel d’image.
-- Téléchargement groupé des images dans une archive ZIP (nécessite une connexion internet pour charger JSZip; les images externes doivent autoriser CORS).
-- Centre de promotions local.
-- Personnalisation de contenu avec brouillon et prévisualisation.
-- Sauvegarde/restauration JSON locale.
-- Exports catalogue, stocks et rapports CSV.
-- Rapport imprimable, enregistrable en PDF depuis la boîte d’impression du navigateur.
+IMPORTANT
+- Tu n'as aucun SQL à exécuter.
+- Tu ne crées aucune table Supabase.
+- Tu ne modifies pas les règles RLS.
+- Aucune clé service-role n'est demandée.
+- Les fonctions Premium avancées (réglages, promos, métadonnées produit, membres ajoutés, statistiques locales, commandes locales) sont sauvegardées dans le navigateur qui utilise le panneau Premium.
+- Le catalogue de base continue d'utiliser la table `products` existante quand elle est accessible.
 
-ACCÈS PREMIUM
-Les comptes dans la liste Premium intégrée sont reconnus automatiquement. Les comptes présents dans la table Supabase `premium_members` sont également reconnus lorsque la vérification de la table est disponible.
-
-LIMITES IMPORTANTES
-Les modifications locales, promotions locales, sauvegardes et commandes locales sont enregistrées dans le navigateur courant et ne sont pas automatiquement partagées entre les appareils. L’export ZIP récupère les images accessibles par le navigateur; des images hébergées sur un domaine sans CORS peuvent être ignorées. Les restrictions d’accès d’un site public ne peuvent pas être sécurisées uniquement par JavaScript côté navigateur; une protection côté serveur/RLS reste nécessaire pour des privilèges véritablement inviolables.
+LIMITATION TECHNIQUE
+Un site GitHub Pages statique ne peut pas modifier les fichiers GitHub ni créer des tables Supabase depuis le navigateur avec une simple clé publique. Les données Premium locales ne sont donc pas automatiquement partagées entre plusieurs appareils/visiteurs.
