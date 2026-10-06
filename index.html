@@ -79,7 +79,7 @@ nav{background:rgba(10,10,15,.68)!important}.hero{background:radial-gradient(cir
 </head>
 <body>
 <div class="top">🚚 LIVRAISON OFFERTE À PARTIR DE 80€</div>
-<nav><div class="logo">LOGANATOR</div><div class="links"><a href="#shop">SHOP</a><a href="#drop">DROP</a><a href="#vetements">VÊTEMENTS</a></div><div style="display:flex;gap:8px;align-items:center"><button class="btn" id="accountBtn">👤 COMPTE</button><button class="btn" onclick="showCart()">🛒 <span id="count">0</span></button></div></nav>
+<nav><div class="logo">LOGANATOR</div><div class="links"><a href="#shop">SHOP</a><a href="#drop">DROP</a><a href="#vetements">VÊTEMENTS</a></div><div style="display:flex;gap:8px;align-items:center"><button class="btn" id="accountBtn" type="button" onclick="return window.__LOGANATOR_OPEN_ACCOUNT ? window.__LOGANATOR_OPEN_ACCOUNT() : false;">👤 COMPTE</button><button class="btn" onclick="showCart()">🛒 <span id="count">0</span></button></div></nav>
 
 <section class="hero"><div><div class="kicker">LOGANATOR SHOP</div><h1>PORTE TON<br>LOGANATOR.</h1><p>La boutique de la chaîne, avec les vraies photos de tes créations.</p><button class="primary" onclick="document.querySelector('#shop').scrollIntoView({behavior:'smooth'})">VOIR LA COLLECTION ↓</button></div></section>
 
@@ -301,7 +301,12 @@ update();
 
 <div class="modal" id="accountModal" onclick="if(event.target===this)closeModal('accountModal')">
 <div class="panel"><button class="close" onclick="closeModal('accountModal')">×</button>
-<div class="detail-info"><span class="tag">LOGANATOR</span><h2 id="authTitle">Connexion / création de compte</h2><div id="accountArea"></div></div></div></div>
+<div class="detail-info"><span class="tag">LOGANATOR</span><h2 id="authTitle">Connexion / création de compte</h2><div id="accountArea">
+<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br>
+<div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v26Login" onclick="window.v26Login&&window.v26Login()">SE CONNECTER</button><button class="btn" type="button" id="v26Signup" onclick="window.v26Signup&&window.v26Signup()">CRÉER UN COMPTE</button><button class="btn" type="button" id="v26Reset" onclick="window.v26Reset&&window.v26Reset()">MOT DE PASSE OUBLIÉ</button></div>
+<div id="v12Msg" class="notice">Tout se fait depuis LOGANATOR. Tu n’as pas besoin d’ouvrir Supabase.</div>
+</div></div></div></div>
 <div class="admin-modal" id="premiumModal" onclick="if(event.target===this)closePremium()">
 <div class="admin-box"><button class="admin-close" onclick="closePremium()">×</button>
 <span class="premium">👑 COMPTE PREMIUM</span><h2>Centre de contrôle LOGANATOR</h2>
@@ -322,6 +327,7 @@ update();
 <script>
 const LOGANATOR_SUPABASE_URL="https://aidaqphingkvvevgbeyk.supabase.co";
 const LOGANATOR_SUPABASE_KEY="sb_publishable_g3yTfPLGBasbLU4Q3LEi0w_P6b8ROLM";
+window.LOGANATOR_SUPABASE_URL=LOGANATOR_SUPABASE_URL; window.LOGANATOR_SUPABASE_KEY=LOGANATOR_SUPABASE_KEY;
 const LOGANATOR_PREMIUM=["gauducheaulogan@gmail.com","leloganator@gmail.com","alexisprouillac@gmail.com","theteamsloganator@gmail.com"];
 let LOGANATOR_SB=null, LOGANATOR_USER=null;
 function supabaseReady(){return LOGANATOR_SUPABASE_URL.startsWith("https://")&&LOGANATOR_SUPABASE_KEY.length>20}
@@ -815,6 +821,10 @@ document.body.classList.add('v25');
 .v26-account-note{margin-top:12px;padding:12px 14px;border:1px solid rgba(120,100,255,.25);border-radius:12px;background:linear-gradient(135deg,rgba(30,120,255,.12),rgba(125,70,255,.12),rgba(255,70,160,.08));color:#dfe4ff;font-size:13px}
 .v26-premium-access{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 </style>
+
+<script id="v26-hard-open">
+window.__LOGANATOR_OPEN_ACCOUNT=function(){var m=document.getElementById("accountModal");if(m){m.classList.add("open");m.style.display="flex";m.style.visibility="visible";m.style.opacity="1";}return false;};
+</script>
 <script id="loganator-v26-account-system">
 (function(){
   'use strict';
@@ -823,8 +833,11 @@ document.body.classList.add('v25');
   function ensureClient(){
     try{
       if(window.LOGANATOR_SB) return window.LOGANATOR_SB;
-      if(window.supabase && window.LOGANATOR_SUPABASE_URL && window.LOGANATOR_SUPABASE_KEY){
-        window.LOGANATOR_SB=window.supabase.createClient(window.LOGANATOR_SUPABASE_URL,window.LOGANATOR_SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      if(window.supabase){
+        const url=window.LOGANATOR_SUPABASE_URL || (typeof LOGANATOR_SUPABASE_URL!=='undefined'?LOGANATOR_SUPABASE_URL:'');
+        const key=window.LOGANATOR_SUPABASE_KEY || (typeof LOGANATOR_SUPABASE_KEY!=='undefined'?LOGANATOR_SUPABASE_KEY:'');
+        if(!url || !key) return null;
+        window.LOGANATOR_SB=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
         return window.LOGANATOR_SB;
       }
     }catch(e){}

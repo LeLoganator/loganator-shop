@@ -1,0 +1,9 @@
+LOGANATOR V26.1 — CORRECTION DÉFINITIVE DU BOUTON COMPTE
+
+1. Décompresse ce ZIP.
+2. Remplace les fichiers de ton site GitHub Pages avec ceux du dossier.
+3. Fais Ctrl + F5 sur ton site.
+
+Le bouton COMPTE possède maintenant une ouverture directe intégrée au bouton lui-même : il ne dépend plus du chargement de Supabase ni des autres scripts pour ouvrir la fenêtre.
+
+Le formulaire de connexion/création de compte est présent directement dans la fenêtre. Aucun accès au tableau de bord Supabase n'est nécessaire pour utiliser l'interface du site.
