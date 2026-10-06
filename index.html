@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LOGANATOR V17 — Boutique</title>
+<title>LOGANATOR V24 — Neon Glass</title>
 <style>
 :root{--bg:#07070a;--card:#111118;--text:#fff;--muted:#aaa9b5;--accent:#8b5cf6;--line:#292936}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
@@ -681,115 +681,113 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
 })();
 </script>
 
-<script id="loganator-v23">
+<style id="v24-neon-dark">
+:root{--v24-blue:#00a8ff;--v24-violet:#7c3aed;--v24-pink:#ec4899;--v24-grad:linear-gradient(135deg,var(--v24-blue),var(--v24-violet) 52%,var(--v24-pink));--v24-glow:rgba(0,168,255,.24)}
+html{scroll-behavior:smooth}body{background:#03040a!important;color:#f7f7ff;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:-30%;z-index:-2;pointer-events:none;background:radial-gradient(circle at 12% 18%,rgba(0,168,255,.12),transparent 28%),radial-gradient(circle at 78% 28%,rgba(124,58,237,.13),transparent 30%),radial-gradient(circle at 50% 88%,rgba(236,72,153,.09),transparent 28%);filter:blur(18px)}
+body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(115deg,rgba(0,168,255,.025),transparent 35%,rgba(236,72,153,.025));}
+.top{background:linear-gradient(90deg,#06111d,#151022,#160a15)!important;color:#fff!important;border-bottom:1px solid rgba(0,168,255,.22)}
+.logo{background:var(--v24-grad);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 26px rgba(124,58,237,.18)}
+nav{border-bottom-color:rgba(124,58,237,.28)!important;box-shadow:0 10px 45px rgba(0,0,0,.28)}
+.links a:hover{color:#fff;text-shadow:0 0 16px rgba(0,168,255,.55)}
+.btn,.v15-filter,.v16-tab,.pay-option,.v15-size-btn{transition:transform .18s,border-color .18s,box-shadow .18s,background .18s}.btn:hover,.v15-filter:hover,.v16-tab:hover,.pay-option:hover,.v15-size-btn:hover{border-color:rgba(0,168,255,.55)!important;box-shadow:0 0 24px rgba(0,168,255,.12);transform:translateY(-1px)}
+.primary{background:var(--v24-grad)!important;background-size:180% 180%!important;animation:v24Gradient 8s ease infinite;box-shadow:0 12px 35px rgba(124,58,237,.22),0 0 24px rgba(0,168,255,.10)}
+@keyframes v24Gradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero{background:radial-gradient(circle at 78% 24%,rgba(0,168,255,.24),transparent 28%),radial-gradient(circle at 58% 38%,rgba(124,58,237,.22),transparent 32%),radial-gradient(circle at 24% 72%,rgba(236,72,153,.12),transparent 27%)!important}
+.hero h1{background:var(--v24-grad);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 42px rgba(124,58,237,.16)}
+.kicker,.tag{background:linear-gradient(90deg,#5bc8ff,#a78bfa,#f472b6);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.drop,.card,.panel,.admin-box,.v16-box,.v15-stat,.v15-cart-row,.v22-store-panel,.v22-store-card,.v16-preview,.v16-alert{border-color:rgba(124,58,237,.24)!important;box-shadow:0 18px 60px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.06),0 0 35px rgba(0,168,255,.035)}
+.drop{background:linear-gradient(120deg,rgba(0,168,255,.075),rgba(124,58,237,.075),rgba(236,72,153,.055))!important}
+.card:hover{border-color:rgba(0,168,255,.48)!important;box-shadow:0 28px 75px rgba(0,0,0,.42),0 0 35px rgba(0,168,255,.08),inset 0 1px 0 rgba(255,255,255,.12)}
+.photo:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(135deg,rgba(0,168,255,.07),transparent 45%,rgba(236,72,153,.08));opacity:.7}.photo:after{z-index:2}
+.buy{background:rgba(255,255,255,.92)!important;color:#050509!important}.buy:hover{box-shadow:0 0 25px rgba(236,72,153,.16)!important}
+.v15-filter.active,.v16-tab.active,.v15-size-btn.selected{background:linear-gradient(135deg,rgba(0,168,255,.17),rgba(124,58,237,.18),rgba(236,72,153,.12))!important;border-color:rgba(167,139,250,.65)!important}
+.v15-search:focus{outline:2px solid rgba(124,58,237,.5);box-shadow:0 0 30px rgba(0,168,255,.08)}
+#accountBtn[data-premium="1"]{background:linear-gradient(135deg,rgba(0,168,255,.15),rgba(124,58,237,.18),rgba(236,72,153,.14))!important;border-color:rgba(236,72,153,.42)!important;box-shadow:0 0 25px rgba(124,58,237,.16)}
+#premiumModal .premium{background:linear-gradient(135deg,rgba(0,168,255,.15),rgba(124,58,237,.24),rgba(236,72,153,.16));color:#fff;border:1px solid rgba(167,139,250,.35);box-shadow:0 0 25px rgba(124,58,237,.14)}
+#premiumMsg{background:linear-gradient(100deg,rgba(0,168,255,.07),rgba(124,58,237,.09),rgba(236,72,153,.06))!important;border-color:rgba(124,58,237,.28)!important;color:#dfe8ff!important}
+.v24-diagnostic{margin-top:12px;padding:12px;border:1px solid rgba(124,58,237,.25);border-radius:13px;background:rgba(0,0,0,.24);font-size:13px;line-height:1.6}.v24-ok{color:#86efac}.v24-warn{color:#fcd34d}.v24-err{color:#fda4af}.v24-muted{color:#aeb4c7}
+.v24-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(124,58,237,.28);background:rgba(255,255,255,.045);margin:3px}
+@media(prefers-reduced-motion:reduce){.primary{animation:none!important}}
+</style>
+<script id="v24-core">
 (function(){
   'use strict';
-  const V23={name:'LOGANATOR V23',version:'23.0'};
-  const PREMIUM=['gauducheaulogan@gmail.com','leloganator@gmail.com','alexisprouillac@gmail.com','theteamsloganator@gmail.com'];
-  const get=(id)=>document.getElementById(id);
-  const msg=(t)=>{if(typeof window.v12msg==='function')window.v12msg(t);else{const e=get('v12Msg');if(e)e.textContent=t}};
-  const waitForSB=async()=>{
-    for(let i=0;i<30;i++){
-      if(window.supabase && typeof window.supabase.createClient==='function') return true;
-      await new Promise(r=>setTimeout(r,150));
-    }
-    return false;
+  const V24={};
+  V24.status=function(){return {sdk:!!window.supabase,config:typeof LOGANATOR_SUPABASE_URL==='string'&&/^https:\/\//.test(LOGANATOR_SUPABASE_URL)&&typeof LOGANATOR_SUPABASE_KEY==='string'&&LOGANATOR_SUPABASE_KEY.length>20,client:!!LOGANATOR_SB,user:!!LOGANATOR_USER,premium:!!window.V22_PREMIUM||((typeof isLoganatorPremium==='function')&&isLoganatorPremium())}};
+  V24.ensure=async function(){
+    if(!window.supabase) throw new Error('Le module Supabase n\'est pas chargé.');
+    if(!V24.status().config) throw new Error('Configuration Supabase absente ou invalide.');
+    if(!window.LOGANATOR_SB) LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SUPABASE_URL,LOGANATOR_SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    const {data,error}=await LOGANATOR_SB.auth.getSession();
+    if(error) throw error;
+    LOGANATOR_USER=data.session?.user||null;
+    return LOGANATOR_SB;
   };
-  async function ensureClient(){
-    if(window.LOGANATOR_SB?.auth)return window.LOGANATOR_SB;
-    if(!window.LOGANATOR_SUPABASE_URL||!window.LOGANATOR_SUPABASE_KEY){throw new Error('Configuration Supabase introuvable.');}
-    if(!(await waitForSB()))throw new Error('Le module Supabase ne se charge pas. Vérifie ta connexion puis recharge la page.');
-    window.LOGANATOR_SB=window.supabase.createClient(window.LOGANATOR_SUPABASE_URL,window.LOGANATOR_SUPABASE_KEY);
-    return window.LOGANATOR_SB;
-  }
-  async function premium(email){
-    email=(email||'').trim().toLowerCase(); if(!email)return false;
-    if(PREMIUM.includes(email))return true;
-    try{const sb=await ensureClient();const {data,error}=await sb.from('premium_members').select('email').eq('email',email).maybeSingle();return !error&&!!data}catch(e){return false}
-  }
-  async function refreshAccount(){
-    const b=get('accountBtn'); if(!b)return;
-    let user=window.LOGANATOR_USER;
-    try{const sb=await ensureClient();const {data}=await sb.auth.getUser();user=data?.user||null;window.LOGANATOR_USER=user}catch(e){}
-    const ok=await premium(user?.email);
-    b.textContent=ok?'👑 PREMIUM':user?'👤 '+(user.email||'compte').split('@')[0]:'👤 COMPTE';
-    b.dataset.premium=ok?'1':'0';
-    window.V23_PREMIUM=ok;
-    return {user,ok};
-  }
-  function authForm(){
-    const title=get('authTitle'); if(title)title.textContent='Connexion / création de compte';
-    const area=get('accountArea'); if(!area)return;
-    area.innerHTML='<div class="field"><label>Adresse e-mail</label><input id="v23Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v23Password" type="password" autocomplete="current-password" placeholder="6 caractères minimum"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" id="v23Login" type="button">SE CONNECTER</button><button class="btn" id="v23Signup" type="button">CRÉER UN COMPTE</button><button class="btn" id="v23Reset" type="button">MOT DE PASSE OUBLIÉ</button></div><div id="v12Msg" class="notice">V23 : connexion sécurisée avec Supabase.</div>';
-    get('v23Login').onclick=()=>window.v12Login();get('v23Signup').onclick=()=>window.v12Signup();get('v23Reset').onclick=()=>window.v12Reset();
-  }
+  V24.panel=function(){
+    const area=document.getElementById('accountArea'); if(!area)return;
+    let d=document.getElementById('v24Diagnostic');
+    if(!d){d=document.createElement('div');d.id='v24Diagnostic';d.className='v24-diagnostic';area.appendChild(d)}
+    const s=V24.status();
+    d.innerHTML=`<div><b>V24 — État du compte</b></div><span class="v24-chip ${s.sdk?'v24-ok':'v24-err'}">${s.sdk?'🟢':'🔴'} Supabase</span><span class="v24-chip ${s.config?'v24-ok':'v24-err'}">${s.config?'🟢':'🔴'} Configuration</span><span class="v24-chip ${s.client?'v24-ok':'v24-warn'}">${s.client?'🟢':'🟡'} Client</span><span class="v24-chip ${s.user?'v24-ok':'v24-muted'}">${s.user?'🟢':'⚪'} Session</span><span class="v24-chip ${s.premium?'v24-ok':'v24-muted'}">${s.premium?'👑':'⚪'} Premium</span>`;
+  };
+  V24.refresh=async function(){try{await V24.ensure();if(typeof window.v22RefreshPremiumButton==='function')await window.v22RefreshPremiumButton();return true}catch(e){return false}};
+  window.V24=V24;
+
   window.v12Login=async function(){
-    const email=(get('v23Email')?.value||get('v12Email')?.value||'').trim().toLowerCase(),password=get('v23Password')?.value||get('v12Password')?.value||'';
-    if(!email||!password)return msg('Remplis ton e-mail et ton mot de passe.');
+    const email=(document.getElementById('v12Email')?.value||'').trim().toLowerCase();
+    const password=document.getElementById('v12Password')?.value||'';
+    if(!email||!password){v12msg('Remplis les deux champs.');return}
     try{
-      const sb=await ensureClient(); const {data,error}=await sb.auth.signInWithPassword({email,password});
-      if(error)throw error; window.LOGANATOR_USER=data.user||null; msg('✅ Connexion réussie !'); await refreshAccount();
-      setTimeout(async()=>{closeModal('accountModal');if(await premium(email))window.openPremium()},250);
-    }catch(e){msg('❌ '+(e.message||'Impossible de se connecter.'))}
+      await V24.ensure();
+      const {data,error}=await LOGANATOR_SB.auth.signInWithPassword({email,password});
+      if(error)throw error;
+      LOGANATOR_USER=data.user||null;
+      const premium=typeof v15CheckPremium==='function' ? await v15CheckPremium(email) : false;
+      window.V22_PREMIUM=!!premium;
+      closeModal('accountModal');
+      if(typeof window.v22RefreshPremiumButton==='function')await window.v22RefreshPremiumButton();
+      if(premium)await window.openPremium();
+    }catch(e){v12msg('❌ '+(e?.message||'Connexion impossible.'));V24.panel()}
   };
   window.v12Signup=async function(){
-    const email=(get('v23Email')?.value||get('v12Email')?.value||'').trim().toLowerCase(),password=get('v23Password')?.value||get('v12Password')?.value||'';
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return msg('Entre une adresse e-mail valide.');
-    if(password.length<6)return msg('Le mot de passe doit contenir au moins 6 caractères.');
+    const email=(document.getElementById('v12Email')?.value||'').trim().toLowerCase();
+    const password=document.getElementById('v12Password')?.value||'';
+    if(!email||password.length<6){v12msg('E-mail valide + mot de passe de 6 caractères minimum.');return}
     try{
-      const sb=await ensureClient();
-      const redirect=location.origin+location.pathname;
-      const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:redirect}});
+      await V24.ensure();
+      const {data,error}=await LOGANATOR_SB.auth.signUp({email,password});
       if(error)throw error;
-      if(data?.session){window.LOGANATOR_USER=data.user||null;msg('✅ Compte créé et connecté !');await refreshAccount();setTimeout(()=>closeModal('accountModal'),500)}
-      else msg('✅ Compte créé ! Vérifie ton e-mail si Supabase demande une confirmation.');
-    }catch(e){msg('❌ '+(e.message||'Création du compte impossible.'))}
+      v12msg(data?.session?'✅ Compte créé et connecté.':'✅ Compte créé. Vérifie ton e-mail si Supabase demande une confirmation.');
+      LOGANATOR_USER=data?.user||null;
+      await V24.refresh(); V24.panel();
+    }catch(e){v12msg('❌ '+(e?.message||'Création du compte impossible.'));V24.panel()}
   };
   window.v12Reset=async function(){
-    const email=(get('v23Email')?.value||get('v12Email')?.value||'').trim().toLowerCase();
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return msg('Entre ton adresse e-mail pour recevoir le lien.');
-    try{const sb=await ensureClient();const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});if(error)throw error;msg('✅ Si le compte existe, le lien de réinitialisation a été envoyé.')}catch(e){msg('❌ '+(e.message||'Impossible d’envoyer le lien.'))}
+    const email=(document.getElementById('v12Email')?.value||'').trim().toLowerCase();
+    if(!email){v12msg('Entre ton e-mail.');return}
+    try{await V24.ensure();const {error}=await LOGANATOR_SB.auth.resetPasswordForEmail(email);if(error)throw error;v12msg('✅ Si le compte existe, un e-mail de réinitialisation a été envoyé.')}catch(e){v12msg('❌ '+(e?.message||'Réinitialisation impossible.'));V24.panel()}
   };
-  window.openAccount=async function(){
-    try{
-      const {user,ok}=await refreshAccount();
-      if(ok){await window.openPremium();return;}
-      if(user){const area=get('accountArea');if(area)area.innerHTML='<p>Connecté avec <b>'+String(user.email).replace(/[<>]/g,'')+'</b>.</p><button class="btn" id="v23Logout">SE DÉCONNECTER</button><div id="v12Msg" class="notice">Ton compte fonctionne correctement.</div>';get('v23Logout').onclick=window.premiumLogout}
-      else authForm();
-      get('accountModal')?.classList.add('open');
-    }catch(e){authForm();get('accountModal')?.classList.add('open');msg('⚠️ '+(e.message||'Le système de compte est temporairement indisponible.'))}
-  };
-  window.premiumLogout=async function(){try{const sb=await ensureClient();await sb.auth.signOut()}catch(e){}window.LOGANATOR_USER=null;window.V23_PREMIUM=false;try{closePremium()}catch(e){}try{closeModal('accountModal')}catch(e){}await refreshAccount()};
-  window.openPremium=async function(){
-    const ok=await premium(window.LOGANATOR_USER?.email); if(!ok){await refreshAccount();if(!window.V23_PREMIUM)return alert('Accès réservé aux membres PREMIUM 👑')}
-    try{await window.v12LoadProducts?.()}catch(e){}
-    try{window.applyMeta?.()}catch(e){}
-    try{window.render?.()}catch(e){}
-    try{window.renderPremiumList?.()}catch(e){}
-    get('premiumModal')?.classList.add('open');
-    ['v16LoadStats','v16LoadSettings','v16LoadPromos','v16LoadOrders','v16LoadTools','loadPremiumMembers'].forEach(fn=>{try{window[fn]?.()}catch(e){}});
-  };
-  // Smart search V23: category + color + price + novelty + popularity, while keeping existing filters.
-  window.v23SmartSearch=function(query,p){
-    let q=(query||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();if(!q)return true;
-    const text=[p.name,p.cat,p.category,p.description,...(p.details||[])].filter(Boolean).join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    const m=q.match(/(?:moins de|sous|inferieur a|moins que)\s*(\d+(?:[.,]\d+)?)/);if(m&&(Number(p.price)||0)>=Number(m[1].replace(',','.')))return false;
-    if(/(?:nouveaute|nouveautes|new)/.test(q)&&p.is_new===false)return false;
-    if(/(?:populaire|best.?seller)/.test(q)&&!p.is_popular)return false;
-    q=q.replace(/(?:moins de|sous|inferieur a|moins que)\s*\d+(?:[.,]\d+)?/g,'').replace(/(?:nouveaute|nouveautes|new|populaire|best.?seller)/g,'').trim();
-    return q.split(/\s+/).filter(Boolean).every(t=>{if(['chaussure','chaussures','shoe','shoes'].includes(t))return /chaussure|shoe/.test(text);if(t==='doudoune')return /doudoune|puffer/.test(text);if(t==='baggy')return /baggy|pantalon|bas/.test(text);if(t==='hoodie')return /hoodie|sweat/.test(text);if(['blanc','blanche'].includes(t))return /blanc|white/.test(text);if(['noir','noire'].includes(t))return /noir|black/.test(text);return text.includes(t)});
-  };
-  // Remove the decorative white/pink dot overlay on product photos; keep only the clean glass hover.
-  const style=document.createElement('style');style.textContent='.photo:after{display:none!important}.v23-status{margin:10px 0;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.05);font-size:13px;color:#c4b5fd}.v23-status.ok{color:#86efac}.v23-status.err{color:#fca5a5}';document.head.appendChild(style);
-  async function boot(){
-    try{await ensureClient();const {data}=await window.LOGANATOR_SB.auth.getSession();window.LOGANATOR_USER=data?.session?.user||null;window.LOGANATOR_SB.auth.onAuthStateChange((_e,s)=>{window.LOGANATOR_USER=s?.user||null;setTimeout(refreshAccount,80)});await refreshAccount();}
-    catch(e){const b=get('accountBtn');if(b)b.textContent='👤 COMPTE'}
-  }
-  // Fix existing render with V23 search without replacing its interface.
-  const input=get('v15Search');if(input){input.addEventListener('input',()=>{try{const q=input.value;const original=window.render; if(typeof original!=='function')return; window.render=original; original();}catch(e){}})}
-  window.LOGANATOR_V23=V23;boot();
-})();
 
+  const oldOpenAccount=window.openAccount;
+  window.openAccount=async function(){
+    try{await V24.ensure();}catch(e){
+      const title=document.getElementById('authTitle');if(title)title.textContent='Connexion / création de compte';
+      const area=document.getElementById('accountArea');if(area&&!area.innerHTML.trim())area.innerHTML='<div class="notice">⚠️ Connexion Supabase indisponible pour le moment.</div>';
+      if(area)V24.panel();document.getElementById('accountModal')?.classList.add('open');return;
+    }
+    if(window.LOGANATOR_USER && typeof v15CheckPremium==='function' && await v15CheckPremium(window.LOGANATOR_USER.email))return window.openPremium();
+    if(oldOpenAccount)await oldOpenAccount();
+    setTimeout(V24.panel,0);
+  };
+
+  async function boot(){
+    try{await V24.ensure();if(typeof window.v22RefreshPremiumButton==='function')await window.v22RefreshPremiumButton();}
+    catch(e){console.warn('V24 Supabase:',e.message)}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
 </script>
+
 </body>
 </html>
