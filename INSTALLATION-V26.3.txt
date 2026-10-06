@@ -1,0 +1,7 @@
+LOGANATOR V26.3 — CORRECTION ACCÈS PREMIUM
+
+1. Décompresse le ZIP.
+2. Remplace index.html et les fichiers/images de ta boutique par ceux du ZIP.
+3. Fais Ctrl+F5 sur le site.
+
+Cette version force l’ouverture du Control Center Premium depuis le bouton de compte après vérification du compte connecté. Aucun accès manuel au tableau de bord Supabase n’est nécessaire.

@@ -917,6 +917,36 @@ window.__LOGANATOR_OPEN_ACCOUNT=function(){var m=document.getElementById("accoun
     const sb=ensureClient();if(!sb)return msg('Le système de réinitialisation est momentanément indisponible.');
     try{const r=await sb.auth.resetPasswordForEmail(email);msg(r.error?'❌ '+r.error.message:'✅ Si le compte existe, la procédure de réinitialisation a été lancée.')}catch(e){msg('❌ '+(e?.message||'Réinitialisation impossible.'))}
   };
+  // V26.3 — accès Premium direct depuis le site : aucun ancien wrapper ne doit bloquer l'ouverture.
+  window.openPremium=async function(){
+    try{
+      const user=await currentUser();
+      const premium=await isPremium(user);
+      if(!premium){ alert('👑 Accès réservé aux membres PREMIUM.'); return false; }
+      const shell=el('v25Shell');
+      if(shell){
+        shell.classList.add('open');
+        shell.setAttribute('aria-hidden','false');
+        if(typeof window.v25SetPage==='function') window.v25SetPage('dashboard');
+        else {
+          const dash=document.querySelector('.v25-page[data-page="dashboard"]');
+          document.querySelectorAll('.v25-page').forEach(x=>x.classList.remove('active'));
+          if(dash) dash.classList.add('active');
+        }
+        try{ if(typeof window.v25RefreshDashboard==='function') await window.v25RefreshDashboard(); }catch(e){}
+        return true;
+      }
+      // Fallback vers l'ancien panneau si le Control Center n'est pas présent.
+      const old=document.getElementById('premiumModal');
+      if(old){ old.classList.add('open'); old.style.display='flex'; return true; }
+      alert('Le panneau Premium est introuvable dans cette version.');
+      return false;
+    }catch(e){
+      console.error('V26.3 Premium:',e);
+      alert('Le panneau Premium ne peut pas être ouvert pour le moment.');
+      return false;
+    }
+  };
   window.openAccount=showAccount;
   function bind(){
     const b=el('accountBtn');if(!b)return;
