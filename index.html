@@ -70,6 +70,12 @@ nav{background:rgba(10,10,15,.68)!important}.hero{background:radial-gradient(cir
 (function(){function init(){document.querySelectorAll('.card').forEach(function(card){var photo=card.querySelector('.photo');if(!photo||card.dataset.v17glass)return;card.dataset.v17glass='1';card.addEventListener('pointermove',function(e){if(e.pointerType==='touch')return;var r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;card.style.transform='perspective(900px) rotateX('+((.5-y)*5).toFixed(2)+'deg) rotateY('+((x-.5)*5).toFixed(2)+'deg) translateY(-5px)';photo.style.setProperty('--mx',(x*100).toFixed(1)+'%');photo.style.setProperty('--my',(y*100).toFixed(1)+'%')});card.addEventListener('pointerleave',function(){card.style.transform='';photo.style.setProperty('--mx','50%');photo.style.setProperty('--my','50%')})})}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();window.v17InitGlass=init})();
 </script>
 
+
+<style id="v22-1-fixes">
+.v22-store-panel{margin-top:16px;padding:16px;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.055);backdrop-filter:blur(18px)}
+.v22-store-title{font-weight:900;margin-bottom:10px}.v22-store-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.v22-store-card{border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px;background:rgba(0,0,0,.18)}.v22-store-card b{display:block;margin-bottom:5px}.v22-store-card button{width:100%;margin-top:10px}
+@media(max-width:600px){.v22-store-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div class="top">🚚 LIVRAISON OFFERTE À PARTIR DE 80€</div>
@@ -82,8 +88,7 @@ nav{background:rgba(10,10,15,.68)!important}.hero{background:radial-gradient(cir
 <section class="section" id="shop"><h2>La collection</h2>
 <div class="v15-toolbar"><input id="v15Search" class="v15-search" type="search" placeholder="🔎 Rechercher un produit...">
 <div class="v15-filters" id="v15Filters">
-<button class="v15-filter active" data-filter="Tous">TOUS</button><button class="v15-filter" data-filter="Hauts">HAUTS</button>
-<button class="v15-filter" data-filter="Doudounes">DOUDOUNES</button><button class="v15-filter" data-filter="Bas">BAS</button><button class="v15-filter" data-filter="Chaussures">CHAUSSURES</button>
+<button class="v15-filter active" data-filter="Tous">TOUS</button><button class="v15-filter" data-filter="Hoodie">HOODIE</button><button class="v15-filter" data-filter="Doudoune">DOUDOUNE</button><button class="v15-filter" data-filter="Baggy">BAGGY</button><button class="v15-filter" data-filter="Chaussures">CHAUSSURES</button>
 </div><span id="v15ResultCount" class="muted" style="white-space:nowrap">0 produit</span></div><div class="grid" id="grid"></div></section>
 
 <section class="section" id="vetements"><h2>Tes vêtements 👕</h2><p class="muted">Clique sur un vêtement pour voir la grande image et tous ses détails.</p><div class="gallery" id="gallery"></div></section>
@@ -228,9 +233,9 @@ function finishCheckout(){
 */
 function normalizeCategory(value){
  const c=String(value||'').trim().toLowerCase();
- if(['haut','hauts','top'].includes(c))return 'Hauts';
- if(['doudoune','doudounes','puffer'].includes(c))return 'Doudounes';
- if(['bas','bottom','pantalon'].includes(c))return 'Bas';
+ if(['hoodie','haut','hauts','top','sweat'].includes(c))return 'Hoodie';
+ if(['doudoune','doudounes','puffer'].includes(c))return 'Doudoune';
+ if(['baggy','bas','bottom','pantalon'].includes(c))return 'Baggy';
  if(['chaussure','chaussures','shoe','shoes'].includes(c))return 'Chaussures';
  return String(value||'').trim();
 }
@@ -301,13 +306,7 @@ update();
 <div class="admin-box"><button class="admin-close" onclick="closePremium()">×</button>
 <span class="premium">👑 COMPTE PREMIUM</span><h2>Centre de contrôle LOGANATOR</h2>
 <p class="muted">Gestion produits, site, promotions, commandes, membres et statistiques.</p>
-<div class="v22-store" id="v22StoreLinkPanel">
-  <div class="v22-store-card"><span class="v22-badge">BOUTIQUE ACTUELLE</span><h3>🔵 LOGANATOR</h3><p>La boutique bleue et son centre PREMIUM.</p><button class="primary" type="button" onclick="v22StayLoganator()">OUVRIR LOGANATOR</button></div>
-  <div class="v22-store-card"><span class="v22-badge">BOUTIQUE LIÉE</span><h3>🌸 LOGANATRICE</h3><p>Accède à la boutique rose avec le même compte PREMIUM.</p><button class="btn" type="button" onclick="v22OpenLoganatrice()">OUVRIR LOGANATRICE ↗</button></div>
-</div>
-<div class="v22-notice">🔐 <b>Accès PREMIUM :</b> ce centre n'est disponible qu'après connexion avec un compte PREMIUM autorisé.</div>
-
-<div id="premiumMsg" class="admin-msg">Chargement…</div>
+<div id="premiumMsg" class="admin-msg">Chargement…</div><div class="v22-store-panel" id="v22StorePanel"><div class="v22-store-title">🏪 TES DEUX BOUTIQUES</div><div class="muted">Le même compte PREMIUM peut accéder aux deux boutiques.</div><div class="v22-store-grid"><div class="v22-store-card"><b>🔵 LOGANATOR</b><span class="muted">Boutique actuelle</span><button class="btn" type="button" onclick="v22StayLoganator()">RESTANTER SUR LOGANATOR</button></div><div class="v22-store-card"><b>🌸 LOGANATRICE</b><span class="muted">Boutique rose</span><button class="primary" type="button" onclick="v22OpenLoganatrice()">OUVRIR LOGANATRICE ↗</button></div></div></div>
 <div class="v16-tabs">
 <button class="v16-tab active" data-v16-tab="overview">📊 Vue d'ensemble</button><button class="v16-tab" data-v16-tab="products">🛍️ Produits</button><button class="v16-tab" data-v16-tab="site">🎨 Site & brouillon</button><button class="v16-tab" data-v16-tab="promos">🏷️ Promotions</button><button class="v16-tab" data-v16-tab="orders">📦 Commandes</button><button class="v16-tab" data-v16-tab="members">👥 Membres</button><button class="v16-tab" data-v16-tab="tools">🧠 Outils</button></div>
 <section class="v16-section active" data-v16-section="overview"><div class="v16-kpis"><div class="v16-kpi">Visites<b id="v16Visits">0</b></div><div class="v16-kpi">Vues produits<b id="v16Views">0</b></div><div class="v16-kpi">Ajouts panier<b id="v16Adds">0</b></div><div class="v16-kpi">Commandes<b id="v16Orders">0</b></div></div><div class="v16-two"><div class="v16-box"><h3>🔥 Produits populaires</h3><div id="v16Popular" class="v16-list"></div></div><div class="v16-box"><h3>⚠️ Alertes</h3><div id="v16Alerts"></div></div></div><div class="v16-box"><h3>📈 Activité récente</h3><div id="v16Recent" class="v16-list"></div></div></section>
@@ -559,51 +558,127 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
   if(msg){msg.textContent='⚡ MODE SANS CONFIGURATION SUPABASE : les fonctions Premium avancées sont enregistrées dans ce navigateur. Aucun SQL, aucune nouvelle table, aucune clé secrète.';msg.className='admin-msg ok'}
 })();
 </script>
-
-<script id="v22-js">
+<script>
+/* V21 FINAL - recherche robuste */
 (function(){
-  const PREMIUM_ALLOWLIST=["gauducheaulogan@gmail.com","leloganator@gmail.com","alexisprouillac@gmail.com","theteamsloganator@gmail.com"];
-  const LOGANATRICE_URL="https://leloganator.github.io/Loganatrice-shop/";
-  window.v22IsPremium=async function(){
-    const email=(window.LOGANATOR_USER?.email||'').toLowerCase();
-    if(!email)return false;
-    if(PREMIUM_ALLOWLIST.includes(email))return true;
-    try{return typeof window.v15CheckPremium==='function' ? await window.v15CheckPremium(email) : false}catch(e){return false}
-  };
-  window.v22OpenLoganatrice=function(){
-    if(!window.LOGANATOR_USER)return alert('Connecte-toi d’abord avec ton compte PREMIUM.');
-    window.open(LOGANATRICE_URL,'_blank','noopener');
-  };
-  window.v22StayLoganator=function(){document.getElementById('premiumModal')?.scrollTo({top:0,behavior:'smooth'})};
-  // Never expose a separate public PREMIUM launcher. The existing account button is the only entry point.
-  async function refreshPremiumButton(){
-    const b=document.getElementById('accountBtn'); if(!b)return;
-    const premium=await window.v22IsPremium();
-    if(premium){b.textContent='👑 PREMIUM';b.dataset.premium='1'}
-    else if(window.LOGANATOR_USER){b.textContent='👤 '+((window.LOGANATOR_USER.email||'compte').split('@')[0]) ;b.dataset.premium='0'}
-    else {b.textContent='👤 COMPTE';b.dataset.premium='0'}
+  const input=document.getElementById('v15Search');
+  if(!input || !Array.isArray(window.products || products)) return;
+  function smart(q,p){
+    q=(q||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+    const name=(p.name||'').toLowerCase();
+    const cat=(p.cat||'').toLowerCase();
+    const text=[name,cat,p.description||'',...(p.details||[])].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if(!q) return true;
+    const price=Number(p.price)||0;
+    const priceMatch=q.match(/(?:moins de|sous|inferieur a|moins que)\s*(\d+(?:[.,]\d+)?)/);
+    if(priceMatch && price >= Number(priceMatch[1].replace(',','.'))) return false;
+    if(/(?:nouveaute|nouveautes|new)/.test(q) && p.is_new===false) return false;
+    if(/(?:populaire|best.?seller)/.test(q) && !p.is_popular) return false;
+    const terms=q.replace(/(?:moins de|sous|inferieur a|moins que)\s*\d+(?:[.,]\d+)?/g,'').trim().split(/\s+/).filter(Boolean);
+    return terms.every(t=>{
+      if(['vetement','vetements'].includes(t)) return /hoodie|doudoune|baggy/.test(text);
+      if(t==='hoodie') return /hoodie|haut|sweat/.test(text);
+      if(t==='doudoune') return /doudoune|puffer/.test(text);
+      if(t==='baggy') return /baggy|pantalon|bas/.test(text);
+      if(['chaussure','chaussures','shoe','shoes'].includes(t)) return /chaussure|shoe/.test(text);
+      if(t==='blanc' || t==='blanche') return /blanc|white/.test(text);
+      if(t==='noir' || t==='noire') return /noir|black/.test(text);
+      return text.includes(t);
+    });
   }
-  const oldOpen=window.openPremium;
-  window.openPremium=async function(){
-    if(!(await window.v22IsPremium())){alert('Accès réservé aux membres PREMIUM 👑');return;}
-    if(typeof oldOpen==='function')await oldOpen();
-    const modal=document.getElementById('premiumModal');
-    if(modal){modal.classList.add('open');document.getElementById('v22StoreLinkPanel')?.classList.remove('v22-hide')}
+  window.render=function(){
+    const q=input.value||'';
+    const list=products.filter(p=>{
+      const category=normalizeCategory(p.cat);
+      return (typeof selectedFilter==='undefined'||selectedFilter==='Tous'||category===selectedFilter) && smart(q,p);
+    });
+    const count=document.getElementById('v15ResultCount');
+    if(count) count.textContent=`${list.length} produit${list.length>1?'s':''} trouvé${list.length>1?'s':''}`;
+    const grid=document.getElementById('grid');
+    if(!grid)return;
+    grid.innerHTML=list.length?list.map(p=>{const price=Number(p.price)||0;return `<article class="card" onclick='openProduct(${JSON.stringify(p.id)})'><div class="photo"><img src="${p.image}" alt="${p.name}" loading="lazy"><button class="v15-fav" onclick='event.stopPropagation();toggleFav(${JSON.stringify(p.id)})'>${fav(p.id)?'♥':'♡'}</button></div><div class="info"><span class="tag">LOGANATOR</span><h3>${p.name}</h3><div class="row"><span class="price">${price.toFixed(2)}€</span><span class="muted">${normalizeCategory(p.cat)}</span></div><button class="buy" onclick='event.stopPropagation();add(${JSON.stringify(p.id)})'>AJOUTER AU PANIER</button></div></article>`}).join(''):'<div class="v15-empty">Aucun produit ne correspond à ta recherche ou à cette catégorie.</div>';
+    const gallery=document.getElementById('gallery');
+    if(gallery)gallery.innerHTML=list.map(p=>`<img src="${p.image}" alt="${p.name}" loading="lazy" onclick='openProduct(${JSON.stringify(p.id)})' style="cursor:pointer">`).join('');
   };
-  const oldAccount=window.openAccount;
-  window.openAccount=async function(){
-    if(await window.v22IsPremium()){return window.openPremium();}
-    return oldAccount?oldAccount():null;
-  };
-  const oldLogout=window.premiumLogout;
-  window.premiumLogout=async function(){
-    if(oldLogout)await oldLogout();
-    await refreshPremiumButton();
-  };
-  if(window.LOGANATOR_SB?.auth){window.LOGANATOR_SB.auth.onAuthStateChange(()=>setTimeout(refreshPremiumButton,80))}
-  setTimeout(refreshPremiumButton,400);
+  input.addEventListener('input',window.render);
+  document.querySelectorAll('#v15Filters button').forEach(b=>b.addEventListener('click',()=>{selectedFilter=b.dataset.filter;document.querySelectorAll('#v15Filters button').forEach(x=>x.classList.toggle('active',x===b));window.render();}));
+  setTimeout(window.render,50);
 })();
 </script>
+<script id="v22-1-js">
+/* V22.1 — conserve l'interface V21 et répare uniquement l'accès PREMIUM + les boutons ajoutés. */
+(function(){
+  const ALLOW=['gauducheaulogan@gmail.com','leloganator@gmail.com','alexisprouillac@gmail.com','theteamsloganator@gmail.com'];
+  const LOGANATRICE='https://leloganator.github.io/Loganatrice-shop/';
+  window.V22_PREMIUM=false;
+  async function check(){
+    const email=(window.LOGANATOR_USER?.email||'').toLowerCase();
+    if(!email){window.V22_PREMIUM=false;return false;}
+    if(ALLOW.includes(email)){window.V22_PREMIUM=true;return true;}
+    try{
+      const ok=typeof window.v15CheckPremium==='function' ? await window.v15CheckPremium(email) : false;
+      window.V22_PREMIUM=!!ok; return !!ok;
+    }catch(e){window.V22_PREMIUM=false;return false}
+  }
+  window.v22IsPremium=check;
+  window.v22OpenLoganatrice=function(){
+    check().then(ok=>{if(!ok)return alert('Accès réservé aux membres PREMIUM 👑');window.open(LOGANATRICE,'_blank','noopener,noreferrer')});
+  };
+  window.v22StayLoganator=function(){
+    const modal=document.getElementById('premiumModal'); if(modal) modal.scrollTo({top:0,behavior:'smooth'});
+  };
+  async function refresh(){
+    const b=document.getElementById('accountBtn'); if(!b)return;
+    const ok=await check();
+    if(ok){b.textContent='👑 PREMIUM';b.dataset.premium='1';}
+    else if(window.LOGANATOR_USER){b.textContent='👤 '+((window.LOGANATOR_USER.email||'compte').split('@')[0]);b.dataset.premium='0';}
+    else{b.textContent='👤 COMPTE';b.dataset.premium='0';}
+  }
+  window.v22RefreshPremiumButton=refresh;
 
+  const oldAccount=window.openAccount;
+  window.openAccount=async function(){
+    if(await check()) return window.openPremium();
+    return oldAccount?oldAccount():null;
+  };
+
+  const oldOpen=window.openPremium;
+  window.openPremium=async function(){
+    if(!(await check())){alert('Accès réservé aux membres PREMIUM 👑');return;}
+    if(typeof oldOpen==='function') await oldOpen();
+    const modal=document.getElementById('premiumModal'); if(modal)modal.classList.add('open');
+    const panel=document.getElementById('v22StorePanel'); if(panel)panel.style.display='block';
+    if(typeof window.v16LoadStats==='function')window.v16LoadStats();
+    if(typeof window.v16LoadSettings==='function')window.v16LoadSettings();
+    if(typeof window.v16LoadPromos==='function')window.v16LoadPromos();
+    if(typeof window.v16LoadOrders==='function')window.v16LoadOrders();
+    if(typeof window.v16LoadTools==='function')window.v16LoadTools();
+    if(typeof window.loadPremiumMembers==='function')window.loadPremiumMembers();
+  };
+
+  const oldLogin=window.v12Login;
+  window.v12Login=async function(){
+    if(typeof oldLogin==='function'){
+      const email=(document.getElementById('v12Email')?.value||'').trim().toLowerCase();
+      const password=document.getElementById('v12Password')?.value||'';
+      if(!email||!password){return typeof window.v12msg==='function'?window.v12msg('Remplis les deux champs.'):null}
+      if(!window.LOGANATOR_SB)return typeof window.v12msg==='function'?window.v12msg('Connexion Supabase indisponible.'):null;
+      const {data,error}=await window.LOGANATOR_SB.auth.signInWithPassword({email,password});
+      if(error)return typeof window.v12msg==='function'?window.v12msg(error.message):alert(error.message);
+      window.LOGANATOR_USER=data.user||null;
+      const ok=await check();
+      if(typeof window.closeModal==='function')window.closeModal('accountModal');
+      await refresh();
+      if(ok)return window.openPremium();
+    }
+  };
+
+  const oldLogout=window.premiumLogout;
+  window.premiumLogout=async function(){if(oldLogout)await oldLogout();window.V22_PREMIUM=false;await refresh()};
+
+  if(window.LOGANATOR_SB?.auth){window.LOGANATOR_SB.auth.onAuthStateChange(()=>setTimeout(refresh,120));}
+  const tries=[200,700,1500,3000]; tries.forEach(ms=>setTimeout(refresh,ms));
+})();
+</script>
 </body>
 </html>

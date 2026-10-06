@@ -1,14 +1,11 @@
-LOGANATOR V22
+LOGANATOR V22.1 — correctif de la V21
 
-1. Supprime les anciens fichiers V21 de ton dépôt GitHub.
-2. Ouvre ce dossier et envoie TOUS les fichiers ensemble à la racine du dépôt.
-3. Ne crée pas de sous-dossier LOGANATOR-V22 dans le dépôt.
-4. Attends GitHub Pages puis fais Ctrl+F5.
+Cette version CONSERVE l'interface V21 (glass / animations / recherche / filtres / PREMIUM).
+Elle corrige :
+- accès PREMIUM depuis le bouton COMPTE après connexion ;
+- reconnaissance des membres PREMIUM Supabase ;
+- bouton PREMIUM visible uniquement pour un membre PREMIUM connecté ;
+- liaison LOGANATOR ↔ LOGANATRICE dans le centre PREMIUM ;
+- réouverture/actualisation des onglets PREMIUM après connexion.
 
-V22 :
-- interface LOGANATOR noire/verre/bleu électrique
-- vrai centre PREMIUM protégé par connexion
-- aucun bouton PREMIUM public séparé
-- liaison LOGANATOR ↔ LOGANATRICE dans PREMIUM
-- conservation des vraies images Hoodie/Doudoune/Baggy/Chaussures
-- conservation du système Supabase existant
+GitHub Pages : remplace les anciens fichiers par ceux-ci à la racine du dépôt.
