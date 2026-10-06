@@ -1,0 +1,23 @@
+LOGANATOR V23
+
+Base : fichier index(5).html fourni par LeLoganator.
+
+V23 ajoute notamment :
+- COMPTE V3 : création, connexion, déconnexion et récupération du mot de passe avec gestion d'erreurs renforcée.
+- Session Supabase persistante et détection PREMIUM automatique.
+- PREMIUM : accès réservé aux membres autorisés + conservation des outils Premium existants.
+- Recherche intelligente renforcée : catégories, couleurs, prix, nouveautés et popularité.
+- Interface et catalogue conservés, avec les images de la V21.
+- Suppression de l'effet de points blancs/roses sur les photos.
+- Corrections de robustesse pour éviter les boutons qui ne répondent pas quand Supabase tarde à charger.
+
+IMPORTANT :
+- La clé utilisée dans le HTML est la clé publishable Supabase, prévue pour le client.
+- Ne jamais mettre une clé service_role/secrète dans le HTML.
+- Le paiement reste une démonstration tant qu'un vrai prestataire de paiement n'est pas connecté.
+
+Installation GitHub Pages :
+1. Ouvrir le dépôt LOGANATOR.
+2. Remplacer les anciens fichiers par le contenu de ce dossier.
+3. Vérifier que index.html et toutes les images sont à la racine du site.
+4. Attendre quelques secondes puis recharger le site avec Ctrl+F5.
