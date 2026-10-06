@@ -867,6 +867,10 @@ window.__LOGANATOR_OPEN_ACCOUNT=function(){var m=document.getElementById("accoun
     m.style.display='flex';m.style.visibility='visible';m.style.opacity='1';m.classList.add('open');
     return m;
   }
+  function hideAccount(){
+    const m=el('accountModal');
+    if(m){m.classList.remove('open');m.style.display='none';m.style.visibility='hidden';m.style.opacity='0';}
+  }
   function safe(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
   function msg(t){const x=el('v12Msg');if(x)x.textContent=t}
   function renderLogged(user,premium){
@@ -920,11 +924,16 @@ window.__LOGANATOR_OPEN_ACCOUNT=function(){var m=document.getElementById("accoun
   // V26.3 — accès Premium direct depuis le site : aucun ancien wrapper ne doit bloquer l'ouverture.
   window.openPremium=async function(){
     try{
+      // V26.4 — fermer immédiatement l'écran Compte avant d'afficher Premium.
+      const account=el('accountModal');
+      if(account){ account.classList.remove('open'); account.style.display='none'; account.style.visibility='hidden'; account.style.opacity='0'; }
       const user=await currentUser();
       const premium=await isPremium(user);
       if(!premium){ alert('👑 Accès réservé aux membres PREMIUM.'); return false; }
       const shell=el('v25Shell');
       if(shell){
+        const account2=el('accountModal');
+        if(account2){ account2.classList.remove('open'); account2.style.display='none'; account2.style.visibility='hidden'; account2.style.opacity='0'; }
         shell.classList.add('open');
         shell.setAttribute('aria-hidden','false');
         if(typeof window.v25SetPage==='function') window.v25SetPage('dashboard');
