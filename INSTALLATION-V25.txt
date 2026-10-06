@@ -1,0 +1,7 @@
+LOGANATOR V25 — REBORN
+
+1. Envoie tous les fichiers du dossier sur GitHub Pages.
+2. Le fichier principal est index.html.
+3. Le compte Premium doit exister dans la table premium_members de Supabase pour ouvrir le Control Center.
+4. Ne partage jamais une clé secrète Supabase.
+5. Les fonctions V25 utilisent les tables existantes lorsqu elles sont disponibles et gardent les brouillons locaux dans ce navigateur.

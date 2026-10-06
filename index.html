@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LOGANATOR V24 — Neon Glass</title>
+<title>LOGANATOR V17 — Boutique</title>
 <style>
 :root{--bg:#07070a;--card:#111118;--text:#fff;--muted:#aaa9b5;--accent:#8b5cf6;--line:#292936}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
@@ -681,111 +681,128 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
 })();
 </script>
 
-<style id="v24-neon-dark">
-:root{--v24-blue:#00a8ff;--v24-violet:#7c3aed;--v24-pink:#ec4899;--v24-grad:linear-gradient(135deg,var(--v24-blue),var(--v24-violet) 52%,var(--v24-pink));--v24-glow:rgba(0,168,255,.24)}
-html{scroll-behavior:smooth}body{background:#03040a!important;color:#f7f7ff;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:-30%;z-index:-2;pointer-events:none;background:radial-gradient(circle at 12% 18%,rgba(0,168,255,.12),transparent 28%),radial-gradient(circle at 78% 28%,rgba(124,58,237,.13),transparent 30%),radial-gradient(circle at 50% 88%,rgba(236,72,153,.09),transparent 28%);filter:blur(18px)}
-body:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(115deg,rgba(0,168,255,.025),transparent 35%,rgba(236,72,153,.025));}
-.top{background:linear-gradient(90deg,#06111d,#151022,#160a15)!important;color:#fff!important;border-bottom:1px solid rgba(0,168,255,.22)}
-.logo{background:var(--v24-grad);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 26px rgba(124,58,237,.18)}
-nav{border-bottom-color:rgba(124,58,237,.28)!important;box-shadow:0 10px 45px rgba(0,0,0,.28)}
-.links a:hover{color:#fff;text-shadow:0 0 16px rgba(0,168,255,.55)}
-.btn,.v15-filter,.v16-tab,.pay-option,.v15-size-btn{transition:transform .18s,border-color .18s,box-shadow .18s,background .18s}.btn:hover,.v15-filter:hover,.v16-tab:hover,.pay-option:hover,.v15-size-btn:hover{border-color:rgba(0,168,255,.55)!important;box-shadow:0 0 24px rgba(0,168,255,.12);transform:translateY(-1px)}
-.primary{background:var(--v24-grad)!important;background-size:180% 180%!important;animation:v24Gradient 8s ease infinite;box-shadow:0 12px 35px rgba(124,58,237,.22),0 0 24px rgba(0,168,255,.10)}
-@keyframes v24Gradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-.hero{background:radial-gradient(circle at 78% 24%,rgba(0,168,255,.24),transparent 28%),radial-gradient(circle at 58% 38%,rgba(124,58,237,.22),transparent 32%),radial-gradient(circle at 24% 72%,rgba(236,72,153,.12),transparent 27%)!important}
-.hero h1{background:var(--v24-grad);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 42px rgba(124,58,237,.16)}
-.kicker,.tag{background:linear-gradient(90deg,#5bc8ff,#a78bfa,#f472b6);-webkit-background-clip:text;background-clip:text;color:transparent!important}
-.drop,.card,.panel,.admin-box,.v16-box,.v15-stat,.v15-cart-row,.v22-store-panel,.v22-store-card,.v16-preview,.v16-alert{border-color:rgba(124,58,237,.24)!important;box-shadow:0 18px 60px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.06),0 0 35px rgba(0,168,255,.035)}
-.drop{background:linear-gradient(120deg,rgba(0,168,255,.075),rgba(124,58,237,.075),rgba(236,72,153,.055))!important}
-.card:hover{border-color:rgba(0,168,255,.48)!important;box-shadow:0 28px 75px rgba(0,0,0,.42),0 0 35px rgba(0,168,255,.08),inset 0 1px 0 rgba(255,255,255,.12)}
-.photo:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(135deg,rgba(0,168,255,.07),transparent 45%,rgba(236,72,153,.08));opacity:.7}.photo:after{z-index:2}
-.buy{background:rgba(255,255,255,.92)!important;color:#050509!important}.buy:hover{box-shadow:0 0 25px rgba(236,72,153,.16)!important}
-.v15-filter.active,.v16-tab.active,.v15-size-btn.selected{background:linear-gradient(135deg,rgba(0,168,255,.17),rgba(124,58,237,.18),rgba(236,72,153,.12))!important;border-color:rgba(167,139,250,.65)!important}
-.v15-search:focus{outline:2px solid rgba(124,58,237,.5);box-shadow:0 0 30px rgba(0,168,255,.08)}
-#accountBtn[data-premium="1"]{background:linear-gradient(135deg,rgba(0,168,255,.15),rgba(124,58,237,.18),rgba(236,72,153,.14))!important;border-color:rgba(236,72,153,.42)!important;box-shadow:0 0 25px rgba(124,58,237,.16)}
-#premiumModal .premium{background:linear-gradient(135deg,rgba(0,168,255,.15),rgba(124,58,237,.24),rgba(236,72,153,.16));color:#fff;border:1px solid rgba(167,139,250,.35);box-shadow:0 0 25px rgba(124,58,237,.14)}
-#premiumMsg{background:linear-gradient(100deg,rgba(0,168,255,.07),rgba(124,58,237,.09),rgba(236,72,153,.06))!important;border-color:rgba(124,58,237,.28)!important;color:#dfe8ff!important}
-.v24-diagnostic{margin-top:12px;padding:12px;border:1px solid rgba(124,58,237,.25);border-radius:13px;background:rgba(0,0,0,.24);font-size:13px;line-height:1.6}.v24-ok{color:#86efac}.v24-warn{color:#fcd34d}.v24-err{color:#fda4af}.v24-muted{color:#aeb4c7}
-.v24-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(124,58,237,.28);background:rgba(255,255,255,.045);margin:3px}
-@media(prefers-reduced-motion:reduce){.primary{animation:none!important}}
+<style id="loganator-v25-style">
+:root{--v25-blue:#1687ff;--v25-violet:#7c3cff;--v25-pink:#ff3fa4;--v25-bg:#05060b;--v25-panel:rgba(12,15,27,.82);--v25-line:rgba(255,255,255,.10)}
+body.v25{background:radial-gradient(circle at 10% 10%,rgba(22,135,255,.12),transparent 28%),radial-gradient(circle at 90% 20%,rgba(255,63,164,.10),transparent 28%),#05060b}
+.v25-shell{position:fixed;inset:0;background:rgba(2,3,8,.92);backdrop-filter:blur(24px);z-index:99999;display:none;color:#fff;font-family:Arial,Helvetica,sans-serif}.v25-shell.open{display:flex}
+.v25-side{width:270px;padding:22px 16px;border-right:1px solid var(--v25-line);background:rgba(8,10,18,.9);overflow:auto}.v25-brand{font-weight:1000;letter-spacing:3px;font-size:22px;margin:4px 8px 26px}.v25-brand span{background:linear-gradient(90deg,var(--v25-blue),var(--v25-violet),var(--v25-pink));-webkit-background-clip:text;color:transparent}.v25-group{font-size:10px;letter-spacing:1.5px;color:#8e95aa;font-weight:900;margin:20px 9px 8px}.v25-nav{width:100%;border:1px solid transparent;background:transparent;color:#d9dce7;text-align:left;padding:11px 12px;border-radius:12px;cursor:pointer;margin:2px 0;font-weight:800}.v25-nav:hover,.v25-nav.active{background:linear-gradient(90deg,rgba(22,135,255,.18),rgba(124,60,255,.14),rgba(255,63,164,.10));border-color:rgba(255,255,255,.09);color:#fff}.v25-main{flex:1;min-width:0;display:flex;flex-direction:column}.v25-top{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--v25-line);background:rgba(7,9,16,.72)}.v25-top h2{margin:0;font-size:24px}.v25-close{border:1px solid var(--v25-line);background:#10131f;color:#fff;border-radius:12px;padding:9px 13px;cursor:pointer}.v25-content{padding:24px;overflow:auto}.v25-page{display:none}.v25-page.active{display:block}.v25-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.v25-card{background:var(--v25-panel);border:1px solid var(--v25-line);border-radius:18px;padding:17px}.v25-kpi{font-size:13px;color:#9ca4b7}.v25-kpi b{display:block;font-size:29px;color:#fff;margin-top:7px}.v25-card h3{margin:0 0 12px}.v25-actions{display:flex;flex-wrap:wrap;gap:9px}.v25-btn{border:1px solid var(--v25-line);background:#111522;color:#fff;border-radius:11px;padding:10px 13px;cursor:pointer;font-weight:800}.v25-btn.primary{background:linear-gradient(135deg,var(--v25-blue),var(--v25-violet),var(--v25-pink));border:0}.v25-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.v25-form label{display:grid;gap:6px;color:#b5bbca;font-size:13px}.v25-form input,.v25-form textarea,.v25-form select{width:100%;background:#090c15;color:#fff;border:1px solid var(--v25-line);border-radius:10px;padding:11px;outline:none}.v25-form textarea{min-height:100px;resize:vertical}.v25-full{grid-column:1/-1}.v25-list{display:grid;gap:8px}.v25-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;border:1px solid var(--v25-line);border-radius:12px;background:rgba(255,255,255,.025)}.v25-muted{color:#9ca4b7;font-size:13px}.v25-pill{font-size:11px;border-radius:999px;padding:5px 9px;background:rgba(22,135,255,.14);border:1px solid rgba(22,135,255,.25)}.v25-status{margin-top:10px;color:#8fe0b1;font-size:13px}.v25-mobile-menu{display:none}
+@media(max-width:900px){.v25-shell.open{display:block}.v25-side{display:none}.v25-main{height:100%}.v25-mobile-menu{display:flex;gap:8px;overflow:auto;padding:8px 12px;border-bottom:1px solid var(--v25-line)}.v25-mobile-menu .v25-nav{white-space:nowrap;width:auto}.v25-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.v25-form{grid-template-columns:1fr}.v25-content{padding:15px}}
+@media(max-width:520px){.v25-grid{grid-template-columns:1fr}.v25-top{padding:14px}.v25-content{padding:12px}}
 </style>
-<script id="v24-core">
+<script>
+document.body.classList.add('v25');
+</script>
+<div class="v25-shell" id="v25Shell" aria-hidden="true">
+  <aside class="v25-side">
+    <div class="v25-brand">LOGANATOR <span>V25</span></div>
+    <div class="v25-group">PILOTAGE</div>
+    <button class="v25-nav active" data-v25="dashboard">📊 Dashboard</button>
+    <button class="v25-nav" data-v25="products">🛍️ Produits</button>
+    <button class="v25-nav" data-v25="media">🖼️ Media Center</button>
+    <button class="v25-nav" data-v25="orders">📦 Commandes</button>
+    <button class="v25-nav" data-v25="clients">👥 Clients</button>
+    <div class="v25-group">BOUTIQUE</div>
+    <button class="v25-nav" data-v25="home">🏠 Page d'accueil</button>
+    <button class="v25-nav" data-v25="builder">🧩 Builder</button>
+    <button class="v25-nav" data-v25="appearance">🎨 Apparence</button>
+    <button class="v25-nav" data-v25="promos">🏷️ Promotions</button>
+    <button class="v25-nav" data-v25="drops">🔥 Drops</button>
+    <button class="v25-nav" data-v25="schedule">⏰ Programmation</button>
+    <div class="v25-group">COMMUNAUTÉ</div>
+    <button class="v25-nav" data-v25="members">👑 Membres Premium</button>
+    <button class="v25-nav" data-v25="notifications">🔔 Notifications</button>
+    <button class="v25-nav" data-v25="gamification">🎮 Gamification</button>
+    <div class="v25-group">OUTILS</div>
+    <button class="v25-nav" data-v25="analytics">📈 Statistiques</button>
+    <button class="v25-nav" data-v25="preview">👁️ Aperçu</button>
+    <button class="v25-nav" data-v25="backups">💾 Sauvegardes</button>
+    <button class="v25-nav" data-v25="diagnostic">🩺 Diagnostic</button>
+    <button class="v25-nav" data-v25="lab">🧪 LAB</button>
+    <button class="v25-nav" data-v25="settings">⚙️ Paramètres</button>
+  </aside>
+  <main class="v25-main">
+    <div class="v25-top"><div><div class="v25-muted">👑 CONTROL CENTER</div><h2 id="v25Title">Dashboard</h2></div><button class="v25-close" id="v25Close">✕ Fermer</button></div>
+    <div class="v25-mobile-menu"> <button class="v25-nav active" data-v25="dashboard">📊</button><button class="v25-nav" data-v25="products">🛍️</button><button class="v25-nav" data-v25="home">🏠</button><button class="v25-nav" data-v25="appearance">🎨</button><button class="v25-nav" data-v25="analytics">📈</button><button class="v25-nav" data-v25="diagnostic">🩺</button></div>
+    <div class="v25-content">
+      <section class="v25-page active" data-page="dashboard"><div class="v25-grid"><div class="v25-card v25-kpi">Produits<b id="v25Products">—</b></div><div class="v25-card v25-kpi">Visites<b id="v25Visits">—</b></div><div class="v25-card v25-kpi">Favoris<b id="v25Favs">—</b></div><div class="v25-card v25-kpi">Panier<b id="v25Cart">—</b></div></div><div style="height:14px"></div><div class="v25-grid"><div class="v25-card"><h3>⚡ Actions rapides</h3><div class="v25-actions"><button class="v25-btn primary" data-jump="products">➕ Produit</button><button class="v25-btn" data-jump="home">🏠 Accueil</button><button class="v25-btn" data-jump="promos">🏷️ Promo</button><button class="v25-btn" data-jump="drops">🔥 Drop</button></div></div><div class="v25-card"><h3>🏪 Mes boutiques</h3><p class="v25-muted">Contrôle commun pour LOGANATOR et LOGANATRICE.</p><div class="v25-actions"><button class="v25-btn primary" id="v25ShopLoganator">🔵 LOGANATOR</button><button class="v25-btn" id="v25ShopLoganatrice">🩷 LOGANATRICE</button></div></div><div class="v25-card"><h3>🩺 État</h3><div id="v25QuickStatus" class="v25-status">Analyse…</div></div><div class="v25-card"><h3>🔥 Launch Center</h3><p class="v25-muted">Prépare un drop complet avant publication.</p><button class="v25-btn primary" data-jump="drops">Ouvrir</button></div></div></section>
+      <section class="v25-page" data-page="products"><div class="v25-card"><h3>🛍️ Gestion catalogue</h3><div class="v25-actions"><button class="v25-btn primary" id="v25NewProduct">➕ Ajouter</button><button class="v25-btn" id="v25Refresh">🔄 Actualiser</button><button class="v25-btn" id="v25Export">📊 Export CSV</button></div><div id="v25ProductList" class="v25-list" style="margin-top:14px"></div></div></section>
+      <section class="v25-page" data-page="media"><div class="v25-card"><h3>🖼️ Media Center</h3><p class="v25-muted">Bibliothèque et préparation des visuels produits.</p><div id="v25MediaList" class="v25-list"></div></div></section>
+      <section class="v25-page" data-page="orders"><div class="v25-card"><h3>📦 Commandes</h3><div id="v25OrderList" class="v25-list"><div class="v25-muted">Chargement des commandes…</div></div></div></section>
+      <section class="v25-page" data-page="clients"><div class="v25-card"><h3>👥 Clients</h3><p class="v25-muted">Gestion des clients selon les données et permissions disponibles.</p><div id="v25ClientList" class="v25-list"></div></div></section>
+      <section class="v25-page" data-page="home"><div class="v25-card"><h3>🏠 Éditeur de page d'accueil</h3><div class="v25-form"><label>Titre HERO<input id="v25HeroTitle"></label><label>Bouton principal<input id="v25HeroButton"></label><label class="v25-full">Sous-titre<textarea id="v25HeroText"></textarea></label><label class="v25-full">Bannière<input id="v25Banner"></label><label class="v25-full">Message DROP<textarea id="v25DropMessage"></textarea></label></div><div class="v25-actions" style="margin-top:14px"><button class="v25-btn primary" id="v25SaveHome">💾 Enregistrer</button><button class="v25-btn" id="v25PreviewHome">👁️ Aperçu</button></div><div id="v25HomeStatus" class="v25-status"></div></div></section>
+      <section class="v25-page" data-page="builder"><div class="v25-card"><h3>🧩 Builder de sections</h3><p class="v25-muted">Prépare l'ordre des sections visibles sur l'accueil.</p><div id="v25BuilderList" class="v25-list"></div><div class="v25-actions" style="margin-top:12px"><button class="v25-btn primary" id="v25AddSection">➕ Ajouter une section</button></div></div></section>
+      <section class="v25-page" data-page="appearance"><div class="v25-card"><h3>🎨 Apparence V25</h3><div class="v25-form"><label>Thème<select id="v25Theme"><option>Dark Neon</option><option>Blue Space</option><option>Cyber Violet</option><option>Blue / Violet / Pink</option></select></label><label>Accent<select id="v25Accent"><option>Bleu</option><option>Violet</option><option>Rose</option></select></label><label>Nom de boutique<input id="v25StoreName" value="LOGANATOR"></label><label>Favicon<input id="v25Favicon" value="favicon.png"></label></div><div class="v25-actions" style="margin-top:14px"><button class="v25-btn primary" id="v25SaveAppearance">✨ Appliquer</button></div><div id="v25AppearanceStatus" class="v25-status"></div></div></section>
+      <section class="v25-page" data-page="promos"><div class="v25-card"><h3>🏷️ Promotions</h3><div class="v25-form"><label>Code<input id="v25PromoCode" placeholder="LOGAN20"></label><label>Valeur<input id="v25PromoValue" type="number" min="0" placeholder="20"></label><label>Type<select id="v25PromoType"><option value="percent">Pourcentage</option><option value="fixed">Montant fixe</option></select></label><label>Actif<select id="v25PromoActive"><option value="true">Oui</option><option value="false">Non</option></select></label></div><div class="v25-actions" style="margin-top:12px"><button class="v25-btn primary" id="v25AddPromo">➕ Créer</button></div><div id="v25PromoList" class="v25-list" style="margin-top:12px"></div></div></section>
+      <section class="v25-page" data-page="drops"><div class="v25-card"><h3>🔥 Drop Manager</h3><div class="v25-form"><label>Nom du Drop<input id="v25DropName" placeholder="DROP AUTOMNE"></label><label>Date<input id="v25DropDate" type="datetime-local"></label><label class="v25-full">Description<textarea id="v25DropDesc"></textarea></label></div><div class="v25-actions" style="margin-top:12px"><button class="v25-btn primary" id="v25SaveDrop">🚀 Préparer le Drop</button></div><div id="v25DropStatus" class="v25-status"></div></div></section>
+      <section class="v25-page" data-page="schedule"><div class="v25-card"><h3>⏰ Programmation</h3><p class="v25-muted">Prépare des publications et rappelle-toi que les actions réellement programmées doivent rester reliées à un système d'automatisation autorisé.</p><div id="v25ScheduleList" class="v25-list"></div></div></section>
+      <section class="v25-page" data-page="members"><div class="v25-card"><h3>👑 Membres Premium</h3><div class="v25-form"><label class="v25-full">E-mail<input id="v25MemberEmail" type="email" placeholder="email@exemple.com"></label></div><div class="v25-actions" style="margin-top:12px"><button class="v25-btn primary" id="v25AddMember">➕ Ajouter Premium</button></div><div id="v25MemberList" class="v25-list" style="margin-top:12px"></div></div></section>
+      <section class="v25-page" data-page="notifications"><div class="v25-card"><h3>🔔 Notifications internes</h3><div class="v25-form"><label>Titre<input id="v25NotifTitle"></label><label>Icône<input id="v25NotifIcon" value="🔔"></label><label class="v25-full">Message<textarea id="v25NotifText"></textarea></label></div><button class="v25-btn primary" id="v25AddNotif" style="margin-top:12px">➕ Publier dans le site</button><div id="v25NotifList" class="v25-list" style="margin-top:12px"></div></div></section>
+      <section class="v25-page" data-page="gamification"><div class="v25-card"><h3>🎮 Gamification</h3><div class="v25-form"><label>Niveau client<input id="v25Level" type="number" min="1" value="1"></label><label>Points<input id="v25Points" type="number" min="0" value="0"></label><label class="v25-full">Badges<input id="v25Badges" placeholder="Premier achat, Collectionneur"></label></div><button class="v25-btn primary" id="v25SaveGame" style="margin-top:12px">💾 Enregistrer</button></div></section>
+      <section class="v25-page" data-page="analytics"><div class="v25-grid"><div class="v25-card v25-kpi">Produits<b id="v25AProducts">—</b></div><div class="v25-card v25-kpi">Visites<b id="v25AVisits">—</b></div><div class="v25-card v25-kpi">Favoris<b id="v25AFavs">—</b></div><div class="v25-card v25-kpi">Panier<b id="v25ACart">—</b></div></div><div class="v25-card" style="margin-top:14px"><h3>📈 Activité</h3><div id="v25AnalyticsText" class="v25-list"></div></div></section>
+      <section class="v25-page" data-page="preview"><div class="v25-card"><h3>👁️ Aperçu</h3><p class="v25-muted">Le site public reste la référence finale. Cette zone prépare les changements avant publication.</p><div class="v25-actions"><button class="v25-btn primary" id="v25OpenPublic">🌐 Ouvrir la boutique</button><button class="v25-btn" data-jump="home">✏️ Modifier l'accueil</button></div></div></section>
+      <section class="v25-page" data-page="backups"><div class="v25-card"><h3>💾 Sauvegardes</h3><div class="v25-actions"><button class="v25-btn primary" id="v25Backup">⬇️ Exporter configuration</button><button class="v25-btn" id="v25Restore">📥 Restaurer</button><input id="v25RestoreFile" type="file" accept="application/json" hidden></div><div id="v25BackupStatus" class="v25-status"></div></div></section>
+      <section class="v25-page" data-page="diagnostic"><div class="v25-grid"><div class="v25-card v25-kpi">Supabase<b id="dSupabase">…</b></div><div class="v25-card v25-kpi">Session<b id="dSession">…</b></div><div class="v25-card v25-kpi">Premium<b id="dPremium">…</b></div><div class="v25-card v25-kpi">Produits<b id="dProducts">…</b></div></div><div class="v25-card" style="margin-top:14px"><h3>🩺 Diagnostic complet</h3><div id="v25Diag" class="v25-list"></div><button class="v25-btn primary" id="v25RunDiag" style="margin-top:12px">🔄 Relancer l'analyse</button></div></section>
+      <section class="v25-page" data-page="lab"><div class="v25-card"><h3>🧪 LOGANATOR LAB</h3><p class="v25-muted">Zone expérimentale V25 : fonctions nouvelles isolées pour éviter de casser la boutique principale.</p><div class="v25-actions"><button class="v25-btn" data-jump="diagnostic">🩺 Diagnostic</button><button class="v25-btn" data-jump="preview">👁️ Preview</button><button class="v25-btn" data-jump="builder">🧩 Builder</button></div></div></section>
+      <section class="v25-page" data-page="settings"><div class="v25-card"><h3>⚙️ Paramètres</h3><div class="v25-form"><label>Nom boutique<input id="v25SettingName" value="LOGANATOR"></label><label>Devise<select id="v25Currency"><option>EUR (€)</option></select></label><label>Livraison offerte à partir de<input id="v25FreeShip" type="number" value="80"></label><label>Mode maintenance<select id="v25Maintenance"><option value="false">Désactivé</option><option value="true">Activé</option></select></label></div><button class="v25-btn primary" id="v25SaveSettings" style="margin-top:12px">💾 Enregistrer</button><div id="v25SettingsStatus" class="v25-status"></div></div></section>
+    </div>
+  </main>
+</div>
+<script>
 (function(){
-  'use strict';
-  const V24={};
-  V24.status=function(){return {sdk:!!window.supabase,config:typeof LOGANATOR_SUPABASE_URL==='string'&&/^https:\/\//.test(LOGANATOR_SUPABASE_URL)&&typeof LOGANATOR_SUPABASE_KEY==='string'&&LOGANATOR_SUPABASE_KEY.length>20,client:!!LOGANATOR_SB,user:!!LOGANATOR_USER,premium:!!window.V22_PREMIUM||((typeof isLoganatorPremium==='function')&&isLoganatorPremium())}};
-  V24.ensure=async function(){
-    if(!window.supabase) throw new Error('Le module Supabase n\'est pas chargé.');
-    if(!V24.status().config) throw new Error('Configuration Supabase absente ou invalide.');
-    if(!window.LOGANATOR_SB) LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SUPABASE_URL,LOGANATOR_SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-    const {data,error}=await LOGANATOR_SB.auth.getSession();
-    if(error) throw error;
-    LOGANATOR_USER=data.session?.user||null;
-    return LOGANATOR_SB;
-  };
-  V24.panel=function(){
-    const area=document.getElementById('accountArea'); if(!area)return;
-    let d=document.getElementById('v24Diagnostic');
-    if(!d){d=document.createElement('div');d.id='v24Diagnostic';d.className='v24-diagnostic';area.appendChild(d)}
-    const s=V24.status();
-    d.innerHTML=`<div><b>V24 — État du compte</b></div><span class="v24-chip ${s.sdk?'v24-ok':'v24-err'}">${s.sdk?'🟢':'🔴'} Supabase</span><span class="v24-chip ${s.config?'v24-ok':'v24-err'}">${s.config?'🟢':'🔴'} Configuration</span><span class="v24-chip ${s.client?'v24-ok':'v24-warn'}">${s.client?'🟢':'🟡'} Client</span><span class="v24-chip ${s.user?'v24-ok':'v24-muted'}">${s.user?'🟢':'⚪'} Session</span><span class="v24-chip ${s.premium?'v24-ok':'v24-muted'}">${s.premium?'👑':'⚪'} Premium</span>`;
-  };
-  V24.refresh=async function(){try{await V24.ensure();if(typeof window.v22RefreshPremiumButton==='function')await window.v22RefreshPremiumButton();return true}catch(e){return false}};
-  window.V24=V24;
-
-  window.v12Login=async function(){
-    const email=(document.getElementById('v12Email')?.value||'').trim().toLowerCase();
-    const password=document.getElementById('v12Password')?.value||'';
-    if(!email||!password){v12msg('Remplis les deux champs.');return}
+  const $=id=>document.getElementById(id);
+  const shell=$('v25Shell');
+  let v25Premium=false;
+  const localKey='loganator_v25_config';
+  const getCfg=()=>{try{return JSON.parse(localStorage.getItem(localKey)||'{}')}catch(e){return {}}};
+  const saveCfg=x=>localStorage.setItem(localKey,JSON.stringify(x));
+  function cfg(){return getCfg()}
+  function setPage(name){document.querySelectorAll('.v25-page').forEach(x=>x.classList.toggle('active',x.dataset.page===name));document.querySelectorAll('.v25-nav').forEach(x=>x.classList.toggle('active',x.dataset.v25===name));const b=document.querySelector('.v25-nav[data-v25="'+name+'"]');$('v25Title').textContent=b?b.textContent.replace(/^\S+\s*/,''):name; if(name==='products')loadProducts(); if(name==='members')loadMembers(); if(name==='promos')loadPromos(); if(name==='diagnostic')runDiag(); if(name==='orders')loadOrders(); if(name==='media')loadMedia();}
+  document.querySelectorAll('[data-v25]').forEach(b=>b.addEventListener('click',()=>setPage(b.dataset.v25)));
+  document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>setPage(b.dataset.jump)));
+  $('v25Close').addEventListener('click',()=>{shell.classList.remove('open');shell.setAttribute('aria-hidden','true')});
+  async function premiumCheck(){
     try{
-      await V24.ensure();
-      const {data,error}=await LOGANATOR_SB.auth.signInWithPassword({email,password});
-      if(error)throw error;
-      LOGANATOR_USER=data.user||null;
-      const premium=typeof v15CheckPremium==='function' ? await v15CheckPremium(email) : false;
-      window.V22_PREMIUM=!!premium;
-      closeModal('accountModal');
-      if(typeof window.v22RefreshPremiumButton==='function')await window.v22RefreshPremiumButton();
-      if(premium)await window.openPremium();
-    }catch(e){v12msg('❌ '+(e?.message||'Connexion impossible.'));V24.panel()}
-  };
-  window.v12Signup=async function(){
-    const email=(document.getElementById('v12Email')?.value||'').trim().toLowerCase();
-    const password=document.getElementById('v12Password')?.value||'';
-    if(!email||password.length<6){v12msg('E-mail valide + mot de passe de 6 caractères minimum.');return}
-    try{
-      await V24.ensure();
-      const {data,error}=await LOGANATOR_SB.auth.signUp({email,password});
-      if(error)throw error;
-      v12msg(data?.session?'✅ Compte créé et connecté.':'✅ Compte créé. Vérifie ton e-mail si Supabase demande une confirmation.');
-      LOGANATOR_USER=data?.user||null;
-      await V24.refresh(); V24.panel();
-    }catch(e){v12msg('❌ '+(e?.message||'Création du compte impossible.'));V24.panel()}
-  };
-  window.v12Reset=async function(){
-    const email=(document.getElementById('v12Email')?.value||'').trim().toLowerCase();
-    if(!email){v12msg('Entre ton e-mail.');return}
-    try{await V24.ensure();const {error}=await LOGANATOR_SB.auth.resetPasswordForEmail(email);if(error)throw error;v12msg('✅ Si le compte existe, un e-mail de réinitialisation a été envoyé.')}catch(e){v12msg('❌ '+(e?.message||'Réinitialisation impossible.'));V24.panel()}
-  };
-
-  const oldOpenAccount=window.openAccount;
-  window.openAccount=async function(){
-    try{await V24.ensure();}catch(e){
-      const title=document.getElementById('authTitle');if(title)title.textContent='Connexion / création de compte';
-      const area=document.getElementById('accountArea');if(area&&!area.innerHTML.trim())area.innerHTML='<div class="notice">⚠️ Connexion Supabase indisponible pour le moment.</div>';
-      if(area)V24.panel();document.getElementById('accountModal')?.classList.add('open');return;
-    }
-    if(window.LOGANATOR_USER && typeof v15CheckPremium==='function' && await v15CheckPremium(window.LOGANATOR_USER.email))return window.openPremium();
-    if(oldOpenAccount)await oldOpenAccount();
-    setTimeout(V24.panel,0);
-  };
-
-  async function boot(){
-    try{await V24.ensure();if(typeof window.v22RefreshPremiumButton==='function')await window.v22RefreshPremiumButton();}
-    catch(e){console.warn('V24 Supabase:',e.message)}
+      if(!window.LOGANATOR_SB && window.supabase && window.LOGANATOR_SUPABASE_URL && window.LOGANATOR_SUPABASE_KEY) window.LOGANATOR_SB=window.supabase.createClient(window.LOGANATOR_SUPABASE_URL,window.LOGANATOR_SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      if(!window.LOGANATOR_SB) return false;
+      const {data:{user},error}=await window.LOGANATOR_SB.auth.getUser();
+      if(error||!user) return false;
+      const {data,rowError}=await window.LOGANATOR_SB.from('premium_members').select('email').eq('email',(user.email||'').toLowerCase()).maybeSingle();
+      return !rowError && !!data;
+    }catch(e){return false}
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+  async function openV25(){
+    v25Premium=await premiumCheck();
+    if(!v25Premium){alert('👑 Ton compte n’est pas reconnu comme PREMIUM par Supabase. Ouvre le diagnostic depuis ton compte puis vérifie premium_members.');return}
+    shell.classList.add('open');shell.setAttribute('aria-hidden','false');setPage('dashboard');refreshDashboard();loadHome();runDiag();
+  }
+  window.openPremium=window.openV25;
+  window.v25Open=openV25;
+  async function refreshDashboard(){const ps=Array.isArray(window.products)?window.products:[];$('v25Products').textContent=ps.length;$('v25Visits').textContent=(window.store&&window.store.events)?window.store.events.filter(x=>x.type==='visit').length:'—';$('v25Favs').textContent=(window.store&&window.store.events)?window.store.events.filter(x=>x.type==='favorite').length:'—';$('v25Cart').textContent=(window.store&&window.store.events)?window.store.events.filter(x=>x.type==='cart').length:'—';$('v25AProducts').textContent=ps.length;$('v25AVisits').textContent=$('v25Visits').textContent;$('v25AFavs').textContent=$('v25Favs').textContent;$('v25ACart').textContent=$('v25Cart').textContent;$('v25QuickStatus').textContent='🟢 Control Center actif';}
+  function loadHome(){const c=cfg();$('v25HeroTitle').value=c.heroTitle||'PORTE TON LOGANATOR.';$('v25HeroButton').value=c.heroButton||'VOIR LA COLLECTION';$('v25HeroText').value=c.heroText||'La boutique LOGANATOR nouvelle génération.';$('v25Banner').value=c.banner||'🚚 LIVRAISON OFFERTE À PARTIR DE 80€';$('v25DropMessage').value=c.dropMessage||'';}
+  $('v25SaveHome').addEventListener('click',()=>{const c=cfg();Object.assign(c,{heroTitle:$('v25HeroTitle').value,heroButton:$('v25HeroButton').value,heroText:$('v25HeroText').value,banner:$('v25Banner').value,dropMessage:$('v25DropMessage').value});saveCfg(c);$('v25HomeStatus').textContent='✅ Brouillon V25 enregistré.'});
+  $('v25PreviewHome').addEventListener('click',()=>alert('👁️ Aperçu préparé. Les changements V25 sont enregistrés comme configuration de contrôle.'));
+  function loadProducts(){const ps=Array.isArray(window.products)?window.products:[];$('v25ProductList').innerHTML=ps.map(p=>`<div class="v25-row"><span><b>${esc(p.name)}</b><br><span class="v25-muted">${Number(p.price||0).toFixed(2)}€ · ${esc(p.cat||'')}</span></span><span class="v25-actions"><button class="v25-btn" onclick="editPremiumProduct(${JSON.stringify(p.id)})">✏️ Modifier</button><button class="v25-btn" onclick="newPremiumProduct()">➕</button></span></div>`).join('')||'<div class="v25-muted">Aucun produit.</div>';}
+  function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+  $('v25NewProduct').addEventListener('click',()=>window.newPremiumProduct&&window.newPremiumProduct());$('v25Refresh').addEventListener('click',async()=>{if(window.v12LoadProducts)await window.v12LoadProducts();loadProducts();refreshDashboard()});$('v25Export').addEventListener('click',()=>window.v16ExportCatalogCSV&&window.v16ExportCatalogCSV());
+  function loadMedia(){const ps=Array.isArray(window.products)?window.products:[];$('v25MediaList').innerHTML=ps.map(p=>`<div class="v25-row"><span><b>${esc(p.name)}</b><br><span class="v25-muted">${esc(p.image||'Aucune image')}</span></span><span class="v25-pill">${p.image?'IMAGE':'À COMPLÉTER'}</span></div>`).join('')||'<div class="v25-muted">Aucun média.</div>';}
+  async function loadOrders(){try{if(!window.LOGANATOR_SB){$('v25OrderList').innerHTML='<div class="v25-muted">Supabase indisponible.</div>';return}const {data,error}=await window.LOGANATOR_SB.from('orders').select('*').order('created_at',{ascending:false}).limit(50);if(error)throw error;$('v25OrderList').innerHTML=(data||[]).map(o=>`<div class="v25-row"><span><b>#${esc(o.id||'')}</b><br><span class="v25-muted">${esc(o.status||'reçue')}</span></span><span>${o.total!=null?Number(o.total).toFixed(2)+'€':''}</span></div>`).join('')||'<div class="v25-muted">Aucune commande.</div>'}catch(e){$('v25OrderList').innerHTML='<div class="v25-muted">Commandes indisponibles avec le schéma actuel.</div>'}}
+  async function loadMembers(){try{const {data,error}=await window.LOGANATOR_SB.from('premium_members').select('*').order('created_at',{ascending:false});if(error)throw error;$('v25MemberList').innerHTML=(data||[]).map(m=>`<div class="v25-row"><span>${esc(m.email)}</span><button class="v25-btn" onclick="v25RemoveMember(${JSON.stringify(m.email)})">🗑️ Retirer</button></div>`).join('')||'<div class="v25-muted">Aucun membre.</div>'}catch(e){$('v25MemberList').innerHTML='<div class="v25-muted">Impossible de charger les membres avec les permissions actuelles.</div>'}}
+  window.v25RemoveMember=async email=>{if(!confirm('Retirer '+email+' de Premium ?'))return;const {error}=await window.LOGANATOR_SB.from('premium_members').delete().eq('email',email);if(error)alert(error.message);else loadMembers()};
+  $('v25AddMember').addEventListener('click',async()=>{const email=$('v25MemberEmail').value.trim().toLowerCase();if(!email.includes('@'))return alert('E-mail invalide.');const {error}=await window.LOGANATOR_SB.from('premium_members').insert({email});if(error)alert(error.message);else{$('v25MemberEmail').value='';loadMembers()}});
+  function loadPromos(){const c=cfg();const arr=c.promos||[];$('v25PromoList').innerHTML=arr.map((p,i)=>`<div class="v25-row"><span><b>${esc(p.code)}</b> · ${p.value}${p.type==='percent'?'%':'€'}</span><button class="v25-btn" onclick="v25DeletePromo(${i})">🗑️</button></div>`).join('')||'<div class="v25-muted">Aucune promotion V25.</div>'}
+  window.v25DeletePromo=i=>{const c=cfg();c.promos=c.promos||[];c.promos.splice(i,1);saveCfg(c);loadPromos()};$('v25AddPromo').addEventListener('click',()=>{const c=cfg();c.promos=c.promos||[];c.promos.push({code:$('v25PromoCode').value.trim().toUpperCase(),value:Number($('v25PromoValue').value)||0,type:$('v25PromoType').value,active:$('v25PromoActive').value==='true'});saveCfg(c);loadPromos();$('v25PromoCode').value='';});
+  $('v25SaveDrop').addEventListener('click',()=>{const c=cfg();c.drop={name:$('v25DropName').value,date:$('v25DropDate').value,desc:$('v25DropDesc').value};saveCfg(c);$('v25DropStatus').textContent='🚀 Drop V25 préparé.'});
+  $('v25AddSection').addEventListener('click',()=>{const c=cfg();c.sections=c.sections||['Hero','Nouveautés','Populaires','Premium','Promotions','Drop'];const x=prompt('Nom de la nouvelle section ?');if(!x)return;c.sections.push(x);saveCfg(c);renderSections()});
+  function renderSections(){const c=cfg();const s=c.sections||['Hero','Nouveautés','Populaires','Premium','Promotions','Drop'];$('v25BuilderList').innerHTML=s.map((x,i)=>`<div class="v25-row"><span>${i+1}. ${esc(x)}</span><button class="v25-btn" onclick="v25RemoveSection(${i})">🗑️</button></div>`).join('')};window.v25RemoveSection=i=>{const c=cfg();c.sections=c.sections||[];c.sections.splice(i,1);saveCfg(c);renderSections()};renderSections();
+  $('v25SaveAppearance').addEventListener('click',()=>{const c=cfg();Object.assign(c,{theme:$('v25Theme').value,accent:$('v25Accent').value,storeName:$('v25StoreName').value,favicon:$('v25Favicon').value});saveCfg(c);$('v25AppearanceStatus').textContent='✨ Apparence V25 enregistrée.'});
+  $('v25OpenPublic').addEventListener('click',()=>window.open(location.href,'_blank'));
+  $('v25Backup').addEventListener('click',()=>{const data={format:'LOGANATOR-V25-CONFIG',created_at:new Date().toISOString(),config:cfg()};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='loganator-v25-config.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);$('v25BackupStatus').textContent='💾 Configuration exportée.'});$('v25Restore').addEventListener('click',()=>$('v25RestoreFile').click());$('v25RestoreFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d.format!=='LOGANATOR-V25-CONFIG')throw Error('Format invalide');saveCfg(d.config||{});loadHome();renderSections();$('v25BackupStatus').textContent='✅ Configuration restaurée.'}catch(err){alert(err.message)}};r.readAsText(f)});
+  $('v25AddNotif').addEventListener('click',()=>{const c=cfg();c.notifications=c.notifications||[];c.notifications.unshift({title:$('v25NotifTitle').value,text:$('v25NotifText').value,icon:$('v25NotifIcon').value,date:new Date().toISOString()});saveCfg(c);$('v25NotifTitle').value='';$('v25NotifText').value='';renderNotifs()});function renderNotifs(){const a=cfg().notifications||[];$('v25NotifList').innerHTML=a.map(n=>`<div class="v25-row"><span>${esc(n.icon)} <b>${esc(n.title)}</b><br><span class="v25-muted">${esc(n.text)}</span></span></div>`).join('')||'<div class="v25-muted">Aucune notification.</div>'}renderNotifs();
+  $('v25SaveGame').addEventListener('click',()=>{const c=cfg();c.game={level:Number($('v25Level').value)||1,points:Number($('v25Points').value)||0,badges:$('v25Badges').value};saveCfg(c)});
+  $('v25SaveSettings').addEventListener('click',()=>{const c=cfg();c.settings={name:$('v25SettingName').value,currency:$('v25Currency').value,freeShip:Number($('v25FreeShip').value)||80,maintenance:$('v25Maintenance').value==='true'};saveCfg(c);$('v25SettingsStatus').textContent='⚙️ Paramètres V25 enregistrés.'});
+  async function runDiag(){let sb=!!window.LOGANATOR_SB,user=null,premium=false;try{if(sb){const r=await window.LOGANATOR_SB.auth.getUser();user=r.data.user||null;premium=await premiumCheck()}}catch(e){}$('dSupabase').textContent=sb?'🟢':'🔴';$('dSession').textContent=user?'🟢':'🔴';$('dPremium').textContent=premium?'🟢':'🔴';$('dProducts').textContent=Array.isArray(window.products)?'🟢':'🔴';$('v25Diag').innerHTML=[['Supabase',sb],['Session',!!user],['Utilisateur',!!user],['Premium',premium],['Produits',Array.isArray(window.products)],['Control Center',true]].map(x=>`<div class="v25-row"><span>${x[0]}</span><span class="v25-pill">${x[1]?'🟢 OK':'🔴 À vérifier'}</span></div>`).join('')};$('v25RunDiag').addEventListener('click',runDiag);
+  $('v25ShopLoganator').addEventListener('click',()=>alert('🔵 LOGANATOR sélectionné.'));$('v25ShopLoganatrice').addEventListener('click',()=>alert('🩷 LOGANATRICE sélectionnée.'));
+  window.addEventListener('keydown',e=>{if(e.key==='Escape'&&shell.classList.contains('open'))shell.classList.remove('open')});
 })();
 </script>
 
