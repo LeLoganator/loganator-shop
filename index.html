@@ -806,5 +806,72 @@ document.body.classList.add('v25');
 })();
 </script>
 
+
+<style id="v251-theme">
+:root{
+  --bg:#151126!important;
+  --panel:#211a36!important;
+  --panel2:#2a2044!important;
+  --line:rgba(184,145,255,.22)!important;
+  --muted:#c8bfdc!important;
+  --text:#f7f3ff!important;
+  --accent:#7f8cff!important;
+  --accent2:#c56cff!important;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 8%,rgba(92,105,255,.24),transparent 34%),
+    radial-gradient(circle at 86% 18%,rgba(224,91,213,.20),transparent 32%),
+    radial-gradient(circle at 52% 92%,rgba(126,83,255,.18),transparent 36%),
+    linear-gradient(135deg,#151126 0%,#1b1630 48%,#20152e 100%)!important;
+  color:#f7f3ff!important;
+}
+body:before{background:linear-gradient(115deg,rgba(84,100,255,.08),rgba(208,87,218,.07),rgba(117,84,255,.08))!important}
+nav,.panel,.admin-box,.v16-box,.v22-store-card,.card,.drop,.v16-kpi,.v16-preview,.v16-publish{
+  background:rgba(35,27,57,.78)!important;
+  border-color:rgba(184,145,255,.20)!important;
+}
+nav{box-shadow:0 12px 35px rgba(0,0,0,.20)!important}
+.logo{color:#9ba7ff!important;text-shadow:0 0 22px rgba(126,140,255,.35)!important}
+.primary,.buy{background:linear-gradient(135deg,#6477ff,#9a65ff 52%,#df67d7)!important;border-color:transparent!important;color:#fff!important;box-shadow:0 10px 28px rgba(127,108,255,.25)!important}
+.btn{background:rgba(104,91,150,.22)!important;color:#eee8ff!important;border-color:rgba(190,160,255,.24)!important}
+.btn:hover,.primary:hover,.buy:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.tag,.premium{background:linear-gradient(135deg,rgba(100,119,255,.25),rgba(211,103,215,.20))!important;color:#e5dcff!important;border-color:rgba(191,164,255,.24)!important}
+.muted,.v16-help,.note{color:#c8bfdc!important}
+input,textarea,select{background:rgba(28,22,47,.82)!important;color:#f7f3ff!important;border-color:rgba(184,145,255,.24)!important}
+.field input:focus,.field textarea:focus,.field select:focus{outline:2px solid rgba(135,124,255,.45)!important}
+.photo{background:linear-gradient(135deg,#28203f,#33254d)!important}
+.top{background:linear-gradient(90deg,#536cff,#8b62ff,#d461d4)!important;color:#fff!important}
+</style>
+<script id="v251-account-fix">
+(function(){
+  function modal(){return document.getElementById('accountModal')}
+  function openNow(){
+    var m=modal(); if(!m) return;
+    var title=document.getElementById('authTitle');
+    if(title) title.textContent=window.LOGANATOR_USER?'Mon compte':'Connexion / création de compte';
+    if(window.LOGANATOR_USER){
+      var area=document.getElementById('accountArea');
+      if(area) area.innerHTML='<p>Connecté avec <b>'+String(window.LOGANATOR_USER.email||'').replace(/</g,'&lt;')+'</b>.</p><button class="btn" type="button" id="v251Logout">SE DÉCONNECTER</button>';
+      m.classList.add('open');
+      var lo=document.getElementById('v251Logout'); if(lo) lo.onclick=function(){ if(typeof window.premiumLogout==='function') window.premiumLogout(); };
+      return;
+    }
+    var area=document.getElementById('accountArea');
+    if(area) area.innerHTML='<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v251Login">SE CONNECTER</button><button class="btn" type="button" id="v251Signup">CRÉER UN COMPTE</button><button class="btn" type="button" id="v251Reset">MOT DE PASSE OUBLIÉ</button></div><div id="v12Msg" class="notice">Tu peux utiliser ton compte directement ici.</div>';
+    m.classList.add('open');
+    var bind=function(id,fn){var b=document.getElementById(id);if(b)b.onclick=function(e){e.preventDefault();Promise.resolve(fn()).catch(function(err){var x=document.getElementById('v12Msg');if(x)x.textContent='❌ '+(err&&err.message?err.message:'Une erreur est survenue.');});}};
+    bind('v251Login',function(){return window.v12Login?window.v12Login():Promise.reject(new Error('Connexion momentanément indisponible.'))});
+    bind('v251Signup',function(){return window.v12Signup?window.v12Signup():Promise.reject(new Error('Création de compte momentanément indisponible.'))});
+    bind('v251Reset',function(){return window.v12Reset?window.v12Reset():Promise.reject(new Error('Réinitialisation momentanément indisponible.'))});
+  }
+  window.openAccount=openNow;
+  document.addEventListener('DOMContentLoaded',function(){
+    var b=document.getElementById('accountBtn');
+    if(b){b.onclick=function(e){e.preventDefault();openNow()};b.removeAttribute('onclick')}
+  });
+})();
+</script>
+
 </body>
 </html>

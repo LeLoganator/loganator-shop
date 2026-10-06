@@ -1,0 +1,8 @@
+LOGANATOR V25.1 — COMPTE RÉPARÉ + NOUVELLES COULEURS
+
+1. Décompresse le ZIP.
+2. Envoie tout le contenu sur GitHub Pages en remplaçant l'ancien index.html.
+3. Aucune modification manuelle de Supabase n'est nécessaire pour le bouton COMPTE.
+
+Corrections : bouton COMPTE forcé à ouvrir la fenêtre immédiatement, gestion plus robuste des erreurs d'authentification.
+Design : fond toujours sombre mais plus lumineux, avec davantage de bleu, violet et rose en dégradés.
