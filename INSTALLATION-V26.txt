@@ -1,0 +1,10 @@
+LOGANATOR V26 — COMPTE + PREMIUM SANS TABLEAU DE BORD
+
+1. Décompresse le ZIP.
+2. Remplace les fichiers de ton site GitHub Pages par ceux du dossier LOGANATOR-V26.
+3. Fais Ctrl + F5.
+
+Tu n’as pas besoin d’ouvrir Supabase pour utiliser COMPTE ou accéder à ton espace PREMIUM.
+Le site utilise le système de comptes existant en arrière-plan, mais toute l’utilisation se fait depuis LOGANATOR.
+
+Les comptes Premium déjà autorisés sont conservés. Le bouton COMPTE ouvre d’abord la fenêtre, puis vérifie la session; un compte Premium peut ouvrir directement le Control Center.

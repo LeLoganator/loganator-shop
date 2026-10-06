@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LOGANATOR V26 — Compte & Premium</title>
+<title>LOGANATOR V17 — Boutique</title>
 <style>
 :root{--bg:#07070a;--card:#111118;--text:#fff;--muted:#aaa9b5;--accent:#8b5cf6;--line:#292936}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
@@ -79,7 +79,7 @@ nav{background:rgba(10,10,15,.68)!important}.hero{background:radial-gradient(cir
 </head>
 <body>
 <div class="top">🚚 LIVRAISON OFFERTE À PARTIR DE 80€</div>
-<nav><div class="logo">LOGANATOR</div><div class="links"><a href="#shop">SHOP</a><a href="#drop">DROP</a><a href="#vetements">VÊTEMENTS</a></div><div style="display:flex;gap:8px;align-items:center"><button class="btn" id="accountBtn">👤 COMPTE</button><button class="btn" onclick="showCart()">🛒 <span id="count">0</span></button></div></nav>
+<nav><div class="logo">LOGANATOR</div><div class="links"><a href="#shop">SHOP</a><a href="#drop">DROP</a><a href="#vetements">VÊTEMENTS</a></div><div style="display:flex;gap:8px;align-items:center"><button class="btn" id="accountBtn" onclick="openAccount()">👤 COMPTE</button><button class="btn" onclick="showCart()">🛒 <span id="count">0</span></button></div></nav>
 
 <section class="hero"><div><div class="kicker">LOGANATOR SHOP</div><h1>PORTE TON<br>LOGANATOR.</h1><p>La boutique de la chaîne, avec les vraies photos de tes créations.</p><button class="primary" onclick="document.querySelector('#shop').scrollIntoView({behavior:'smooth'})">VOIR LA COLLECTION ↓</button></div></section>
 
@@ -807,114 +807,69 @@ document.body.classList.add('v25');
 </script>
 
 
-
-<style id="loganator-v26-account-style">
-#accountBtn{position:relative!important;z-index:100002!important;pointer-events:auto!important;cursor:pointer!important}
-#accountModal{z-index:100001!important}
-#accountModal.open{display:flex!important;visibility:visible!important;opacity:1!important}
-.v26-account-note{margin-top:12px;padding:12px 14px;border:1px solid rgba(120,100,255,.25);border-radius:12px;background:linear-gradient(135deg,rgba(30,120,255,.12),rgba(125,70,255,.12),rgba(255,70,160,.08));color:#dfe4ff;font-size:13px}
-.v26-premium-access{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+<style id="v251-theme">
+:root{
+  --bg:#151126!important;
+  --panel:#211a36!important;
+  --panel2:#2a2044!important;
+  --line:rgba(184,145,255,.22)!important;
+  --muted:#c8bfdc!important;
+  --text:#f7f3ff!important;
+  --accent:#7f8cff!important;
+  --accent2:#c56cff!important;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 8%,rgba(92,105,255,.24),transparent 34%),
+    radial-gradient(circle at 86% 18%,rgba(224,91,213,.20),transparent 32%),
+    radial-gradient(circle at 52% 92%,rgba(126,83,255,.18),transparent 36%),
+    linear-gradient(135deg,#151126 0%,#1b1630 48%,#20152e 100%)!important;
+  color:#f7f3ff!important;
+}
+body:before{background:linear-gradient(115deg,rgba(84,100,255,.08),rgba(208,87,218,.07),rgba(117,84,255,.08))!important}
+nav,.panel,.admin-box,.v16-box,.v22-store-card,.card,.drop,.v16-kpi,.v16-preview,.v16-publish{
+  background:rgba(35,27,57,.78)!important;
+  border-color:rgba(184,145,255,.20)!important;
+}
+nav{box-shadow:0 12px 35px rgba(0,0,0,.20)!important}
+.logo{color:#9ba7ff!important;text-shadow:0 0 22px rgba(126,140,255,.35)!important}
+.primary,.buy{background:linear-gradient(135deg,#6477ff,#9a65ff 52%,#df67d7)!important;border-color:transparent!important;color:#fff!important;box-shadow:0 10px 28px rgba(127,108,255,.25)!important}
+.btn{background:rgba(104,91,150,.22)!important;color:#eee8ff!important;border-color:rgba(190,160,255,.24)!important}
+.btn:hover,.primary:hover,.buy:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.tag,.premium{background:linear-gradient(135deg,rgba(100,119,255,.25),rgba(211,103,215,.20))!important;color:#e5dcff!important;border-color:rgba(191,164,255,.24)!important}
+.muted,.v16-help,.note{color:#c8bfdc!important}
+input,textarea,select{background:rgba(28,22,47,.82)!important;color:#f7f3ff!important;border-color:rgba(184,145,255,.24)!important}
+.field input:focus,.field textarea:focus,.field select:focus{outline:2px solid rgba(135,124,255,.45)!important}
+.photo{background:linear-gradient(135deg,#28203f,#33254d)!important}
+.top{background:linear-gradient(90deg,#536cff,#8b62ff,#d461d4)!important;color:#fff!important}
 </style>
-<script id="loganator-v26-account-system">
+<script id="v251-account-fix">
 (function(){
-  'use strict';
-  const PREMIUM_ALLOW=['gauducheaulogan@gmail.com','leloganator@gmail.com','alexisprouillac@gmail.com','theteamsloganator@gmail.com'];
-  function el(id){return document.getElementById(id)}
-  function ensureClient(){
-    try{
-      if(window.LOGANATOR_SB) return window.LOGANATOR_SB;
-      if(window.supabase && window.LOGANATOR_SUPABASE_URL && window.LOGANATOR_SUPABASE_KEY){
-        window.LOGANATOR_SB=window.supabase.createClient(window.LOGANATOR_SUPABASE_URL,window.LOGANATOR_SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-        return window.LOGANATOR_SB;
-      }
-    }catch(e){}
-    return null;
+  function modal(){return document.getElementById('accountModal')}
+  function openNow(){
+    var m=modal(); if(!m) return;
+    var title=document.getElementById('authTitle');
+    if(title) title.textContent=window.LOGANATOR_USER?'Mon compte':'Connexion / création de compte';
+    if(window.LOGANATOR_USER){
+      var area=document.getElementById('accountArea');
+      if(area) area.innerHTML='<p>Connecté avec <b>'+String(window.LOGANATOR_USER.email||'').replace(/</g,'&lt;')+'</b>.</p><button class="btn" type="button" id="v251Logout">SE DÉCONNECTER</button>';
+      m.classList.add('open');
+      var lo=document.getElementById('v251Logout'); if(lo) lo.onclick=function(){ if(typeof window.premiumLogout==='function') window.premiumLogout(); };
+      return;
+    }
+    var area=document.getElementById('accountArea');
+    if(area) area.innerHTML='<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v251Login">SE CONNECTER</button><button class="btn" type="button" id="v251Signup">CRÉER UN COMPTE</button><button class="btn" type="button" id="v251Reset">MOT DE PASSE OUBLIÉ</button></div><div id="v12Msg" class="notice">Tu peux utiliser ton compte directement ici.</div>';
+    m.classList.add('open');
+    var bind=function(id,fn){var b=document.getElementById(id);if(b)b.onclick=function(e){e.preventDefault();Promise.resolve(fn()).catch(function(err){var x=document.getElementById('v12Msg');if(x)x.textContent='❌ '+(err&&err.message?err.message:'Une erreur est survenue.');});}};
+    bind('v251Login',function(){return window.v12Login?window.v12Login():Promise.reject(new Error('Connexion momentanément indisponible.'))});
+    bind('v251Signup',function(){return window.v12Signup?window.v12Signup():Promise.reject(new Error('Création de compte momentanément indisponible.'))});
+    bind('v251Reset',function(){return window.v12Reset?window.v12Reset():Promise.reject(new Error('Réinitialisation momentanément indisponible.'))});
   }
-  async function currentUser(){
-    try{
-      const sb=ensureClient();
-      if(!sb) return window.LOGANATOR_USER||null;
-      const r=await sb.auth.getUser();
-      window.LOGANATOR_USER=r.data?.user||null;
-      return window.LOGANATOR_USER;
-    }catch(e){return window.LOGANATOR_USER||null}
-  }
-  async function isPremium(user){
-    const email=(user?.email||'').toLowerCase();
-    if(!email) return false;
-    if(PREMIUM_ALLOW.includes(email)) return true;
-    try{
-      const sb=ensureClient(); if(!sb) return false;
-      const r=await sb.from('premium_members').select('email').eq('email',email).maybeSingle();
-      return !!r.data && !r.error;
-    }catch(e){return false}
-  }
-  function showModal(){
-    const m=el('accountModal'); if(!m)return null;
-    m.style.display='flex';m.style.visibility='visible';m.style.opacity='1';m.classList.add('open');
-    return m;
-  }
-  function safe(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-  function msg(t){const x=el('v12Msg');if(x)x.textContent=t}
-  function renderLogged(user,premium){
-    const title=el('authTitle'),area=el('accountArea');
-    if(title)title.textContent='Mon compte';
-    if(!area)return;
-    area.innerHTML='<p>Connecté avec <b>'+safe(user.email)+'</b>.</p>'+
-      (premium?'<div class="v26-account-note">👑 <b>Compte PREMIUM détecté</b><br>Ton espace Premium est disponible directement ici.</div><div class="v26-premium-access"><button class="primary" type="button" id="v26Premium">👑 OUVRIR PREMIUM</button><button class="btn" type="button" id="v26Logout">SE DÉCONNECTER</button></div>':'<div class="v26-account-note">Compte connecté. Ton espace personnel est disponible ici.</div><div class="v26-premium-access"><button class="btn" type="button" id="v26Logout">SE DÉCONNECTER</button></div>');
-    const p=el('v26Premium');if(p)p.onclick=function(){try{window.openPremium()}catch(e){alert('Le panneau Premium est momentanément indisponible.')}};
-    const lo=el('v26Logout');if(lo)lo.onclick=async function(){try{const sb=ensureClient();if(sb)await sb.auth.signOut()}catch(e){}window.LOGANATOR_USER=null;showAccount();};
-  }
-  function renderLogin(){
-    const title=el('authTitle'),area=el('accountArea');
-    if(title)title.textContent='Connexion / création de compte';
-    if(!area)return;
-    area.innerHTML='<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v26Login">SE CONNECTER</button><button class="btn" type="button" id="v26Signup">CRÉER UN COMPTE</button><button class="btn" type="button" id="v26Reset">MOT DE PASSE OUBLIÉ</button></div><div id="v12Msg" class="notice">Tout se fait depuis LOGANATOR. Tu n’as pas besoin d’ouvrir le tableau de bord Supabase.</div>';
-    const call=(fn)=>{try{const r=fn();return Promise.resolve(r)}catch(e){return Promise.reject(e)}};
-    el('v26Login').onclick=()=>call(window.v26Login);
-    el('v26Signup').onclick=()=>call(window.v26Signup);
-    el('v26Reset').onclick=()=>call(window.v26Reset);
-  }
-  async function showAccount(){
-    showModal();
-    const user=await currentUser();
-    if(user)renderLogged(user,await isPremium(user)); else renderLogin();
-  }
-  window.v26Login=async function(){
-    const email=(el('v12Email')?.value||'').trim().toLowerCase(),password=el('v12Password')?.value||'';
-    if(!email||!password)return msg('Remplis ton e-mail et ton mot de passe.');
-    const sb=ensureClient();if(!sb)return msg('Le système de connexion est momentanément indisponible. Réessaie dans quelques secondes.');
-    try{
-      const r=await sb.auth.signInWithPassword({email,password});
-      if(r.error)return msg('❌ '+r.error.message);
-      window.LOGANATOR_USER=r.data.user;
-      const premium=await isPremium(r.data.user);
-      if(premium){try{window.V22_PREMIUM=true}catch(e){};closeModal('accountModal');await window.openPremium();}
-      else renderLogged(r.data.user,false);
-    }catch(e){msg('❌ '+(e?.message||'Connexion impossible.'))}
-  };
-  window.v26Signup=async function(){
-    const email=(el('v12Email')?.value||'').trim().toLowerCase(),password=el('v12Password')?.value||'';
-    if(!email||password.length<6)return msg('E-mail valide + mot de passe de 6 caractères minimum.');
-    const sb=ensureClient();if(!sb)return msg('Le système de création de compte est momentanément indisponible.');
-    try{const r=await sb.auth.signUp({email,password});if(r.error)return msg('❌ '+r.error.message);msg(r.data.session?'✅ Compte créé et connecté.':'✅ Compte créé. Si une confirmation est demandée, suis simplement le lien reçu.')}catch(e){msg('❌ '+(e?.message||'Création impossible.'))}
-  };
-  window.v26Reset=async function(){
-    const email=(el('v12Email')?.value||'').trim().toLowerCase();if(!email)return msg('Entre ton e-mail.');
-    const sb=ensureClient();if(!sb)return msg('Le système de réinitialisation est momentanément indisponible.');
-    try{const r=await sb.auth.resetPasswordForEmail(email);msg(r.error?'❌ '+r.error.message:'✅ Si le compte existe, la procédure de réinitialisation a été lancée.')}catch(e){msg('❌ '+(e?.message||'Réinitialisation impossible.'))}
-  };
-  window.openAccount=showAccount;
-  function bind(){
-    const b=el('accountBtn');if(!b)return;
-    b.removeAttribute('onclick');
-    b.onclick=function(e){e.preventDefault();e.stopPropagation();showAccount()};
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
-  // One clean capture handler. Previous V25.2 capture handlers were removed from this build.
-  document.addEventListener('click',function(e){const b=e.target?.closest?.('#accountBtn');if(!b)return;e.preventDefault();e.stopPropagation();showAccount()},true);
-  const sb=ensureClient();
-  if(sb?.auth)sb.auth.onAuthStateChange(function(_event,session){window.LOGANATOR_USER=session?.user||null;const b=el('accountBtn');if(b)b.textContent=session?.user?'👤 '+((session.user.email||'compte').split('@')[0]):'👤 COMPTE';});
+  window.openAccount=openNow;
+  document.addEventListener('DOMContentLoaded',function(){
+    var b=document.getElementById('accountBtn');
+    if(b){b.onclick=function(e){e.preventDefault();openNow()};b.removeAttribute('onclick')}
+  });
 })();
 </script>
 

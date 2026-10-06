@@ -1,0 +1,8 @@
+LOGANATOR V25.2 — CORRECTION FORCÉE DU BOUTON COMPTE
+
+1. Décompresse le ZIP.
+2. Remplace les fichiers de ton site GitHub Pages par le contenu du dossier.
+3. Recharge la page avec Ctrl+F5.
+
+Cette version force l'ouverture de la fenêtre COMPTE même si un ancien script bloque le bouton.
+Aucune modification manuelle de Supabase n'est nécessaire pour ouvrir la fenêtre COMPTE.
