@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/api/bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 $users = read_json_file(USERS_FILE);
-if ($users) { header('Location: index.html'); exit; }
+if ($users) { header('Location: index.php'); exit; }
 $msg='';
 if ($_SERVER['REQUEST_METHOD']==='POST') {
   $email=strtolower(trim((string)($_POST['email']??'')));

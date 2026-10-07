@@ -3,7 +3,7 @@
 // Les visiteurs publics voient uniquement la page de maintenance.
 // Une session Premium connectée peut continuer à administrer la boutique.
 declare(strict_types=1);
-require __DIR__ . '/api/bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 
 // API fallback through index.php: certains hébergeurs renvoient 405 sur les POST vers /api/*.php.
 // Toutes les actions AJAX peuvent donc passer par ce fichier unique.
@@ -18,11 +18,11 @@ if (isset($_GET['api'])) {
         parse_str($parts['query'], $apiQuery);
         foreach ($apiQuery as $k=>$v) $_GET[$k] = $v;
     }
-    require __DIR__ . '/api/' . $apiFile;
+    require __DIR__ . '/' . $apiFile;
     exit;
 }
 
-$settingsFile = __DIR__ . '/data/settings.json';
+$settingsFile = __DIR__ . '/settings.json';
 $settings = [
     'name' => 'LOGANATOR',
     'maintenance' => false,
@@ -407,7 +407,7 @@ let LOGANATOR_SB=null, LOGANATOR_USER=null;
 function premiumEmail(){return (LOGANATOR_USER?.email||'').toLowerCase()}
 function isLoganatorPremium(){return !!LOGANATOR_USER && (LOGANATOR_USER.role==='premium' || LOGANATOR_PREMIUM.includes(premiumEmail()))}
 function showAccountMessage(m){const el=document.getElementById('accountArea');if(el)el.innerHTML=m}
-async function apiFetch(path,options={}){const r=await fetch('index.php?api='+encodeURIComponent(path),{credentials:'same-origin',...options});let d={};try{d=await r.json()}catch{}if(!r.ok||d.ok===false)throw new Error(d.error||('Erreur HTTP '+r.status));return d}
+async function apiFetch(path,options={}){const r=await fetch(path,{credentials:'same-origin',...options});let d={};try{d=await r.json()}catch{}if(!r.ok||d.ok===false)throw new Error(d.error||('Erreur HTTP '+r.status));return d}
 window.openAccount=async function(){
   if(LOGANATOR_USER){if(isLoganatorPremium()){openPremium();return}showAccountMessage(`<p>Connecté avec <b>${esc(LOGANATOR_USER.email)}</b>.</p><button class="btn" onclick="premiumLogout()">Se déconnecter</button>`)}
   else showAccountMessage(`<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" onclick="v12Login()">SE CONNECTER</button></div><div id="v12Msg" class="notice">Connexion Premium autonome. Aucun Supabase.</div><div style="margin-top:10px;font-size:.9em;opacity:.75">Première installation : ouvre <b>setup.php</b> une seule fois pour créer le compte administrateur.</div>`);

@@ -1,0 +1,113 @@
+[
+  {
+    "id": 1,
+    "name": "Hoodie LOGANATOR",
+    "price": 49.9,
+    "cat": "Hauts",
+    "category": "Hauts",
+    "image": "photo-5.jpg",
+    "image_url": "photo-5.jpg",
+    "details": [
+      "Hoodie LOGANATOR",
+      "Design officiel LOGANATOR",
+      "Photo produit incluse",
+      "Tailles à définir"
+    ],
+    "description": "Hoodie LOGANATOR",
+    "stock": 0,
+    "sizes": [],
+    "is_published": true,
+    "is_new": false,
+    "is_featured": false,
+    "is_popular": false
+  },
+  {
+    "id": 2,
+    "name": "Doudoune LOGANATOR",
+    "price": 89.9,
+    "cat": "Doudounes",
+    "category": "Doudounes",
+    "image": "photo-9.png",
+    "image_url": "photo-9.png",
+    "details": [
+      "Doudoune LOGANATOR",
+      "Coupe épaisse et large",
+      "Design blanc LOGANATOR",
+      "Tailles à définir"
+    ],
+    "description": "Doudoune LOGANATOR",
+    "stock": 0,
+    "sizes": [],
+    "is_published": true,
+    "is_new": false,
+    "is_featured": false,
+    "is_popular": false
+  },
+  {
+    "id": 3,
+    "name": "Baggy LOGANATOR",
+    "price": 59.9,
+    "cat": "Bas",
+    "category": "Bas",
+    "image": "photo-13.png",
+    "image_url": "photo-13.png",
+    "details": [
+      "Baggy LOGANATOR",
+      "Coupe large / streetwear",
+      "Design LOGANATOR",
+      "Tailles à définir"
+    ],
+    "description": "Baggy LOGANATOR",
+    "stock": 0,
+    "sizes": [],
+    "is_published": true,
+    "is_new": false,
+    "is_featured": false,
+    "is_popular": false
+  },
+  {
+    "id": 4,
+    "name": "Chaussures LOGANATOR",
+    "price": 79.9,
+    "cat": "Chaussures",
+    "category": "Chaussures",
+    "image": "photo-6.png",
+    "image_url": "photo-6.png",
+    "details": [
+      "Chaussures LOGANATOR",
+      "Design personnalisé LOGANATOR",
+      "Photo produit incluse",
+      "Tailles à définir"
+    ],
+    "description": "Chaussures LOGANATOR",
+    "stock": 0,
+    "sizes": [],
+    "is_published": true,
+    "is_new": false,
+    "is_featured": false,
+    "is_popular": false
+  },
+  {
+    "id": "pack-gaming-neon-bleu",
+    "name": "Pack Gaming LOGANATOR Néon Bleu",
+    "price": 100,
+    "cat": "Gaming",
+    "category": "Gaming",
+    "stock": 200,
+    "image": "photo-15.png",
+    "image_url": "photo-15.png",
+    "description": "Pack gaming complet LOGANATOR avec clavier mécanique AZERTY, souris haute précision, tapis de souris XXL et télécommande RGB.",
+    "details": [
+      "Clavier mécanique AZERTY",
+      "Souris haute précision jusqu'à 16 000 DPI",
+      "Tapis de souris XXL ultra fluide",
+      "Télécommande RGB incluse",
+      "RGB personnalisable"
+    ],
+    "sizes": [],
+    "is_published": true,
+    "is_new": true,
+    "is_featured": true,
+    "is_popular": false
+  }
+]
