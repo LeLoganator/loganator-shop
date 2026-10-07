@@ -1,0 +1,72 @@
+
+/* LOGANATOR V28 — Liquid Glass Control Center */
+#lgcc-toggle{
+  position:fixed;right:18px;bottom:18px;z-index:2147483000;
+  width:58px;height:58px;border:1px solid rgba(255,255,255,.24);
+  border-radius:20px;color:#fff;background:rgba(20,20,30,.38);
+  backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);
+  box-shadow:0 14px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.18);
+  cursor:pointer;font-size:24px;transition:.25s transform,.25s box-shadow;
+}
+#lgcc-toggle:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22)}
+#lgcc-backdrop{
+  position:fixed;inset:0;z-index:2147482990;display:none;
+  background:rgba(0,0,0,.34);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+}
+#lgcc-backdrop.open{display:block}
+#lgcc-panel{
+  position:fixed;right:18px;top:18px;bottom:18px;width:min(430px,calc(100vw - 36px));
+  z-index:2147483001;display:flex;flex-direction:column;overflow:hidden;
+  color:#fff;background:rgba(18,18,28,.62);border:1px solid rgba(255,255,255,.20);
+  border-radius:30px;backdrop-filter:blur(var(--lgcc-blur,28px)) saturate(175%);
+  -webkit-backdrop-filter:blur(var(--lgcc-blur,28px)) saturate(175%);
+  box-shadow:0 30px 100px rgba(0,0,0,.52),inset 0 1px 0 rgba(255,255,255,.20);
+  transform:translateX(110%);opacity:0;pointer-events:none;
+  transition:transform .3s ease,opacity .3s ease;
+}
+#lgcc-panel.open{transform:translateX(0);opacity:1;pointer-events:auto}
+#lgcc-panel *{box-sizing:border-box}
+.lgcc-head{display:flex;align-items:center;justify-content:space-between;padding:22px 22px 14px}
+.lgcc-title{font-size:20px;font-weight:800;letter-spacing:.2px}
+.lgcc-sub{font-size:12px;opacity:.62;margin-top:3px}
+.lgcc-close{border:0;background:rgba(255,255,255,.10);color:#fff;border-radius:13px;width:38px;height:38px;cursor:pointer;font-size:20px}
+.lgcc-scroll{overflow:auto;padding:0 18px 24px}
+.lgcc-card{
+  margin:10px 0;padding:16px;border-radius:21px;
+  background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.lgcc-card h3{margin:0 0 12px;font-size:13px;opacity:.86}
+.lgcc-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:11px 0;font-size:13px}
+.lgcc-row input[type=range]{width:52%}
+.lgcc-value{min-width:48px;text-align:right;opacity:.7;font-variant-numeric:tabular-nums}
+.lgcc-colors{display:grid;grid-template-columns:repeat(10,1fr);gap:7px}
+.lgcc-color{width:100%;aspect-ratio:1;border-radius:9px;border:1px solid rgba(255,255,255,.28);cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.lgcc-color.active{outline:2px solid #fff;outline-offset:2px}
+.lgcc-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.lgcc-btn{
+  border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:11px 12px;
+  color:#fff;background:rgba(255,255,255,.08);cursor:pointer;font-weight:700
+}
+.lgcc-btn:hover{background:rgba(255,255,255,.14)}
+.lgcc-switch{position:relative;width:46px;height:26px}
+.lgcc-switch input{opacity:0;width:0;height:0}
+.lgcc-slider{position:absolute;inset:0;background:rgba(255,255,255,.18);border-radius:20px;cursor:pointer}
+.lgcc-slider:before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;border-radius:50%;background:#fff;transition:.2s}
+.lgcc-switch input:checked+.lgcc-slider{background:var(--lgcc-accent,#7c5cff)}
+.lgcc-switch input:checked+.lgcc-slider:before{transform:translateX(20px)}
+.lgcc-toast{
+  position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);
+  z-index:2147483010;padding:11px 15px;border-radius:14px;color:#fff;
+  background:rgba(18,18,28,.78);border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  opacity:0;pointer-events:none;transition:.25s
+}
+.lgcc-toast.show{opacity:1;transform:translate(-50%,0)}
+html.lgcc-no-motion *,html.lgcc-no-motion *::before,html.lgcc-no-motion *::after{
+  animation:none!important;transition:none!important;scroll-behavior:auto!important
+}
+@media(max-width:560px){
+  #lgcc-panel{right:9px;top:9px;bottom:9px;width:calc(100vw - 18px);border-radius:24px}
+  #lgcc-toggle{right:12px;bottom:12px}
+}
