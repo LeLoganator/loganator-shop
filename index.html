@@ -31,6 +31,7 @@ footer{padding:35px 5%;border-top:1px solid var(--line);text-align:center;color:
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.links{display:none}.detail{grid-template-columns:1fr}.detail-img,.detail-img img{min-height:350px}.detail-info{padding:25px}}
 @media(max-width:550px){.grid{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}.hero{padding:65px 6%}.detail-info h2{font-size:32px}.pay-options{grid-template-columns:1fr}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 .admin-modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;padding:20px;z-index:300}.admin-modal.open{display:flex}.admin-box{width:min(1100px,100%);max-height:92vh;overflow:auto;background:#111118;border:1px solid #292936;border-radius:20px;padding:28px;position:relative}.admin-close{position:absolute;right:14px;top:12px;border:1px solid #292936;background:#09090d;color:#fff;border-radius:50%;width:38px;height:38px;font-size:22px;cursor:pointer}.admin-grid{display:grid;gap:12px;margin-top:18px}.admin-card{display:grid;grid-template-columns:90px 1fr auto;gap:14px;align-items:center;padding:12px;border:1px solid #292936;border-radius:14px;background:#0b0b10}.admin-card img{width:90px;height:90px;object-fit:cover;border-radius:10px}.admin-actions{display:flex;gap:8px;flex-wrap:wrap}.admin-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.admin-form .full{grid-column:1/-1}.admin-form label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:800}.admin-form input,.admin-form textarea{padding:12px;border:1px solid #292936;border-radius:10px;background:#09090d;color:#fff;font:inherit}.admin-form textarea{min-height:100px}.premium{display:inline-block;padding:6px 10px;border-radius:999px;background:#2a1646;color:#d8b4fe;font-weight:900;font-size:12px}.admin-msg{margin-top:12px;padding:11px;border-radius:10px;background:#0b0b10;color:#aaa9b5}.admin-msg.ok{color:#86efac}.admin-msg.err{color:#fda4af}@media(max-width:700px){.admin-card{grid-template-columns:65px 1fr}.admin-card img{width:65px;height:65px}.admin-actions{grid-column:1/-1}.admin-form{grid-template-columns:1fr}.admin-form .full{grid-column:auto}}
@@ -149,8 +150,7 @@ const products=[
 {id:1,name:"Hoodie LOGANATOR",price:49.9,cat:"Hauts",image:"photo-5.jpg",details:["Hoodie LOGANATOR","Design officiel LOGANATOR","Photo produit incluse","Tailles à définir"]},
 {id:2,name:"Doudoune LOGANATOR",price:89.9,cat:"Doudounes",image:"photo-9.png",details:["Doudoune LOGANATOR","Coupe épaisse et large","Design blanc LOGANATOR","Tailles à définir"]},
 {id:3,name:"Baggy LOGANATOR",price:59.9,cat:"Bas",image:"photo-13.png",details:["Baggy LOGANATOR","Coupe large / streetwear","Design LOGANATOR","Tailles à définir"]},
-{id:4,name:"Chaussures LOGANATOR",price:79.9,cat:"Chaussures",image:"photo-6.png",details:["Chaussures LOGANATOR","Design personnalisé LOGANATOR","Photo produit incluse","Tailles à définir"]},
-{id:"pack-gaming-neon-bleu",name:"Pack Gaming LOGANATOR Néon Bleu",price:100,cat:"Gaming",category:"Gaming",stock:200,image:"photo-15.png",image_url:"photo-15.png",description:"Pack gaming complet LOGANATOR avec clavier mécanique AZERTY, souris haute précision, tapis de souris XXL et télécommande RGB.",details:["Clavier mécanique AZERTY","Souris haute précision jusqu'à 16 000 DPI","Tapis de souris XXL ultra fluide","Télécommande RGB incluse","RGB personnalisable"],sizes:[],is_published:true,is_new:true,is_featured:true}];
+{id:4,name:"Chaussures LOGANATOR",price:79.9,cat:"Chaussures",image:"photo-6.png",details:["Chaussures LOGANATOR","Design personnalisé LOGANATOR","Photo produit incluse","Tailles à définir"]}];
 
 let cart=JSON.parse(localStorage.getItem('loganatorCart')||'[]'),
     favorites=JSON.parse(localStorage.getItem('loganatorFavorites')||'[]');
@@ -305,7 +305,7 @@ update();
 <div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br>
 <div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v26Login" onclick="window.v26Login&&window.v26Login()">SE CONNECTER</button><button class="btn" type="button" id="v26Signup" onclick="window.v26Signup&&window.v26Signup()">CRÉER UN COMPTE</button><button class="btn" type="button" id="v26Reset" onclick="window.v26Reset&&window.v26Reset()">MOT DE PASSE OUBLIÉ</button></div>
-<div id="v12Msg" class="notice">Tout se fait depuis LOGANATOR. Le contrôle Premium fonctionne sans service externe.</div>
+<div id="v12Msg" class="notice">Tout se fait depuis LOGANATOR. Tu n’as pas besoin d’ouvrir Supabase.</div>
 </div></div></div></div>
 <div class="admin-modal" id="premiumModal" onclick="if(event.target===this)closePremium()">
 <div class="admin-box"><button class="admin-close" onclick="closePremium()">×</button>
@@ -317,62 +317,80 @@ update();
 <section class="v16-section active" data-v16-section="overview"><div class="v16-kpis"><div class="v16-kpi">Visites<b id="v16Visits">0</b></div><div class="v16-kpi">Vues produits<b id="v16Views">0</b></div><div class="v16-kpi">Ajouts panier<b id="v16Adds">0</b></div><div class="v16-kpi">Commandes<b id="v16Orders">0</b></div></div><div class="v16-two"><div class="v16-box"><h3>🔥 Produits populaires</h3><div id="v16Popular" class="v16-list"></div></div><div class="v16-box"><h3>⚠️ Alertes</h3><div id="v16Alerts"></div></div></div><div class="v16-box"><h3>📈 Activité récente</h3><div id="v16Recent" class="v16-list"></div></div></section>
 <section class="v16-section" data-v16-section="stores">
 <div class="v16-box"><h3>🏪 Contrôler boutiques</h3>
-<p class="v16-muted">Ton compte PREMIUM contrôle maintenant les deux boutiques depuis ce même centre. Les modifications de catalogue sont publiées directement sur l’hébergement.</p>
+<p class="v16-muted">Ton compte PREMIUM contrôle maintenant les deux boutiques depuis ce même centre. Les modifications de catalogue et de site sont partagées via Supabase.</p>
 <div id="v26StoreCards" class="v16-two"></div>
 <div id="v26StoreStatus" class="v16-good" style="margin-top:12px">Chargement des boutiques…</div>
 </div>
 <div class="v16-box"><h3>ℹ️ Boutique sélectionnée</h3><div id="v26StoreInfo" class="v16-muted">—</div></div>
-</section> <section class="v16-section" data-v16-section="products"><div class="admin-actions"><button class="primary" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" onclick="v16RefreshProducts()">🔄 Actualiser</button><button class="btn" onclick="v16ExportCatalogCSV()">📊 Exporter CSV</button><button class="btn" onclick="v16ExportBackup()">💾 Sauvegarder la boutique</button><button class="btn" onclick="document.getElementById('v16BackupFile').click()">📥 Restaurer une sauvegarde</button><input id="v16BackupFile" type="file" accept="application/json,.json" style="display:none" onchange="v16ImportBackup(event)"></div><p class="v16-help">Les modifications des produits sont publiées directement sur l’hébergement et deviennent visibles publiquement. Les sauvegardes restent locales à ce navigateur.</p><div id="premiumList" class="admin-grid"></div></section>
+</section> <section class="v16-section" data-v16-section="products"><div class="admin-actions"><button class="primary" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" onclick="v16RefreshProducts()">🔄 Actualiser</button><button class="btn" onclick="v16ExportCatalogCSV()">📊 Exporter CSV</button><button class="btn" onclick="v16ExportBackup()">💾 Sauvegarder la boutique</button><button class="btn" onclick="document.getElementById('v16BackupFile').click()">📥 Restaurer une sauvegarde</button><input id="v16BackupFile" type="file" accept="application/json,.json" style="display:none" onchange="v16ImportBackup(event)"></div><p class="v16-help">Les modifications locales et les sauvegardes sont enregistrées dans ce navigateur. Elles ne sont pas automatiquement synchronisées avec les autres appareils ou visiteurs.</p><div id="premiumList" class="admin-grid"></div></section>
 <section class="v16-section" data-v16-section="site"><div class="v16-box"><h3>✏️ Contenu du site</h3><div class="v16-form"><label>Titre HERO<input id="v16HeroTitle" placeholder="PORTE TON LOGANATOR."></label><label>Sous-titre<input id="v16HeroText" placeholder="La boutique officielle…"></label><label>Bouton principal<input id="v16HeroButton" placeholder="VOIR LA COLLECTION"></label><label>Texte bannière<input id="v16BannerText" placeholder="LIVRAISON OFFERTE…"></label><label class="full">Message DROP<textarea id="v16DropText"></textarea></label></div></div><div class="v16-box"><h3>🧩 Sections</h3><div class="v16-switch"><span>Afficher les nouveautés</span><input id="v16ShowNew" type="checkbox" checked></div><div class="v16-switch"><span>Afficher les populaires</span><input id="v16ShowPopular" type="checkbox" checked></div><div class="v16-switch"><span>Afficher les promotions</span><input id="v16ShowPromos" type="checkbox" checked></div><div class="v16-switch"><span>Afficher le DROP</span><input id="v16ShowDrop" type="checkbox" checked></div></div><div class="v16-preview"><b>👁️ Prévisualisation</b><h2 id="v16PreviewTitle">PORTE TON LOGANATOR.</h2><p id="v16PreviewText" class="muted">La boutique officielle LOGANATOR.</p><button class="primary" id="v16PreviewButton">VOIR LA COLLECTION</button></div><div class="v16-publish"><button class="btn" onclick="v16SaveDraft()">💾 Enregistrer brouillon</button><button class="primary" onclick="v16PublishDraft()">🚀 Publier</button></div></section>
 <section class="v16-section" data-v16-section="promos"><div class="v16-box"><h3>🏷️ Créer un code promo</h3><div class="v16-form"><label>Code<input id="v16PromoCode" placeholder="LOGAN10"></label><label>Type<select id="v16PromoType"><option value="percent">Pourcentage</option><option value="fixed">Montant fixe</option></select></label><label>Valeur<input id="v16PromoValue" type="number" min="0" step="0.01"></label><label>Minimum d'achat<input id="v16PromoMin" type="number" min="0" step="0.01"></label><label>Date de début<input id="v16PromoStart" type="datetime-local"></label><label>Date de fin<input id="v16PromoEnd" type="datetime-local"></label><label>Limite d'utilisations<input id="v16PromoMax" type="number" min="1"></label><button class="primary full" onclick="v16CreatePromo()">➕ Créer le code</button></div></div><div class="v16-box"><h3>Codes existants</h3><div id="v16PromoList" class="v16-list"></div></div></section>
 <section class="v16-section" data-v16-section="orders"><div class="admin-actions"><button class="btn" onclick="v16LoadOrders()">🔄 Actualiser les commandes</button></div><div class="v16-scroll"><table class="v16-table"><thead><tr><th>Date</th><th>Client</th><th>Total</th><th>Statut</th><th>Paiement</th><th></th></tr></thead><tbody id="v16OrderRows"></tbody></table></div></section>
 <section class="v16-section" data-v16-section="members"><div class="v16-box"><h3>👥 Gestion des membres PREMIUM</h3><div class="admin-actions"><input id="premiumMemberEmail" type="email" placeholder="nouveau@email.com" style="flex:1;min-width:220px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#09090d;color:#fff"><button class="primary" onclick="addPremiumMember()">➕ AJOUTER</button></div><div id="premiumMembersList" class="admin-grid"></div></div></section>
-<section class="v16-section" data-v16-section="tools"><div class="v16-two"><div class="v16-box"><h3>🧠 Assistant boutique</h3><div id="v16SmartTools"></div></div><div class="v16-box"><h3>🧹 Contrôle qualité</h3><div id="v16Quality"></div></div></div><div class="v16-box"><h3>🛡️ Sécurité</h3><p class="v16-help">Les écritures Premium sont protégées par une session PHP côté serveur. Aucune clé de base de données n’est exposée dans le navigateur.</p></div></section>
+<section class="v16-section" data-v16-section="tools"><div class="v16-two"><div class="v16-box"><h3>🧠 Assistant boutique</h3><div id="v16SmartTools"></div></div><div class="v16-box"><h3>🧹 Contrôle qualité</h3><div id="v16Quality"></div></div></div><div class="v16-box"><h3>🛡️ Sécurité</h3><p class="v16-help">Les écritures Premium sont prévues pour être protégées par Supabase RLS via la migration <b>premium_v16.sql</b>. Le navigateur ne doit jamais contenir de clé service-role.</p></div></section>
 <div class="admin-actions" style="margin-top:18px"><button class="btn" onclick="premiumLogout()">Se déconnecter</button></div></div></div>
-<div class="admin-modal" id="premiumEditor" onclick="if(event.target===this)closeEditor()"><div class="admin-box"><button class="admin-close" onclick="closeEditor()">×</button><span class="premium">👑 PREMIUM</span><h2 id="premiumEditorTitle">Modifier un produit</h2><form class="admin-form" id="premiumForm"><input type="hidden" id="premiumId"><label class="full">Nom<input id="premiumName" required></label><label>Prix (€)<input id="premiumPrice" type="number" step="0.01" min="0" required></label><label>Prix avant promo (€)<input id="premiumCompare" type="number" step="0.01" min="0"></label><label>Catégorie<select id="premiumCat"><option>Hauts</option><option>Doudounes</option><option>Bas</option><option>Chaussures</option><option>Gaming</option></select></label><label>Stock<input id="premiumStock" type="number" min="0" value="0"></label><label class="full">Tailles (séparées par des virgules)<input id="premiumSizes" placeholder="XS,S,M,L,XL"></label><label>Badge<select id="premiumBadge"><option value="">Aucun</option><option>NEW</option><option>PROMO</option><option>BEST-SELLER</option><option>ÉPUISÉ</option></select></label><label>Publication<input id="premiumPublishAt" type="datetime-local"></label><label class="full">Description<textarea id="premiumDetails"></textarea></label><label class="full">Image<input id="premiumImage" type="file" accept="image/*"></label><label><input id="premiumFeatured" type="checkbox"> ⭐ Produit à la une</label><label><input id="premiumPopular" type="checkbox"> 🔥 Produit populaire</label><label><input id="premiumNew" type="checkbox" checked> 🆕 Nouveauté</label><label><input id="premiumPublished" type="checkbox" checked> 👁️ Publié</label><button class="primary full" type="submit">💾 ENREGISTRER</button></form></div></div>
+<div class="admin-modal" id="premiumEditor" onclick="if(event.target===this)closeEditor()"><div class="admin-box"><button class="admin-close" onclick="closeEditor()">×</button><span class="premium">👑 PREMIUM</span><h2 id="premiumEditorTitle">Modifier un produit</h2><form class="admin-form" id="premiumForm"><input type="hidden" id="premiumId"><label class="full">Nom<input id="premiumName" required></label><label>Prix (€)<input id="premiumPrice" type="number" step="0.01" min="0" required></label><label>Prix avant promo (€)<input id="premiumCompare" type="number" step="0.01" min="0"></label><label>Catégorie<select id="premiumCat"><option>Hauts</option><option>Doudounes</option><option>Bas</option><option>Chaussures</option></select></label><label>Stock<input id="premiumStock" type="number" min="0" value="0"></label><label class="full">Tailles (séparées par des virgules)<input id="premiumSizes" placeholder="XS,S,M,L,XL"></label><label>Badge<select id="premiumBadge"><option value="">Aucun</option><option>NEW</option><option>PROMO</option><option>BEST-SELLER</option><option>ÉPUISÉ</option></select></label><label>Publication<input id="premiumPublishAt" type="datetime-local"></label><label class="full">Description<textarea id="premiumDetails"></textarea></label><label class="full">Image<input id="premiumImage" type="file" accept="image/*"></label><label><input id="premiumFeatured" type="checkbox"> ⭐ Produit à la une</label><label><input id="premiumPopular" type="checkbox"> 🔥 Produit populaire</label><label><input id="premiumNew" type="checkbox" checked> 🆕 Nouveauté</label><label><input id="premiumPublished" type="checkbox" checked> 👁️ Publié</label><button class="primary full" type="submit">💾 ENREGISTRER</button></form></div></div>
 <div class="admin-modal" id="premiumMembersModal" style="display:none"></div>
 <script>
-// LOGANATOR V27 — fonctionnement autonome : PHP + JSON, sans Supabase.
+const LOGANATOR_SUPABASE_URL="https://aidaqphingkvvevgbeyk.supabase.co";
+const LOGANATOR_SUPABASE_KEY="sb_publishable_g3yTfPLGBasbLU4Q3LEi0w_P6b8ROLM";
+window.LOGANATOR_SUPABASE_URL=LOGANATOR_SUPABASE_URL; window.LOGANATOR_SUPABASE_KEY=LOGANATOR_SUPABASE_KEY;
 const LOGANATOR_PREMIUM=["gauducheaulogan@gmail.com","leloganator@gmail.com","alexisprouillac@gmail.com","theteamsloganator@gmail.com"];
-const LOGANATOR_API='api';
 let LOGANATOR_SB=null, LOGANATOR_USER=null;
-function premiumEmail(){return (LOGANATOR_USER?.email||'').toLowerCase()}
-function isLoganatorPremium(){return !!LOGANATOR_USER && (LOGANATOR_USER.role==='premium' || LOGANATOR_PREMIUM.includes(premiumEmail()))}
+function supabaseReady(){return LOGANATOR_SUPABASE_URL.startsWith("https://")&&LOGANATOR_SUPABASE_KEY.length>20}
+function premiumEmail(){return (LOGANATOR_USER?.email||"").toLowerCase()}
+function isLoganatorPremium(){return !!LOGANATOR_USER&&LOGANATOR_PREMIUM.includes(premiumEmail())}
 function showAccountMessage(m){const el=document.getElementById('accountArea');if(el)el.innerHTML=m}
-async function apiFetch(path,options={}){const r=await fetch(LOGANATOR_API+'/'+path,{credentials:'same-origin',...options});let d={};try{d=await r.json()}catch{}if(!r.ok||d.ok===false)throw new Error(d.error||('Erreur HTTP '+r.status));return d}
 window.openAccount=async function(){
-  if(LOGANATOR_USER){if(isLoganatorPremium()){openPremium();return}showAccountMessage(`<p>Connecté avec <b>${esc(LOGANATOR_USER.email)}</b>.</p><button class="btn" onclick="premiumLogout()">Se déconnecter</button>`)}
-  else showAccountMessage(`<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" onclick="v12Login()">SE CONNECTER</button></div><div id="v12Msg" class="notice">Connexion Premium autonome. Aucun Supabase.</div><div style="margin-top:10px;font-size:.9em;opacity:.75">Première installation : ouvre <b>setup.php</b> une seule fois pour créer le compte administrateur.</div>`);
-  document.getElementById('authTitle').textContent=LOGANATOR_USER?'Mon compte':'Connexion Premium';
-  document.getElementById('accountModal').classList.add('open');
+ if(!supabaseReady()){showAccountMessage('<div class="notice">⚠️ Le système de compte est prêt, mais il faut encore connecter ton projet Supabase.</div>');document.getElementById('accountModal').classList.add('open');return}
+ if(LOGANATOR_USER&&(isLoganatorPremium()||await v15CheckPremium(premiumEmail()))){openPremium();return}
+ const title=document.getElementById('authTitle');title.textContent=LOGANATOR_USER?'Mon compte':'Connexion / création de compte';
+ showAccountMessage(LOGANATOR_USER?`<p>Connecté avec <b>${LOGANATOR_USER.email}</b>.</p><button class="btn" onclick="premiumLogout()">Se déconnecter</button>`:`<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" onclick="v12Login()">SE CONNECTER</button><button class="btn" onclick="v12Signup()">CRÉER UN COMPTE</button><button class="btn" onclick="v12Reset()">MOT DE PASSE OUBLIÉ</button></div><div id="v12Msg" class="notice">Les comptes sont gérés par Supabase.</div>`);
+ document.getElementById('accountModal').classList.add('open');
 }
 function v12msg(m){const e=document.getElementById('v12Msg');if(e)e.textContent=m}
-window.v12Login=async function(){const email=document.getElementById('v12Email')?.value.trim(),password=document.getElementById('v12Password')?.value;if(!email||!password)return v12msg('Remplis les deux champs.');try{const d=await apiFetch('auth.php?action=login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({email,password})});LOGANATOR_USER=d.user;closeModal('accountModal');document.getElementById('accountBtn').textContent='👑 PREMIUM';await v12LoadProducts();render();openPremium()}catch(e){v12msg(e.message)}}
-window.v12Signup=async function(){v12msg('La création du compte se fait une seule fois via setup.php.');window.open('setup.php','_blank')}
-window.v12Reset=async function(){v12msg('Pour changer le mot de passe, recrée-le côté hébergement ou demande une réinitialisation via le panneau de ton hébergeur. Aucun service externe n’est utilisé.')}
-window.premiumLogout=async function(){try{await apiFetch('auth.php?action=logout',{method:'POST'})}catch{}LOGANATOR_USER=null;closePremium();closeModal('accountModal');document.getElementById('accountBtn').textContent='👤 COMPTE'}
-function premiumMessage(m,ok=false){const e=document.getElementById('premiumMsg');if(e){e.textContent=m;e.className='admin-msg'+(ok?' ok':'')}}
-window.openPremium=async function(){if(!isLoganatorPremium())return alert('Accès réservé aux membres PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open')}
+window.v12Login=async function(){const email=document.getElementById('v12Email').value.trim(),password=document.getElementById('v12Password').value;if(!email||!password)return v12msg('Remplis les deux champs.');const {error}=await LOGANATOR_SB.auth.signInWithPassword({email,password});if(error)return v12msg(error.message);closeModal('accountModal');if(await v15CheckPremium(email.toLowerCase()))openPremium()}
+window.v12Signup=async function(){const email=document.getElementById('v12Email').value.trim(),password=document.getElementById('v12Password').value;if(!email||password.length<6)return v12msg('E-mail valide + mot de passe de 6 caractères minimum.');const {error}=await LOGANATOR_SB.auth.signUp({email,password,options:{emailRedirectTo:location.href}});v12msg(error?error.message:'✅ Compte créé. Vérifie ton e-mail si une confirmation est demandée.')}
+window.v12Reset=async function(){const email=document.getElementById('v12Email').value.trim();if(!email)return v12msg('Entre ton e-mail.');const {error}=await LOGANATOR_SB.auth.resetPasswordForEmail(email,{redirectTo:location.href});v12msg(error?'❌ '+error.message:'✅ Si le compte existe, un e-mail de réinitialisation a été envoyé.')}
+window.premiumLogout=async function(){if(LOGANATOR_SB)await LOGANATOR_SB.auth.signOut();LOGANATOR_USER=null;closePremium();closeModal('accountModal');document.getElementById('accountBtn').textContent='👤 COMPTE'}
+function premiumMessage(m,ok=false){const e=document.getElementById('premiumMsg');e.textContent=m;e.className='admin-msg'+(ok?' ok':'')}
+window.openPremium=async function(){if(!(isLoganatorPremium()||await v15CheckPremium(premiumEmail())))return alert('Accès réservé aux membres PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open')}
 window.closePremium=function(){document.getElementById('premiumModal').classList.remove('open')}
 window.closeEditor=function(){document.getElementById('premiumEditor').classList.remove('open')}
-function localFallbackImage(p){const n=(p.name||'').toLowerCase();if(n.includes('hoodie'))return'photo-5.jpg';if(n.includes('doudoune'))return'photo-9.png';if(n.includes('baggy'))return'photo-13.png';if(n.includes('chauss'))return'photo-6.png';return'photo-5.jpg'}
-function dbToProduct(p){const description=(p.description||'').trim();const rawCat=p.category||p.cat||'';const cat=normalizeCategory(rawCat);return {...p,price:Number(p.price)||0,cat,category:rawCat,image:p.image_url||p.image||localFallbackImage(p),description,details:Array.isArray(p.details)&&p.details.length?p.details:(description?description.split(/\r?\n/).map(x=>x.trim()).filter(Boolean):[p.name||'Produit LOGANATOR'])}}
-async function v12LoadProducts(){try{const d=await apiFetch('products.php');const remote=(d.products||[]).map(dbToProduct);if(remote.length){products.splice(0,products.length,...remote)}return remote}catch(e){console.warn('Catalogue PHP:',e.message);return products}}
-window.v12LoadProducts=v12LoadProducts;
-function renderPremiumList(){const box=document.getElementById('premiumList');if(!box)return;box.innerHTML=products.map(p=>`<div class="admin-card"><img src="${esc(p.image)}" alt="${esc(p.name)}"><div><b>${esc(p.name)}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${esc(p.cat)} · Stock: ${Number(p.stock??0)}</div></div><div class="admin-actions"><button class="btn" onclick='downloadPremiumImage(${JSON.stringify(p.id)})'>⬇️ Télécharger l’image</button><button class="btn" onclick='editPremiumProduct(${JSON.stringify(p.id)})'>✏️ Modifier</button><button class="btn" onclick='deletePremiumProduct(${JSON.stringify(p.id)})'>🗑️ Supprimer</button></div></div>`).join('')||'<div class="v16-muted">Aucun produit.</div>'}
-window.editPremiumProduct=function(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById('premiumEditorTitle').textContent='Modifier le produit';document.getElementById('premiumId').value=id;document.getElementById('premiumName').value=p.name||'';document.getElementById('premiumPrice').value=p.price||0;document.getElementById('premiumCompare').value=p.compare_at_price||'';document.getElementById('premiumCat').value=normalizeCategory(p.cat)||'Hauts';document.getElementById('premiumStock').value=p.stock??0;document.getElementById('premiumSizes').value=(p.sizes||sizes(p)).join(',');document.getElementById('premiumBadge').value=p.badge||'';document.getElementById('premiumDetails').value=p.description||((p.details||[]).join('\n'));document.getElementById('premiumFeatured').checked=!!p.is_featured;document.getElementById('premiumPopular').checked=!!p.is_popular;document.getElementById('premiumNew').checked=p.is_new!==false;document.getElementById('premiumPublished').checked=p.is_published!==false;document.getElementById('premiumPublishAt').value=p.publish_at?new Date(p.publish_at).toISOString().slice(0,16):'';document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')}
-window.newPremiumProduct=function(){document.getElementById('premiumEditorTitle').textContent='Ajouter un produit';['premiumId','premiumName','premiumCompare','premiumPublishAt','premiumDetails'].forEach(id=>document.getElementById(id).value='');document.getElementById('premiumPrice').value=0;document.getElementById('premiumCat').value='Hauts';document.getElementById('premiumStock').value=0;document.getElementById('premiumSizes').value='XS,S,M,L,XL';document.getElementById('premiumBadge').value='';document.getElementById('premiumFeatured').checked=false;document.getElementById('premiumPopular').checked=false;document.getElementById('premiumNew').checked=true;document.getElementById('premiumPublished').checked=true;document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')}
-async function v12Upload(file){const fd=new FormData();fd.append('image',file);const d=await apiFetch('upload.php',{method:'POST',body:fd});return d.url}
-window.deletePremiumProduct=async function(id){if(!isLoganatorPremium()||!confirm('Supprimer ce produit pour tout le monde ?'))return;try{await apiFetch('products.php?id='+encodeURIComponent(id),{method:'DELETE'});await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Produit supprimé publiquement pour tout le monde.',true)}catch(e){alert('Erreur : '+e.message)}}
-async function v15CheckPremium(email){return !!LOGANATOR_USER&&LOGANATOR_USER.email.toLowerCase()===String(email||'').toLowerCase()}
-async function openPremiumMembers(){if(!isLoganatorPremium())return;document.getElementById('premiumMembersModal').classList.add('open');await loadPremiumMembers()}
+function localFallbackImage(p){
+ const n=(p.name||'').toLowerCase();
+ if(n.includes('hoodie')) return 'photo-5.jpg';
+ if(n.includes('doudoune')) return 'photo-9.png';
+ if(n.includes('baggy')) return 'photo-13.png';
+ if(n.includes('chauss')) return 'photo-6.png';
+ return 'photo-5.jpg';
+}
+function dbToProduct(p){
+ const description=(p.description||'').trim();
+ const rawCat=p.category||'';
+ const cat=normalizeCategory(rawCat);
+ return {...p,price:Number(p.price)||0,cat,category:rawCat,image:p.image_url||localFallbackImage(p),description,details:description?description.split(/\r?\n/).map(x=>x.trim()).filter(Boolean):[p.name||'Produit LOGANATOR']};
+}
+async function v12LoadProducts(){
+ if(!LOGANATOR_SB)return;
+ const {data,error}=await LOGANATOR_SB.from('products').select('*').order('created_at',{ascending:true});
+ if(error){console.warn('Supabase products:',error.message);return;}
+ if(data&&data.length){products.splice(0,products.length,...data.map(dbToProduct));}
+}
+function renderPremiumList(){document.getElementById('premiumList').innerHTML=products.map(p=>`<div class="admin-card"><img src="${p.image}" alt="${p.name}"><div><b>${p.name}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${p.cat}</div></div><div class="admin-actions"><button class="btn" onclick='downloadPremiumImage(${JSON.stringify(p.id)})'>⬇️ Télécharger l’image</button><button class="btn" onclick='editPremiumProduct(${JSON.stringify(p.id)})'>✏️ Modifier</button><button class="btn" onclick='deletePremiumProduct(${JSON.stringify(p.id)})'>🗑️ Supprimer</button></div></div>`).join('')}
+window.editPremiumProduct=function(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById('premiumEditorTitle').textContent='Modifier le produit';document.getElementById('premiumId').value=id;document.getElementById('premiumName').value=p.name;document.getElementById('premiumPrice').value=p.price;document.getElementById('premiumCat').value=p.cat;document.getElementById('premiumDetails').value=(p.details||[]).join('\n');document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')}
+window.newPremiumProduct=function(){document.getElementById('premiumEditorTitle').textContent='Ajouter un produit';document.getElementById('premiumId').value='';document.getElementById('premiumName').value='';document.getElementById('premiumPrice').value='0';document.getElementById('premiumCat').value='';document.getElementById('premiumDetails').value='';document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')}
+async function v12Upload(file){const name=file.name.toLowerCase().replace(/[^a-z0-9._-]/g,'-');const path='products/'+Date.now()+'-'+name;const {error}=await LOGANATOR_SB.storage.from('product-images').upload(path,file);if(error)throw error;return LOGANATOR_SB.storage.from('product-images').getPublicUrl(path).data.publicUrl}
+window.deletePremiumProduct=async function(id){if(!isLoganatorPremium()||!confirm('Supprimer ce produit pour tout le monde ?'))return;const {error}=await LOGANATOR_SB.from('products').delete().eq('id',id);if(error)return alert('Erreur : '+error.message);await v12LoadProducts();render();renderPremiumList();premiumMessage('✅ Produit supprimé pour tout le monde.',true)}
+
+async function v15CheckPremium(email){if(!LOGANATOR_SB||!email)return false;if(LOGANATOR_PREMIUM.includes(email.toLowerCase()))return true;const {data}=await LOGANATOR_SB.from('premium_members').select('email').eq('email',email.toLowerCase()).maybeSingle();return !!data}
+async function openPremiumMembers(){if(!(isLoganatorPremium()||await v15CheckPremium(premiumEmail())))return;document.getElementById('premiumMembersModal').classList.add('open');await loadPremiumMembers()}
 function closePremiumMembers(){document.getElementById('premiumMembersModal').classList.remove('open')}
-function loadPremiumMembers(){const box=document.getElementById('premiumMembersList');if(!box)return;box.innerHTML=`<div class="admin-card"><div><b>${esc(LOGANATOR_USER?.email||'Compte Premium')}</b><div class="muted">Administrateur Premium autonome</div></div></div>`}
-function addPremiumMember(){alert('La gestion des comptes se fait sur l’hébergement, sans Supabase.')}
-function removePremiumMember(){alert('La gestion des comptes se fait sur l’hébergement, sans Supabase.')}
-async function bootV12(){try{const me=await apiFetch('auth.php?action=me');LOGANATOR_USER=me.user||null}catch{}document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 COMPTE';await v12LoadProducts();render()}
+async function loadPremiumMembers(){const box=document.getElementById('premiumMembersList');const {data,error}=await LOGANATOR_SB.from('premium_members').select('*').order('created_at');if(error){box.innerHTML='<div class="admin-msg err">'+error.message+'</div>';return}box.innerHTML=(data||[]).map(m=>`<div class="admin-card" style="grid-template-columns:1fr auto"><div><b>${m.email}</b><div class="muted">Membre PREMIUM</div></div><button class="btn" onclick='removePremiumMember(${JSON.stringify(m.email)})'>🗑️ Retirer</button></div>`).join('')}
+async function addPremiumMember(){const e=document.getElementById('premiumMemberEmail'),email=e.value.trim().toLowerCase();if(!email.includes('@'))return alert("E-mail invalide.");const {error}=await LOGANATOR_SB.from('premium_members').insert({email});if(error)return alert("Erreur : "+error.message);e.value="";await loadPremiumMembers()}
+async function removePremiumMember(email){if(!confirm("Retirer "+email+" de PREMIUM ?"))return;const {error}=await LOGANATOR_SB.from('premium_members').delete().eq('email',email);if(error)return alert("Erreur : "+error.message);await loadPremiumMembers()}
+async function bootV12(){if(!supabaseReady()){document.getElementById('accountBtn').textContent='👤 COMPTE';return}LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SUPABASE_URL,LOGANATOR_SUPABASE_KEY);const {data}=await LOGANATOR_SB.auth.getSession();LOGANATOR_USER=data.session?.user||null;LOGANATOR_SB.auth.onAuthStateChange((_event,session)=>{LOGANATOR_USER=session?.user||null;document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':LOGANATOR_USER?'👤 '+LOGANATOR_USER.email.split('@')[0]:'👤 COMPTE'});if(LOGANATOR_USER)document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 '+LOGANATOR_USER.email.split('@')[0];await v12LoadProducts();render()}
 bootV12();
-setInterval(async()=>{if(document.hidden)return;try{await v12LoadProducts();render()}catch(e){}},5000);
 </script>\n
 <script>
 /* LOGANATOR V16.1 PREMIUM */
@@ -394,7 +412,7 @@ async function v16RefreshProducts(){await v12LoadProducts();render();renderPremi
 function renderPremiumList(){const box=document.getElementById('premiumList');if(!box)return;box.innerHTML=products.map(p=>{const stock=Number(p.stock??0);const badge=p.badge||((stock<=0)?'ÉPUISÉ':p.is_new?'NEW':p.is_popular?'BEST-SELLER':'');return `<div class="admin-card"><img src="${v16Esc(p.image)}" alt="${v16Esc(p.name)}"><div><b>${v16Esc(p.name)}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${v16Esc(normalizeCategory(p.cat))} · Stock: ${stock}</div><div style="margin-top:6px">${badge?`<span class="v16-badge">${v16Esc(badge)}</span>`:''} ${p.is_featured?'⭐':''}</div></div><div class="admin-actions"><button class="btn" onclick='downloadPremiumImage(${JSON.stringify(p.id)})'>⬇️ Télécharger l’image</button><button class="btn" onclick='editPremiumProduct(${JSON.stringify(p.id)})'>✏️ Modifier</button><button class="btn" onclick='deletePremiumProduct(${JSON.stringify(p.id)})'>🗑️ Supprimer</button></div></div>`}).join('')}
 const _editPremiumProduct=window.editPremiumProduct;window.editPremiumProduct=function(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById('premiumEditorTitle').textContent='Modifier un produit';document.getElementById('premiumId').value=id;document.getElementById('premiumName').value=p.name||'';document.getElementById('premiumPrice').value=p.price||0;document.getElementById('premiumCompare').value=p.compare_at_price||'';document.getElementById('premiumCat').value=normalizeCategory(p.cat)||'Hauts';document.getElementById('premiumStock').value=p.stock??0;document.getElementById('premiumSizes').value=(p.sizes||sizes(p)).join(',');document.getElementById('premiumBadge').value=p.badge||'';document.getElementById('premiumDetails').value=p.description||((p.details||[]).join('\n'));document.getElementById('premiumFeatured').checked=!!p.is_featured;document.getElementById('premiumPopular').checked=!!p.is_popular;document.getElementById('premiumNew').checked=p.is_new!==false;document.getElementById('premiumPublished').checked=p.is_published!==false;document.getElementById('premiumPublishAt').value=p.publish_at?new Date(p.publish_at).toISOString().slice(0,16):'';document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')};
 const _newPremiumProduct=window.newPremiumProduct;window.newPremiumProduct=function(){document.getElementById('premiumEditorTitle').textContent='Ajouter un produit';['premiumId','premiumName','premiumCompare','premiumPublishAt','premiumDetails'].forEach(id=>document.getElementById(id).value='');document.getElementById('premiumPrice').value=0;document.getElementById('premiumCat').value='Hauts';document.getElementById('premiumStock').value=0;document.getElementById('premiumSizes').value='XS,S,M,L,XL';document.getElementById('premiumBadge').value='';document.getElementById('premiumFeatured').checked=false;document.getElementById('premiumPopular').checked=false;document.getElementById('premiumNew').checked=true;document.getElementById('premiumPublished').checked=true;document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')};
-
+const oldSubmit=document.getElementById('premiumForm');oldSubmit.addEventListener('submit',async e=>{e.preventDefault();if(!v16Can())return alert('Accès Premium requis.');const id=document.getElementById('premiumId').value;const payload={name:document.getElementById('premiumName').value.trim(),price:Number(document.getElementById('premiumPrice').value),category:document.getElementById('premiumCat').value,description:document.getElementById('premiumDetails').value.trim(),stock:Number(document.getElementById('premiumStock').value)||0,sizes:document.getElementById('premiumSizes').value.split(',').map(x=>x.trim()).filter(Boolean),badge:document.getElementById('premiumBadge').value||null,is_featured:document.getElementById('premiumFeatured').checked,is_popular:document.getElementById('premiumPopular').checked,is_new:document.getElementById('premiumNew').checked,is_published:document.getElementById('premiumPublished').checked,publish_at:document.getElementById('premiumPublishAt').value?new Date(document.getElementById('premiumPublishAt').value).toISOString():null,compare_at_price:document.getElementById('premiumCompare').value?Number(document.getElementById('premiumCompare').value):null};const file=document.getElementById('premiumImage').files[0];try{if(file)payload.image_url=await v12Upload(file);let r=id?await LOGANATOR_SB.from('products').update(payload).eq('id',id):await LOGANATOR_SB.from('products').insert(payload);if(r.error)throw r.error;const pid=id||r.data?.[0]?.id;if(pid)await LOGANATOR_SB.from('product_meta').upsert({product_id:pid,stock:payload.stock,sizes:payload.sizes,badge:payload.badge,is_featured:payload.is_featured,is_popular:payload.is_popular,is_new:payload.is_new,is_published:payload.is_published,publish_at:payload.publish_at,compare_at_price:payload.compare_at_price,updated_at:new Date().toISOString()});closeEditor();await v12LoadProducts();render();renderPremiumList();v16Notice('✅ Produit enregistré.',true)}catch(err){alert('Erreur : '+err.message)}});
 async function v16LoadSettings(){if(!v16Can())return;const {data,error}=await LOGANATOR_SB.from('store_settings').select('*').eq('id',1).maybeSingle();if(error||!data)return;const x=data.draft||{};document.getElementById('v16HeroTitle').value=x.heroTitle||'PORTE TON LOGANATOR.';document.getElementById('v16HeroText').value=x.heroText||'La boutique de la chaîne, avec les vraies photos de tes créations.';document.getElementById('v16HeroButton').value=x.heroButton||'VOIR LA COLLECTION';document.getElementById('v16BannerText').value=x.bannerText||'🚚 LIVRAISON OFFERTE À PARTIR DE 80€';document.getElementById('v16DropText').value=x.dropText||'';['New','Popular','Promos','Drop'].forEach(k=>{const el=document.getElementById('v16Show'+k);if(el)el.checked=x['show'+k]!==false});v16PreviewSettings()}
 function v16SettingsObj(){return {heroTitle:document.getElementById('v16HeroTitle').value,heroText:document.getElementById('v16HeroText').value,heroButton:document.getElementById('v16HeroButton').value,bannerText:document.getElementById('v16BannerText').value,dropText:document.getElementById('v16DropText').value,showNew:document.getElementById('v16ShowNew').checked,showPopular:document.getElementById('v16ShowPopular').checked,showPromos:document.getElementById('v16ShowPromos').checked,showDrop:document.getElementById('v16ShowDrop').checked}}
 function v16PreviewSettings(){const x=v16SettingsObj();document.getElementById('v16PreviewTitle').textContent=x.heroTitle;document.getElementById('v16PreviewText').textContent=x.heroText;document.getElementById('v16PreviewButton').textContent=x.heroButton}
@@ -427,8 +445,6 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
   store.orders=Array.isArray(store.orders)?store.orders:[];
   store.members=Array.isArray(store.members)?store.members:[];
   store.events=Array.isArray(store.events)?store.events:[];
-  const v27Seed={id:'pack-gaming-neon-bleu',name:'Pack Gaming LOGANATOR Néon Bleu',price:100,cat:'Gaming',category:'Gaming',stock:200,image:'photo-15.png',image_url:'photo-15.png',description:'Pack gaming complet LOGANATOR avec clavier mécanique AZERTY, souris haute précision, tapis de souris XXL et télécommande RGB.',details:['Clavier mécanique AZERTY',"Souris haute précision jusqu'à 16 000 DPI",'Tapis de souris XXL ultra fluide','Télécommande RGB incluse','RGB personnalisable'],sizes:[],is_published:true,is_new:true,is_featured:true};
-  if(!store.products.some(x=>String(x.id)==='pack-gaming-neon-bleu')){store.products.push(v27Seed)}
   save(store);
 
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -443,48 +459,45 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
   const can=()=>typeof v16Can==='function' ? v16Can() : isLoganatorPremium();
   const notice=(m,ok=false)=>{if(typeof v16Notice==='function')v16Notice(m,ok);else if(typeof premiumMessage==='function')premiumMessage(m,ok)};
 
-  // V27 PUBLIC CRUD — PHP/JSON, no Supabase.
+  // Replace the product form so the original Supabase-writing listener cannot run.
   const oldForm=document.getElementById('premiumForm');
   if(oldForm){
     const clean=oldForm.cloneNode(true); oldForm.replaceWith(clean);
     clean.addEventListener('submit',async e=>{
-      e.preventDefault();
-      if(!can()) return alert('Accès Premium requis.');
+      e.preventDefault(); if(!can()) return alert('Accès Premium requis.');
       const id=document.getElementById('premiumId').value.trim();
-      const existing=products.find(x=>String(x.id)===String(id))||{};
-      const payload={
-        id:id||undefined,
+      const file=document.getElementById('premiumImage').files[0];
+      let image='';
+      if(file){image=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+      const old=products.find(x=>String(x.id)===String(id))||{};
+      const p={
+        ...old,
+        id:id||uid(),
         name:document.getElementById('premiumName').value.trim(),
         price:Number(document.getElementById('premiumPrice').value)||0,
-        category:document.getElementById('premiumCat').value,
+        compare_at_price:document.getElementById('premiumCompare').value?Number(document.getElementById('premiumCompare').value):null,
         cat:document.getElementById('premiumCat').value,
-        description:document.getElementById('premiumDetails').value.trim(),
-        details:document.getElementById('premiumDetails').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),
+        category:document.getElementById('premiumCat').value,
         stock:Number(document.getElementById('premiumStock').value)||0,
         sizes:document.getElementById('premiumSizes').value.split(',').map(x=>x.trim()).filter(Boolean),
         badge:document.getElementById('premiumBadge').value||null,
+        description:document.getElementById('premiumDetails').value.trim(),
+        details:document.getElementById('premiumDetails').value.trim().split(/\r?\n/).map(x=>x.trim()).filter(Boolean),
         is_featured:document.getElementById('premiumFeatured').checked,
         is_popular:document.getElementById('premiumPopular').checked,
         is_new:document.getElementById('premiumNew').checked,
         is_published:document.getElementById('premiumPublished').checked,
         publish_at:document.getElementById('premiumPublishAt').value?new Date(document.getElementById('premiumPublishAt').value).toISOString():null,
-        compare_at_price:document.getElementById('premiumCompare').value?Number(document.getElementById('premiumCompare').value):null
+        image:image||old.image||localFallbackImage(old),
+        image_url:image||old.image_url||old.image||''
       };
-      const file=document.getElementById('premiumImage').files[0];
-      try{
-        if(file)payload.image_url=await v12Upload(file);
-        else if(existing.image_url||existing.image)payload.image_url=existing.image_url||existing.image;
-        payload.image=payload.image_url||existing.image_url||existing.image||'';
-        const method=id?'PUT':'POST';
-        const r=await apiFetch('products.php',{method,headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-        closeEditor();
-        await v12LoadProducts();
-        render();renderPremiumList();
-        if(typeof v16LoadTools==='function')v16LoadTools();
-        notice(id?'✅ Produit modifié et publié publiquement.':'✅ Produit ajouté et publié publiquement.',true);
-      }catch(err){alert('Impossible de publier le produit : '+(err?.message||err))}
+      mergeProduct(p); applyMeta(); closeEditor(); render(); renderPremiumList(); v16LoadTools(); notice('✅ Produit enregistré dans ce navigateur — aucun SQL ni nouvelle table.',true);
     });
   }
+
+  window.editPremiumProduct=function(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById('premiumEditorTitle').textContent='Modifier un produit';document.getElementById('premiumId').value=id;document.getElementById('premiumName').value=p.name||'';document.getElementById('premiumPrice').value=p.price||0;document.getElementById('premiumCompare').value=p.compare_at_price||'';document.getElementById('premiumCat').value=normalizeCategory(p.cat)||'Hauts';document.getElementById('premiumStock').value=p.stock??0;document.getElementById('premiumSizes').value=(p.sizes||sizes(p)).join(',');document.getElementById('premiumBadge').value=p.badge||'';document.getElementById('premiumDetails').value=p.description||((p.details||[]).join('\n'));document.getElementById('premiumFeatured').checked=!!p.is_featured;document.getElementById('premiumPopular').checked=!!p.is_popular;document.getElementById('premiumNew').checked=p.is_new!==false;document.getElementById('premiumPublished').checked=p.is_published!==false;document.getElementById('premiumPublishAt').value=p.publish_at?new Date(p.publish_at).toISOString().slice(0,16):'';document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')};
+  window.newPremiumProduct=function(){document.getElementById('premiumEditorTitle').textContent='Ajouter un produit';['premiumId','premiumName','premiumCompare','premiumPublishAt','premiumDetails'].forEach(id=>document.getElementById(id).value='');document.getElementById('premiumPrice').value=0;document.getElementById('premiumCat').value='Hauts';document.getElementById('premiumStock').value=0;document.getElementById('premiumSizes').value='XS,S,M,L,XL';document.getElementById('premiumBadge').value='';document.getElementById('premiumFeatured').checked=false;document.getElementById('premiumPopular').checked=false;document.getElementById('premiumNew').checked=true;document.getElementById('premiumPublished').checked=true;document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')};
+  window.deletePremiumProduct=function(id){if(!can()||!confirm('Supprimer ce produit de la configuration locale ?'))return;removeProduct(id);const i=products.findIndex(x=>String(x.id)===String(id));if(i>=0)products.splice(i,1);render();renderPremiumList();v16LoadTools();notice('🗑️ Produit supprimé de ce navigateur.',true)};
 
   window.downloadPremiumImage=async function(id){
     if(!(typeof v16Can==='function'?v16Can():isLoganatorPremium()))return alert('Téléchargement réservé aux membres PREMIUM 👑');
@@ -515,7 +528,7 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
   window.renderPremiumList=function(){const box=document.getElementById('premiumList');if(!box)return;box.innerHTML=products.map(p=>{const stock=Number(p.stock??0);const badge=p.badge||((stock<=0)?'ÉPUISÉ':p.is_new?'NEW':p.is_popular?'BEST-SELLER':'');return `<div class="admin-card"><img src="${esc(p.image)}" alt="${esc(p.name)}"><div><b>${esc(p.name)}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${esc(normalizeCategory(p.cat))} · Stock: ${stock}</div><div style="margin-top:6px">${badge?`<span class="v16-badge">${esc(badge)}</span>`:''} ${p.is_featured?'⭐':''}</div></div><div class="admin-actions"><button class="btn" onclick='downloadPremiumImage(${JSON.stringify(p.id)})'>⬇️ Télécharger l’image</button><button class="btn" onclick='v16DuplicateProduct(${JSON.stringify(p.id)})'>📑 Dupliquer</button><button class="btn" onclick='editPremiumProduct(${JSON.stringify(p.id)})'>✏️ Modifier</button><button class="btn" onclick='deletePremiumProduct(${JSON.stringify(p.id)})'>🗑️ Supprimer</button></div></div>`}).join('')||'<div class="v16-muted">Aucun produit.</div>'};
 
   // Premium tools: duplicate products, export CSV, full local backup/restore.
-  window.v16DuplicateProduct=async function(id){if(!can())return alert('Accès Premium requis.');const p=products.find(x=>String(x.id)===String(id));if(!p)return alert('Produit introuvable.');try{const copy={name:(p.name||'Produit')+' (copie)',price:Number(p.price)||0,category:p.category||p.cat||'',cat:p.category||p.cat||'',description:p.description||((p.details||[]).join('\n')),details:p.details||[],stock:Number(p.stock)||0,sizes:p.sizes||[],badge:p.badge||null,is_featured:false,is_popular:false,is_new:p.is_new!==false,is_published:p.is_published!==false,publish_at:p.publish_at||null,compare_at_price:p.compare_at_price||null,image_url:p.image_url||p.image||'',image:p.image_url||p.image||''};await apiFetch('products.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(copy)});await v12LoadProducts();render();renderPremiumList();notice('📑 Copie publiée sur la boutique.',true)}catch(err){alert('Impossible de dupliquer : '+(err?.message||err))}};
+  window.v16DuplicateProduct=function(id){if(!can())return alert('Accès Premium requis.');const p=products.find(x=>String(x.id)===String(id));if(!p)return alert('Produit introuvable.');const copy={...p,id:uid(),name:(p.name||'Produit')+' (copie)',is_featured:false,is_popular:false};mergeProduct(copy);applyMeta();render();renderPremiumList();v16LoadTools();notice('📑 Copie créée dans ce navigateur.',true)};
   window.v16ExportCatalogCSV=function(){if(!can())return alert('Accès Premium requis.');const rows=[['id','nom','prix','prix_avant_promo','categorie','stock','tailles','badge','description','image','publie','nouveaute','populaire','a_la_une'],...products.map(p=>[p.id,p.name,p.price,p.compare_at_price??'',normalizeCategory(p.cat),p.stock??0,(p.sizes||sizes(p)||[]).join('|'),p.badge||'',p.description||((p.details||[]).join(' / ')),p.image_url||p.image||'',p.is_published!==false,p.is_new!==false,!!p.is_popular,!!p.is_featured])];const csv='\ufeff'+rows.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='loganator-catalogue.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);notice('📊 Catalogue CSV exporté.',true)};
   window.v16ExportBackup=function(){if(!can())return alert('Accès Premium requis.');const backup={format:'LOGANATOR-SHOP-BACKUP',version:1,created_at:new Date().toISOString(),local_store:store,products:products};const url=URL.createObjectURL(new Blob([JSON.stringify(backup,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='loganator-shop-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);notice('💾 Sauvegarde téléchargée.',true)};
   window.v16ImportBackup=function(event){if(!can())return alert('Accès Premium requis.');const file=event.target.files&&event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(data.format!=='LOGANATOR-SHOP-BACKUP'||!data.local_store)throw new Error('Ce fichier ne semble pas être une sauvegarde LOGANATOR valide.');if(!confirm('Restaurer cette sauvegarde locale ? Les données locales actuelles seront remplacées.'))return;store={...data.local_store};store.products=Array.isArray(store.products)?store.products:[];store.settings=store.settings||{};store.promos=Array.isArray(store.promos)?store.promos:[];store.orders=Array.isArray(store.orders)?store.orders:[];store.members=Array.isArray(store.members)?store.members:[];store.events=Array.isArray(store.events)?store.events:[];save(store);if(Array.isArray(data.products))products.splice(0,products.length,...data.products);applyMeta();render();renderPremiumList();v16LoadSettings();v16LoadPromos();v16LoadOrders();v16LoadStats();v16LoadTools();loadPremiumMembers();notice('✅ Sauvegarde restaurée dans ce navigateur.',true)}catch(err){alert('Impossible de restaurer : '+err.message)}finally{event.target.value=''}};reader.readAsText(file)};
@@ -549,13 +562,13 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
 
   // Apply local metadata after Supabase catalog loading.
   const oldLoad=window.v12LoadProducts;
-  window.v12LoadProducts=async function(){if(oldLoad)await oldLoad();renderPremiumList();};
+  window.v12LoadProducts=async function(){if(oldLoad)await oldLoad();applyMeta();renderPremiumList();};
   const oldOpen=window.openPremium;
-  window.openPremium=async function(){if(!can())return alert('Accès réservé aux membres PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open');v16LoadStats();v16LoadTools();loadPremiumMembers()};
+  window.openPremium=async function(){if(!can())return alert('Accès réservé aux membres PREMIUM 👑');await v12LoadProducts();applyMeta();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open');v16LoadStats();v16LoadSettings();v16LoadPromos();v16LoadOrders();v16LoadTools();loadPremiumMembers()};
 
   // Small visual notice explaining the mode.
   const msg=document.getElementById('premiumMsg');
-  if(msg){msg.textContent='⚡ MODE AUTONOME : les produits sont enregistrés sur l’hébergement dans un fichier JSON et deviennent publics immédiatement. Aucun Supabase, aucune base SQL.';msg.className='admin-msg ok'}
+  if(msg){msg.textContent='⚡ MODE SANS CONFIGURATION SUPABASE : les fonctions Premium avancées sont enregistrées dans ce navigateur. Aucun SQL, aucune nouvelle table, aucune clé secrète.';msg.className='admin-msg ok'}
 })();
 </script>
 <script>
@@ -656,7 +669,22 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
     if(typeof window.loadPremiumMembers==='function')window.loadPremiumMembers();
   };
 
-  // Authentication is handled by the PHP session in api/auth.php.
+  const oldLogin=window.v12Login;
+  window.v12Login=async function(){
+    if(typeof oldLogin==='function'){
+      const email=(document.getElementById('v12Email')?.value||'').trim().toLowerCase();
+      const password=document.getElementById('v12Password')?.value||'';
+      if(!email||!password){return typeof window.v12msg==='function'?window.v12msg('Remplis les deux champs.'):null}
+      if(!window.LOGANATOR_SB)return typeof window.v12msg==='function'?window.v12msg('Connexion Supabase indisponible.'):null;
+      const {data,error}=await window.LOGANATOR_SB.auth.signInWithPassword({email,password});
+      if(error)return typeof window.v12msg==='function'?window.v12msg(error.message):alert(error.message);
+      window.LOGANATOR_USER=data.user||null;
+      const ok=await check();
+      if(typeof window.closeModal==='function')window.closeModal('accountModal');
+      await refresh();
+      if(ok)return window.openPremium();
+    }
+  };
 
   const oldLogout=window.premiumLogout;
   window.premiumLogout=async function(){if(oldLogout)await oldLogout();window.V22_PREMIUM=false;await refresh()};
@@ -726,7 +754,7 @@ document.body.classList.add('v25');
       <section class="v25-page" data-page="analytics"><div class="v25-grid"><div class="v25-card v25-kpi">Produits<b id="v25AProducts">—</b></div><div class="v25-card v25-kpi">Visites<b id="v25AVisits">—</b></div><div class="v25-card v25-kpi">Favoris<b id="v25AFavs">—</b></div><div class="v25-card v25-kpi">Panier<b id="v25ACart">—</b></div></div><div class="v25-card" style="margin-top:14px"><h3>📈 Activité</h3><div id="v25AnalyticsText" class="v25-list"></div></div></section>
       <section class="v25-page" data-page="preview"><div class="v25-card"><h3>👁️ Aperçu</h3><p class="v25-muted">Le site public reste la référence finale. Cette zone prépare les changements avant publication.</p><div class="v25-actions"><button class="v25-btn primary" id="v25OpenPublic">🌐 Ouvrir la boutique</button><button class="v25-btn" data-jump="home">✏️ Modifier l'accueil</button></div></div></section>
       <section class="v25-page" data-page="backups"><div class="v25-card"><h3>💾 Sauvegardes</h3><div class="v25-actions"><button class="v25-btn primary" id="v25Backup">⬇️ Exporter configuration</button><button class="v25-btn" id="v25Restore">📥 Restaurer</button><input id="v25RestoreFile" type="file" accept="application/json" hidden></div><div id="v25BackupStatus" class="v25-status"></div></div></section>
-      <section class="v25-page" data-page="diagnostic"><div class="v25-grid"><div class="v25-card v25-kpi">Serveur<b id="dSupabase">…</b></div><div class="v25-card v25-kpi">Session<b id="dSession">…</b></div><div class="v25-card v25-kpi">Premium<b id="dPremium">…</b></div><div class="v25-card v25-kpi">Produits<b id="dProducts">…</b></div></div><div class="v25-card" style="margin-top:14px"><h3>🩺 Diagnostic complet</h3><div id="v25Diag" class="v25-list"></div><button class="v25-btn primary" id="v25RunDiag" style="margin-top:12px">🔄 Relancer l'analyse</button></div></section>
+      <section class="v25-page" data-page="diagnostic"><div class="v25-grid"><div class="v25-card v25-kpi">Supabase<b id="dSupabase">…</b></div><div class="v25-card v25-kpi">Session<b id="dSession">…</b></div><div class="v25-card v25-kpi">Premium<b id="dPremium">…</b></div><div class="v25-card v25-kpi">Produits<b id="dProducts">…</b></div></div><div class="v25-card" style="margin-top:14px"><h3>🩺 Diagnostic complet</h3><div id="v25Diag" class="v25-list"></div><button class="v25-btn primary" id="v25RunDiag" style="margin-top:12px">🔄 Relancer l'analyse</button></div></section>
       <section class="v25-page" data-page="lab"><div class="v25-card"><h3>🧪 LOGANATOR LAB</h3><p class="v25-muted">Zone expérimentale V25 : fonctions nouvelles isolées pour éviter de casser la boutique principale.</p><div class="v25-actions"><button class="v25-btn" data-jump="diagnostic">🩺 Diagnostic</button><button class="v25-btn" data-jump="preview">👁️ Preview</button><button class="v25-btn" data-jump="builder">🧩 Builder</button></div></div></section>
       <section class="v25-page" data-page="settings"><div class="v25-card"><h3>⚙️ Paramètres</h3><div class="v25-form"><label>Nom boutique<input id="v25SettingName" value="LOGANATOR"></label><label>Devise<select id="v25Currency"><option>EUR (€)</option></select></label><label>Livraison offerte à partir de<input id="v25FreeShip" type="number" value="80"></label><label>Mode maintenance<select id="v25Maintenance"><option value="false">Désactivé</option><option value="true">Activé</option></select></label></div><button class="v25-btn primary" id="v25SaveSettings" style="margin-top:12px">💾 Enregistrer</button><div id="v25SettingsStatus" class="v25-status"></div></div></section>
     </div>
@@ -745,10 +773,19 @@ document.body.classList.add('v25');
   document.querySelectorAll('[data-v25]').forEach(b=>b.addEventListener('click',()=>setPage(b.dataset.v25)));
   document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>setPage(b.dataset.jump)));
   $('v25Close').addEventListener('click',()=>{shell.classList.remove('open');shell.setAttribute('aria-hidden','true')});
-  async function premiumCheck(){ return !!(window.LOGANATOR_USER && (typeof window.isLoganatorPremium==='function' ? window.isLoganatorPremium() : true)); }
+  async function premiumCheck(){
+    try{
+      if(!window.LOGANATOR_SB && window.supabase && window.LOGANATOR_SUPABASE_URL && window.LOGANATOR_SUPABASE_KEY) window.LOGANATOR_SB=window.supabase.createClient(window.LOGANATOR_SUPABASE_URL,window.LOGANATOR_SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+      if(!window.LOGANATOR_SB) return false;
+      const {data:{user},error}=await window.LOGANATOR_SB.auth.getUser();
+      if(error||!user) return false;
+      const {data,rowError}=await window.LOGANATOR_SB.from('premium_members').select('email').eq('email',(user.email||'').toLowerCase()).maybeSingle();
+      return !rowError && !!data;
+    }catch(e){return false}
+  }
   async function openV25(){
     v25Premium=await premiumCheck();
-    if(!v25Premium){alert('👑 Accès réservé aux membres PREMIUM.');return}
+    if(!v25Premium){alert('👑 Ton compte n’est pas reconnu comme PREMIUM par Supabase. Ouvre le diagnostic depuis ton compte puis vérifie premium_members.');return}
     shell.classList.add('open');shell.setAttribute('aria-hidden','false');setPage('dashboard');refreshDashboard();loadHome();runDiag();
   }
   window.openPremium=window.openV25;
@@ -776,7 +813,7 @@ document.body.classList.add('v25');
   $('v25AddNotif').addEventListener('click',()=>{const c=cfg();c.notifications=c.notifications||[];c.notifications.unshift({title:$('v25NotifTitle').value,text:$('v25NotifText').value,icon:$('v25NotifIcon').value,date:new Date().toISOString()});saveCfg(c);$('v25NotifTitle').value='';$('v25NotifText').value='';renderNotifs()});function renderNotifs(){const a=cfg().notifications||[];$('v25NotifList').innerHTML=a.map(n=>`<div class="v25-row"><span>${esc(n.icon)} <b>${esc(n.title)}</b><br><span class="v25-muted">${esc(n.text)}</span></span></div>`).join('')||'<div class="v25-muted">Aucune notification.</div>'}renderNotifs();
   $('v25SaveGame').addEventListener('click',()=>{const c=cfg();c.game={level:Number($('v25Level').value)||1,points:Number($('v25Points').value)||0,badges:$('v25Badges').value};saveCfg(c)});
   $('v25SaveSettings').addEventListener('click',()=>{const c=cfg();c.settings={name:$('v25SettingName').value,currency:$('v25Currency').value,freeShip:Number($('v25FreeShip').value)||80,maintenance:$('v25Maintenance').value==='true'};saveCfg(c);$('v25SettingsStatus').textContent='⚙️ Paramètres V25 enregistrés.'});
-  async function runDiag(){let sb=!!window.LOGANATOR_SB,user=null,premium=false;try{if(sb){const r=await window.LOGANATOR_SB.auth.getUser();user=r.data.user||null;premium=await premiumCheck()}}catch(e){}$('dSupabase').textContent=sb?'🟢':'🟢';$('dSession').textContent=user?'🟢':'🔴';$('dPremium').textContent=premium?'🟢':'🔴';$('dProducts').textContent=Array.isArray(window.products)?'🟢':'🔴';$('v25Diag').innerHTML=[['Serveur PHP',true],['Session',!!window.LOGANATOR_USER],['Utilisateur',!!user],['Premium',premium],['Produits',Array.isArray(window.products)],['Control Center',true]].map(x=>`<div class="v25-row"><span>${x[0]}</span><span class="v25-pill">${x[1]?'🟢 OK':'🔴 À vérifier'}</span></div>`).join('')};$('v25RunDiag').addEventListener('click',runDiag);
+  async function runDiag(){let sb=!!window.LOGANATOR_SB,user=null,premium=false;try{if(sb){const r=await window.LOGANATOR_SB.auth.getUser();user=r.data.user||null;premium=await premiumCheck()}}catch(e){}$('dSupabase').textContent=sb?'🟢':'🔴';$('dSession').textContent=user?'🟢':'🔴';$('dPremium').textContent=premium?'🟢':'🔴';$('dProducts').textContent=Array.isArray(window.products)?'🟢':'🔴';$('v25Diag').innerHTML=[['Supabase',sb],['Session',!!user],['Utilisateur',!!user],['Premium',premium],['Produits',Array.isArray(window.products)],['Control Center',true]].map(x=>`<div class="v25-row"><span>${x[0]}</span><span class="v25-pill">${x[1]?'🟢 OK':'🔴 À vérifier'}</span></div>`).join('')};$('v25RunDiag').addEventListener('click',runDiag);
   $('v25ShopLoganator').addEventListener('click',()=>alert('🔵 LOGANATOR sélectionné.'));$('v25ShopLoganatrice').addEventListener('click',()=>alert('🩷 LOGANATRICE sélectionnée.'));
   window.addEventListener('keydown',e=>{if(e.key==='Escape'&&shell.classList.contains('open'))shell.classList.remove('open')});
 })();
@@ -800,24 +837,143 @@ window.__LOGANATOR_OPEN_ACCOUNT=function(){var m=document.getElementById("accoun
   'use strict';
   const PREMIUM_ALLOW=['gauducheaulogan@gmail.com','leloganator@gmail.com','alexisprouillac@gmail.com','theteamsloganator@gmail.com'];
   function el(id){return document.getElementById(id)}
-  async function currentUser(){try{const r=await apiFetch('auth.php?action=me');window.LOGANATOR_USER=r.user||null;return window.LOGANATOR_USER}catch(e){return window.LOGANATOR_USER||null}}
-  async function isPremium(user){return !!(user&&user.role==='premium')}
-  function showModal(){const m=el('accountModal');if(!m)return null;m.style.display='flex';m.style.visibility='visible';m.style.opacity='1';m.classList.add('open');return m}
-  function hideAccount(){const m=el('accountModal');if(m){m.classList.remove('open');m.style.display='none';m.style.visibility='hidden';m.style.opacity='0'}}
+  function ensureClient(){
+    try{
+      if(window.LOGANATOR_SB) return window.LOGANATOR_SB;
+      if(window.supabase){
+        const url=window.LOGANATOR_SUPABASE_URL || (typeof LOGANATOR_SUPABASE_URL!=='undefined'?LOGANATOR_SUPABASE_URL:'');
+        const key=window.LOGANATOR_SUPABASE_KEY || (typeof LOGANATOR_SUPABASE_KEY!=='undefined'?LOGANATOR_SUPABASE_KEY:'');
+        if(!url || !key) return null;
+        window.LOGANATOR_SB=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+        return window.LOGANATOR_SB;
+      }
+    }catch(e){}
+    return null;
+  }
+  async function currentUser(){
+    try{
+      const sb=ensureClient();
+      if(!sb) return window.LOGANATOR_USER||null;
+      const r=await sb.auth.getUser();
+      window.LOGANATOR_USER=r.data?.user||null;
+      return window.LOGANATOR_USER;
+    }catch(e){return window.LOGANATOR_USER||null}
+  }
+  async function isPremium(user){
+    const email=(user?.email||'').toLowerCase();
+    if(!email) return false;
+    if(PREMIUM_ALLOW.includes(email)) return true;
+    try{
+      const sb=ensureClient(); if(!sb) return false;
+      const r=await sb.from('premium_members').select('email').eq('email',email).maybeSingle();
+      return !!r.data && !r.error;
+    }catch(e){return false}
+  }
+  function showModal(){
+    const m=el('accountModal'); if(!m)return null;
+    m.style.display='flex';m.style.visibility='visible';m.style.opacity='1';m.classList.add('open');
+    return m;
+  }
+  function hideAccount(){
+    const m=el('accountModal');
+    if(m){m.classList.remove('open');m.style.display='none';m.style.visibility='hidden';m.style.opacity='0';}
+  }
   function safe(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
   function msg(t){const x=el('v12Msg');if(x)x.textContent=t}
-  function renderLogged(user,premium){const title=el('authTitle'),area=el('accountArea');if(title)title.textContent='Mon compte';if(!area)return;area.innerHTML='<p>Connecté avec <b>'+safe(user.email)+'</b>.</p>'+(premium?'<div class="v26-account-note">👑 <b>Compte PREMIUM détecté</b><br>Ton espace Premium fonctionne directement sur ton hébergement.</div><div class="v26-premium-access"><button class="primary" type="button" id="v26Premium">👑 OUVRIR PREMIUM</button><button class="btn" type="button" id="v26Logout">SE DÉCONNECTER</button></div>':'<div class="v26-account-note">Compte connecté.</div><div class="v26-premium-access"><button class="btn" type="button" id="v26Logout">SE DÉCONNECTER</button></div>');const p=el('v26Premium');if(p)p.onclick=()=>window.openPremium();const lo=el('v26Logout');if(lo)lo.onclick=async()=>{await window.premiumLogout();showAccount()}}
-  function renderLogin(){const title=el('authTitle'),area=el('accountArea');if(title)title.textContent='Connexion Premium';if(!area)return;area.innerHTML='<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v26Login">SE CONNECTER</button></div><div id="v12Msg" class="notice">Connexion Premium autonome — aucun Supabase.</div><div style="margin-top:10px;font-size:.9em;opacity:.75">Première installation : ouvre <b>setup.php</b> une seule fois.</div>';el('v26Login').onclick=()=>window.v12Login()}
-  async function showAccount(){showModal();const user=await currentUser();if(user)renderLogged(user,await isPremium(user));else renderLogin()}
-  window.v26Login=window.v12Login=async function(){const email=(el('v12Email')?.value||'').trim().toLowerCase(),password=el('v12Password')?.value||'';if(!email||!password)return msg('Remplis ton e-mail et ton mot de passe.');try{const r=await apiFetch('auth.php?action=login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({email,password})});window.LOGANATOR_USER=r.user;const premium=await isPremium(r.user);if(premium){hideAccount();await window.openPremium()}else renderLogged(r.user,false)}catch(e){msg('❌ '+e.message)}};
-  window.v26Signup=window.v12Signup=async function(){window.open('setup.php','_blank')};
-  window.v26Reset=window.v12Reset=async function(){msg('Le changement de mot de passe se fait dans la configuration de l’hébergement. Aucun service externe n’est utilisé.')};
-  window.openPremium=async function(){try{hideAccount();const user=await currentUser();if(!(await isPremium(user))){alert('👑 Accès réservé aux membres PREMIUM.');return false}const shell=el('v25Shell');if(shell){shell.classList.add('open');shell.setAttribute('aria-hidden','false');const dash=document.querySelector('.v25-page[data-page="dashboard"]');document.querySelectorAll('.v25-page').forEach(x=>x.classList.remove('active'));if(dash)dash.classList.add('active');await v12LoadProducts();if(typeof window.v25RefreshDashboard==='function')await window.v25RefreshDashboard();return true}const old=el('premiumModal');if(old){old.classList.add('open');old.style.display='flex';await v12LoadProducts();return true}return false}catch(e){console.error(e);alert('Le panneau Premium ne peut pas être ouvert.');return false}};
+  function renderLogged(user,premium){
+    const title=el('authTitle'),area=el('accountArea');
+    if(title)title.textContent='Mon compte';
+    if(!area)return;
+    area.innerHTML='<p>Connecté avec <b>'+safe(user.email)+'</b>.</p>'+
+      (premium?'<div class="v26-account-note">👑 <b>Compte PREMIUM détecté</b><br>Ton espace Premium est disponible directement ici.</div><div class="v26-premium-access"><button class="primary" type="button" id="v26Premium">👑 OUVRIR PREMIUM</button><button class="btn" type="button" id="v26Logout">SE DÉCONNECTER</button></div>':'<div class="v26-account-note">Compte connecté. Ton espace personnel est disponible ici.</div><div class="v26-premium-access"><button class="btn" type="button" id="v26Logout">SE DÉCONNECTER</button></div>');
+    const p=el('v26Premium');if(p)p.onclick=function(){try{window.openPremium()}catch(e){alert('Le panneau Premium est momentanément indisponible.')}};
+    const lo=el('v26Logout');if(lo)lo.onclick=async function(){try{const sb=ensureClient();if(sb)await sb.auth.signOut()}catch(e){}window.LOGANATOR_USER=null;showAccount();};
+  }
+  function renderLogin(){
+    const title=el('authTitle'),area=el('accountArea');
+    if(title)title.textContent='Connexion / création de compte';
+    if(!area)return;
+    area.innerHTML='<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v26Login">SE CONNECTER</button><button class="btn" type="button" id="v26Signup">CRÉER UN COMPTE</button><button class="btn" type="button" id="v26Reset">MOT DE PASSE OUBLIÉ</button></div><div id="v12Msg" class="notice">Tout se fait depuis LOGANATOR. Tu n’as pas besoin d’ouvrir le tableau de bord Supabase.</div>';
+    const call=(fn)=>{try{const r=fn();return Promise.resolve(r)}catch(e){return Promise.reject(e)}};
+    el('v26Login').onclick=()=>call(window.v26Login);
+    el('v26Signup').onclick=()=>call(window.v26Signup);
+    el('v26Reset').onclick=()=>call(window.v26Reset);
+  }
+  async function showAccount(){
+    showModal();
+    const user=await currentUser();
+    if(user)renderLogged(user,await isPremium(user)); else renderLogin();
+  }
+  window.v26Login=async function(){
+    const email=(el('v12Email')?.value||'').trim().toLowerCase(),password=el('v12Password')?.value||'';
+    if(!email||!password)return msg('Remplis ton e-mail et ton mot de passe.');
+    const sb=ensureClient();if(!sb)return msg('Le système de connexion est momentanément indisponible. Réessaie dans quelques secondes.');
+    try{
+      const r=await sb.auth.signInWithPassword({email,password});
+      if(r.error)return msg('❌ '+r.error.message);
+      window.LOGANATOR_USER=r.data.user;
+      const premium=await isPremium(r.data.user);
+      if(premium){try{window.V22_PREMIUM=true}catch(e){};closeModal('accountModal');await window.openPremium();}
+      else renderLogged(r.data.user,false);
+    }catch(e){msg('❌ '+(e?.message||'Connexion impossible.'))}
+  };
+  window.v26Signup=async function(){
+    const email=(el('v12Email')?.value||'').trim().toLowerCase(),password=el('v12Password')?.value||'';
+    if(!email||password.length<6)return msg('E-mail valide + mot de passe de 6 caractères minimum.');
+    const sb=ensureClient();if(!sb)return msg('Le système de création de compte est momentanément indisponible.');
+    try{const r=await sb.auth.signUp({email,password});if(r.error)return msg('❌ '+r.error.message);msg(r.data.session?'✅ Compte créé et connecté.':'✅ Compte créé. Si une confirmation est demandée, suis simplement le lien reçu.')}catch(e){msg('❌ '+(e?.message||'Création impossible.'))}
+  };
+  window.v26Reset=async function(){
+    const email=(el('v12Email')?.value||'').trim().toLowerCase();if(!email)return msg('Entre ton e-mail.');
+    const sb=ensureClient();if(!sb)return msg('Le système de réinitialisation est momentanément indisponible.');
+    try{const r=await sb.auth.resetPasswordForEmail(email);msg(r.error?'❌ '+r.error.message:'✅ Si le compte existe, la procédure de réinitialisation a été lancée.')}catch(e){msg('❌ '+(e?.message||'Réinitialisation impossible.'))}
+  };
+  // V26.3 — accès Premium direct depuis le site : aucun ancien wrapper ne doit bloquer l'ouverture.
+  window.openPremium=async function(){
+    try{
+      // V26.4 — fermer immédiatement l'écran Compte avant d'afficher Premium.
+      const account=el('accountModal');
+      if(account){ account.classList.remove('open'); account.style.display='none'; account.style.visibility='hidden'; account.style.opacity='0'; }
+      const user=await currentUser();
+      const premium=await isPremium(user);
+      if(!premium){ alert('👑 Accès réservé aux membres PREMIUM.'); return false; }
+      const shell=el('v25Shell');
+      if(shell){
+        const account2=el('accountModal');
+        if(account2){ account2.classList.remove('open'); account2.style.display='none'; account2.style.visibility='hidden'; account2.style.opacity='0'; }
+        shell.classList.add('open');
+        shell.setAttribute('aria-hidden','false');
+        if(typeof window.v25SetPage==='function') window.v25SetPage('dashboard');
+        else {
+          const dash=document.querySelector('.v25-page[data-page="dashboard"]');
+          document.querySelectorAll('.v25-page').forEach(x=>x.classList.remove('active'));
+          if(dash) dash.classList.add('active');
+        }
+        try{ if(typeof window.v25RefreshDashboard==='function') await window.v25RefreshDashboard(); }catch(e){}
+        return true;
+      }
+      // Fallback vers l'ancien panneau si le Control Center n'est pas présent.
+      const old=document.getElementById('premiumModal');
+      if(old){ old.classList.add('open'); old.style.display='flex'; return true; }
+      alert('Le panneau Premium est introuvable dans cette version.');
+      return false;
+    }catch(e){
+      console.error('V26.3 Premium:',e);
+      alert('Le panneau Premium ne peut pas être ouvert pour le moment.');
+      return false;
+    }
+  };
   window.openAccount=showAccount;
-  function bind(){const b=el('accountBtn');if(!b)return;b.removeAttribute('onclick');b.onclick=e=>{e.preventDefault();e.stopPropagation();showAccount()}}
+  function bind(){
+    const b=el('accountBtn');if(!b)return;
+    b.removeAttribute('onclick');
+    b.onclick=function(e){e.preventDefault();e.stopPropagation();showAccount()};
+  }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
-  document.addEventListener('click',e=>{const b=e.target?.closest?.('#accountBtn');if(!b)return;e.preventDefault();e.stopPropagation();showAccount()},true);
-  currentUser().then(u=>{const b=el('accountBtn');if(b)b.textContent=u?'👑 PREMIUM':'👤 COMPTE'});
+  // One clean capture handler. Previous V25.2 capture handlers were removed from this build.
+  document.addEventListener('click',function(e){const b=e.target?.closest?.('#accountBtn');if(!b)return;e.preventDefault();e.stopPropagation();showAccount()},true);
+  const sb=ensureClient();
+  if(sb?.auth)sb.auth.onAuthStateChange(function(_event,session){window.LOGANATOR_USER=session?.user||null;const b=el('accountBtn');if(b)b.textContent=session?.user?'👤 '+((session.user.email||'compte').split('@')[0]):'👤 COMPTE';});
 })();
 </script>
 
@@ -882,6 +1038,7 @@ async function saveCloud(publish=true){
 function getStore(){return cloudDraft?.[MS_KEY]?.[activeStore]||{}}
 function setStoreData(data){cloudDraft[MS_KEY][activeStore]=data}
 async function selectStore(store){
+  if(!premiumOK()) return alert('Accès réservé aux membres PREMIUM 👑');
   activeStore=store;
   if(!loaded) await loadCloud();
   const data=getStore();
@@ -900,6 +1057,7 @@ window.v26SelectStore=selectStore;
 window.v26GetActiveStore=()=>activeStore;
 
 async function saveProductCloud(p){
+  if(!premiumOK()) throw new Error('Accès Premium requis.');
   if(!loaded) await loadCloud();
   const data=getStore();
   data.catalog=Array.isArray(data.catalog)?data.catalog:[];
@@ -910,7 +1068,7 @@ async function saveProductCloud(p){
   renderPremiumList(); try{render()}catch(e){}
 }
 window.deletePremiumProduct=async function(id){
-  if(!confirm('Supprimer ce produit de '+storeName(activeStore)+' ?'))return;
+  if(!premiumOK()||!confirm('Supprimer ce produit de '+storeName(activeStore)+' ?'))return;
   if(!loaded) await loadCloud();
   const data=getStore(); data.catalog=(data.catalog||[]).filter(x=>String(x.id)!==String(id)); setStoreData(data);
   await saveCloud(true); products.splice(0,products.length,...data.catalog.map(normalizeCat));
@@ -942,7 +1100,7 @@ function bindProductForm(){
   const form=document.getElementById('premiumForm'); if(!form)return;
   const clean=form.cloneNode(true); form.replaceWith(clean);
   clean.addEventListener('submit',async e=>{
-    e.preventDefault();
+    e.preventDefault(); if(!premiumOK())return alert('Accès Premium requis.');
     try{
       if(!loaded) await loadCloud();
       const id=document.getElementById('premiumId').value.trim();
@@ -962,6 +1120,7 @@ function bindProductForm(){
   });
 }
 async function loadCloudProducts(){
+  if(!premiumOK())return;
   if(!loaded) await loadCloud();
   await selectStore(activeStore);
 }
@@ -969,6 +1128,7 @@ window.v16LoadStoreCloud=loadCloudProducts;
 
 // Cloud site settings
 window.v16LoadSettings=async function(){
+  if(!premiumOK())return;
   if(!loaded) await loadCloud();
   const x=getStore().settings||{};
   const defaults=activeStore==='loganatrice'?{heroTitle:'LOGANATRICE',heroText:'Le même esprit de présentation premium, en rose pailleté. 💗✨',heroButton:'Découvrir la boutique'}:{heroTitle:'PORTE TON LOGANATOR.',heroText:'La boutique de la chaîne, avec les vraies photos de tes créations.',heroButton:'VOIR LA COLLECTION',bannerText:'🚚 LIVRAISON OFFERTE À PARTIR DE 80€',dropText:''};
@@ -977,24 +1137,25 @@ window.v16LoadSettings=async function(){
   document.getElementById('v16BannerText').value=x.bannerText||defaults.bannerText||''; document.getElementById('v16DropText').value=x.dropText||defaults.dropText||'';
   ['New','Popular','Promos','Drop'].forEach(k=>{const el=document.getElementById('v16Show'+k);if(el)el.checked=x['show'+k]!==false}); v16PreviewSettings();
 };
-window.v16SaveDraft=async function(){if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(false);v16Notice('💾 Brouillon cloud enregistré pour '+storeName(activeStore)+'.',true)};
-window.v16PublishDraft=async function(){if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(true);v16Notice('🚀 Modifications publiées sur '+storeName(activeStore)+'.',true)};
+window.v16SaveDraft=async function(){if(!premiumOK())return;if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(false);v16Notice('💾 Brouillon cloud enregistré pour '+storeName(activeStore)+'.',true)};
+window.v16PublishDraft=async function(){if(!premiumOK())return;if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(true);v16Notice('🚀 Modifications publiées sur '+storeName(activeStore)+'.',true)};
 
 // Cloud promos
 window.v16LoadPromos=async function(){
-  const box=document.getElementById('v16PromoList'); if(!box)return;
+  const box=document.getElementById('v16PromoList'); if(!box||!premiumOK())return;
   if(!loaded)await loadCloud(); const arr=getStore().promos||[];
   box.innerHTML=arr.map((p,i)=>`<div class="v16-line"><span><b>${esc(p.code)}</b> · ${p.type==='percent'?p.value+'%':Number(p.value).toFixed(2)+'€'} ${p.active?'🟢':'🔴'}</span><button class="btn" onclick="window.v26ToggleCloudPromo(${i})">${p.active?'Désactiver':'Activer'}</button></div>`).join('')||'<div class="v16-muted">Aucun code pour cette boutique.</div>';
 };
 window.v26ToggleCloudPromo=async function(i){if(!loaded)await loadCloud();const d=getStore();d.promos=d.promos||[];if(!d.promos[i])return;d.promos[i].active=!d.promos[i].active;setStoreData(d);await saveCloud(true);v16LoadPromos()};
 window.v16CreatePromo=async function(){
-  if(!loaded)await loadCloud();
+  if(!premiumOK())return;if(!loaded)await loadCloud();
   const d=getStore();d.promos=d.promos||[];
   const code=document.getElementById('v16PromoCode').value.trim().toUpperCase(); if(!code)return alert('Entre un code.');
   d.promos.push({code,type:document.getElementById('v16PromoType').value,value:Number(document.getElementById('v16PromoValue').value)||0,min_order:Number(document.getElementById('v16PromoMin').value)||0,max_uses:Number(document.getElementById('v16PromoMax').value)||null,starts_at:document.getElementById('v16PromoStart').value?new Date(document.getElementById('v16PromoStart').value).toISOString():null,ends_at:document.getElementById('v16PromoEnd').value?new Date(document.getElementById('v16PromoEnd').value).toISOString():null,active:true});
   setStoreData(d);await saveCloud(true);v16LoadPromos();
 };
 window.v16LoadOrders=async function(){
+  if(!premiumOK())return;
   const box=document.getElementById('v16OrderRows');if(!box)return;
   if(activeStore==='loganatrice'){box.innerHTML='<tr><td colspan="6">🌸 LOGANATRICE : le paiement actuel de cette version est simulé, donc aucune commande réelle n’est enregistrée.</td></tr>';return;}
   // Preserve the existing LOGANATOR order manager.
@@ -1004,6 +1165,7 @@ window.v16LoadOrders=async function(){
 };
 window.v26SetLoganatorOrderStatus=async function(id,status){const r=await window.LOGANATOR_SB.from('orders').update({status}).eq('id',id);if(r.error)return alert(r.error.message);v16Notice('✅ Statut mis à jour.',true)};
 window.v16LoadStats=async function(){
+  if(!premiumOK())return;
   if(activeStore==='loganatrice'){
     const n=products.length;
     const a=document.getElementById('v16Visits'),b=document.getElementById('v16Views'),c=document.getElementById('v16Adds'),d=document.getElementById('v16Orders');
@@ -1033,14 +1195,11 @@ window.v16SetTab=v16SetTab;
 // Add store UI behavior and cloud load
 const oldOpen=window.openPremium;
 window.openPremium=async function(){
-  // Utilise exactement le contrôle Premium existant de la V26.4.
-  // Aucune nouvelle vérification de sécurité n'est ajoutée ici.
-  await oldOpen();
-  const modal=document.getElementById('premiumModal');
-  if(!modal || !modal.classList.contains('open')) return;
-  try{await loadCloud();}catch(e){v16Notice('⚠️ Cloud boutiques indisponible : '+(e.message||e),false);return;}
-  try{await selectStore(activeStore);}catch(e){}
+  if(!premiumOK())return alert('Accès réservé aux membres PREMIUM 👑');
+  await loadCloud();
+  await selectStore(activeStore);
   bindProductForm();
+  const modal=document.getElementById('premiumModal'); if(modal)modal.classList.add('open');
   try{v16LoadStats()}catch(e){}; try{v16LoadSettings()}catch(e){}; try{v16LoadPromos()}catch(e){}; try{v16LoadTools()}catch(e){}
 };
 const oldClose=window.closePremium;
