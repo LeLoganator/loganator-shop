@@ -1,13 +1,10 @@
-LOGANATOR V27 — SANS SUPABASE + MAINTENANCE SERVEUR
+LOGANATOR — VERSION PREMIUM SANS BLOCAGE
 
-Le catalogue et les paramètres fonctionnent avec PHP + fichiers JSON sur ton hébergement.
-Aucun Supabase n'est nécessaire.
+Ce dossier contient le site complet extrait de la version originale,
+avec ses images, fichiers et ressources.
 
-MAINTENANCE :
-Premium > Control Center > Paramètres > Mode maintenance > Activé > Enregistrer.
+Le fichier index.html a été remplacé par la version sans blocage Premium.
 
-Quand la maintenance est activée, le serveur renvoie directement une page 503 contenant uniquement :
-« Le site est en cours de maintenance ».
-La boutique n'est pas envoyée au visiteur public.
-
-Une session Premium connectée peut continuer à ouvrir le site et le Control Center pour administrer la boutique.
+IMPORTANT :
+- Conserve toute l'arborescence du dossier lors de l'envoi sur l'hébergement.
+- Ne supprime pas les dossiers contenant les images/assets.
