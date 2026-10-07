@@ -1,0 +1,21 @@
+LOGANATOR V29.7 — MODE MAINTENANCE
+
+Cette version conserve la boutique et les fonctionnalités de la version précédente et ajoute un mode maintenance Premium.
+
+NOUVEAU :
+- Onglet « 🛠️ Maintenance » dans le Control Center Premium.
+- Activation/désactivation du mode maintenance.
+- Durées prédéfinies : 15 min, 30 min, 1 h, 2 h, 4 h, 8 h, 24 h.
+- Durée personnalisée jusqu’à 7 jours.
+- Option sans limite jusqu’à désactivation manuelle.
+- Compte à rebours côté visiteur.
+- Message public :
+  « 🛠️ MODE MAINTENANCE ACTIVÉE »
+  « MAIS LA BOUTIQUE REVIENT BIENTÔT.... »
+- Les propriétaires LOGANATOR restent autorisés à voir et modifier la boutique pendant la maintenance.
+- Les visiteurs ne voient pas la boutique publique pendant la maintenance.
+- Aucun changement manuel de table/policy Supabase n’est demandé : le système réutilise la table promo_codes déjà présente et sa lecture publique existante.
+- Le marqueur technique de maintenance est automatiquement masqué de la liste des promotions Premium.
+
+IMPORTANT :
+Le mode maintenance masque la boutique publique pendant que tu travailles. Les données que tu modifies dans Supabase restent bien entendu enregistrées dans la base ; elles ne sont simplement pas affichées aux visiteurs tant que la maintenance est active.
