@@ -1,17 +1,9 @@
-LOGANATOR SHOP V16.1 — MODE ZERO CONFIGURATION SUPABASE
+LOGANATOR SHOP — V16.1 PREMIUM FIX
 
-1. Ouvre le ZIP.
-2. Envoie les fichiers sur ton dépôt GitHub Pages.
-3. Ouvre le site.
-4. Connecte-toi avec ton compte Premium.
+1. Dans Supabase > SQL Editor, exécute TOUT le fichier premium_v16_1.sql.
+2. Recharge ensuite LOGANATOR SHOP.
+3. Déconnecte/reconnecte ton compte Premium si nécessaire.
 
-IMPORTANT
-- Tu n'as aucun SQL à exécuter.
-- Tu ne crées aucune table Supabase.
-- Tu ne modifies pas les règles RLS.
-- Aucune clé service-role n'est demandée.
-- Les fonctions Premium avancées (réglages, promos, métadonnées produit, membres ajoutés, statistiques locales, commandes locales) sont sauvegardées dans le navigateur qui utilise le panneau Premium.
-- Le catalogue de base continue d'utiliser la table `products` existante quand elle est accessible.
+Cette version corrige notamment l'erreur « Could not find the table » en créant toutes les tables Premium utilisées par l'Admin et le bucket d'images product-images. Le script est conçu pour pouvoir être relancé sans recréer les tables.
 
-LIMITATION TECHNIQUE
-Un site GitHub Pages statique ne peut pas modifier les fichiers GitHub ni créer des tables Supabase depuis le navigateur avec une simple clé publique. Les données Premium locales ne sont donc pas automatiquement partagées entre plusieurs appareils/visiteurs.
+IMPORTANT : utilise uniquement la clé publishable dans le site. Jamais de service-role key.
