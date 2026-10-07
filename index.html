@@ -313,9 +313,16 @@ update();
 <p class="muted">Gestion produits, site, promotions, commandes, membres et statistiques.</p>
 <div id="premiumMsg" class="admin-msg">Chargement…</div><div class="v22-store-panel" id="v22StorePanel"><div class="v22-store-title">🏪 TES DEUX BOUTIQUES</div><div class="muted">Le même compte PREMIUM peut accéder aux deux boutiques.</div><div class="v22-store-grid"><div class="v22-store-card"><b>🔵 LOGANATOR</b><span class="muted">Boutique actuelle</span><button class="btn" type="button" onclick="v22StayLoganator()">RESTANTER SUR LOGANATOR</button></div><div class="v22-store-card"><b>🌸 LOGANATRICE</b><span class="muted">Boutique rose</span><button class="primary" type="button" onclick="v22OpenLoganatrice()">OUVRIR LOGANATRICE ↗</button></div></div></div>
 <div class="v16-tabs">
-<button class="v16-tab active" data-v16-tab="overview">📊 Vue d'ensemble</button><button class="v16-tab" data-v16-tab="products">🛍️ Produits</button><button class="v16-tab" data-v16-tab="site">🎨 Site & brouillon</button><button class="v16-tab" data-v16-tab="promos">🏷️ Promotions</button><button class="v16-tab" data-v16-tab="orders">📦 Commandes</button><button class="v16-tab" data-v16-tab="members">👥 Membres</button><button class="v16-tab" data-v16-tab="tools">🧠 Outils</button></div>
+<button class="v16-tab active" data-v16-tab="overview">📊 Vue d'ensemble</button><button class="v16-tab" data-v16-tab="products">🛍️ Produits</button><button class="v16-tab" data-v16-tab="site">🎨 Site & brouillon</button><button class="v16-tab" data-v16-tab="promos">🏷️ Promotions</button><button class="v16-tab" data-v16-tab="orders">📦 Commandes</button><button class="v16-tab" data-v16-tab="members">👥 Membres</button><button class="v16-tab" data-v16-tab="tools">🧠 Outils</button><button class="v16-tab" data-v16-tab="stores">🏪 Contrôler boutiques</button></div>
 <section class="v16-section active" data-v16-section="overview"><div class="v16-kpis"><div class="v16-kpi">Visites<b id="v16Visits">0</b></div><div class="v16-kpi">Vues produits<b id="v16Views">0</b></div><div class="v16-kpi">Ajouts panier<b id="v16Adds">0</b></div><div class="v16-kpi">Commandes<b id="v16Orders">0</b></div></div><div class="v16-two"><div class="v16-box"><h3>🔥 Produits populaires</h3><div id="v16Popular" class="v16-list"></div></div><div class="v16-box"><h3>⚠️ Alertes</h3><div id="v16Alerts"></div></div></div><div class="v16-box"><h3>📈 Activité récente</h3><div id="v16Recent" class="v16-list"></div></div></section>
-<section class="v16-section" data-v16-section="products"><div class="admin-actions"><button class="primary" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" onclick="v16RefreshProducts()">🔄 Actualiser</button><button class="btn" onclick="v16ExportCatalogCSV()">📊 Exporter CSV</button><button class="btn" onclick="v16ExportBackup()">💾 Sauvegarder la boutique</button><button class="btn" onclick="document.getElementById('v16BackupFile').click()">📥 Restaurer une sauvegarde</button><input id="v16BackupFile" type="file" accept="application/json,.json" style="display:none" onchange="v16ImportBackup(event)"></div><p class="v16-help">Les modifications locales et les sauvegardes sont enregistrées dans ce navigateur. Elles ne sont pas automatiquement synchronisées avec les autres appareils ou visiteurs.</p><div id="premiumList" class="admin-grid"></div></section>
+<section class="v16-section" data-v16-section="stores">
+<div class="v16-box"><h3>🏪 Contrôler boutiques</h3>
+<p class="v16-muted">Ton compte PREMIUM contrôle maintenant les deux boutiques depuis ce même centre. Les modifications de catalogue et de site sont partagées via Supabase.</p>
+<div id="v26StoreCards" class="v16-two"></div>
+<div id="v26StoreStatus" class="v16-good" style="margin-top:12px">Chargement des boutiques…</div>
+</div>
+<div class="v16-box"><h3>ℹ️ Boutique sélectionnée</h3><div id="v26StoreInfo" class="v16-muted">—</div></div>
+</section> <section class="v16-section" data-v16-section="products"><div class="admin-actions"><button class="primary" onclick="newPremiumProduct()">➕ Ajouter un produit</button><button class="btn" onclick="v16RefreshProducts()">🔄 Actualiser</button><button class="btn" onclick="v16ExportCatalogCSV()">📊 Exporter CSV</button><button class="btn" onclick="v16ExportBackup()">💾 Sauvegarder la boutique</button><button class="btn" onclick="document.getElementById('v16BackupFile').click()">📥 Restaurer une sauvegarde</button><input id="v16BackupFile" type="file" accept="application/json,.json" style="display:none" onchange="v16ImportBackup(event)"></div><p class="v16-help">Les modifications locales et les sauvegardes sont enregistrées dans ce navigateur. Elles ne sont pas automatiquement synchronisées avec les autres appareils ou visiteurs.</p><div id="premiumList" class="admin-grid"></div></section>
 <section class="v16-section" data-v16-section="site"><div class="v16-box"><h3>✏️ Contenu du site</h3><div class="v16-form"><label>Titre HERO<input id="v16HeroTitle" placeholder="PORTE TON LOGANATOR."></label><label>Sous-titre<input id="v16HeroText" placeholder="La boutique officielle…"></label><label>Bouton principal<input id="v16HeroButton" placeholder="VOIR LA COLLECTION"></label><label>Texte bannière<input id="v16BannerText" placeholder="LIVRAISON OFFERTE…"></label><label class="full">Message DROP<textarea id="v16DropText"></textarea></label></div></div><div class="v16-box"><h3>🧩 Sections</h3><div class="v16-switch"><span>Afficher les nouveautés</span><input id="v16ShowNew" type="checkbox" checked></div><div class="v16-switch"><span>Afficher les populaires</span><input id="v16ShowPopular" type="checkbox" checked></div><div class="v16-switch"><span>Afficher les promotions</span><input id="v16ShowPromos" type="checkbox" checked></div><div class="v16-switch"><span>Afficher le DROP</span><input id="v16ShowDrop" type="checkbox" checked></div></div><div class="v16-preview"><b>👁️ Prévisualisation</b><h2 id="v16PreviewTitle">PORTE TON LOGANATOR.</h2><p id="v16PreviewText" class="muted">La boutique officielle LOGANATOR.</p><button class="primary" id="v16PreviewButton">VOIR LA COLLECTION</button></div><div class="v16-publish"><button class="btn" onclick="v16SaveDraft()">💾 Enregistrer brouillon</button><button class="primary" onclick="v16PublishDraft()">🚀 Publier</button></div></section>
 <section class="v16-section" data-v16-section="promos"><div class="v16-box"><h3>🏷️ Créer un code promo</h3><div class="v16-form"><label>Code<input id="v16PromoCode" placeholder="LOGAN10"></label><label>Type<select id="v16PromoType"><option value="percent">Pourcentage</option><option value="fixed">Montant fixe</option></select></label><label>Valeur<input id="v16PromoValue" type="number" min="0" step="0.01"></label><label>Minimum d'achat<input id="v16PromoMin" type="number" min="0" step="0.01"></label><label>Date de début<input id="v16PromoStart" type="datetime-local"></label><label>Date de fin<input id="v16PromoEnd" type="datetime-local"></label><label>Limite d'utilisations<input id="v16PromoMax" type="number" min="1"></label><button class="primary full" onclick="v16CreatePromo()">➕ Créer le code</button></div></div><div class="v16-box"><h3>Codes existants</h3><div id="v16PromoList" class="v16-list"></div></div></section>
 <section class="v16-section" data-v16-section="orders"><div class="admin-actions"><button class="btn" onclick="v16LoadOrders()">🔄 Actualiser les commandes</button></div><div class="v16-scroll"><table class="v16-table"><thead><tr><th>Date</th><th>Client</th><th>Total</th><th>Statut</th><th>Paiement</th><th></th></tr></thead><tbody id="v16OrderRows"></tbody></table></div></section>
@@ -967,6 +974,252 @@ window.__LOGANATOR_OPEN_ACCOUNT=function(){var m=document.getElementById("accoun
   document.addEventListener('click',function(e){const b=e.target?.closest?.('#accountBtn');if(!b)return;e.preventDefault();e.stopPropagation();showAccount()},true);
   const sb=ensureClient();
   if(sb?.auth)sb.auth.onAuthStateChange(function(_event,session){window.LOGANATOR_USER=session?.user||null;const b=el('accountBtn');if(b)b.textContent=session?.user?'👤 '+((session.user.email||'compte').split('@')[0]):'👤 COMPTE';});
+})();
+</script>
+
+
+<script id="loganator-v26-multi-store-cloud">
+(function(){
+'use strict';
+const MS_KEY='__multiStore';
+const DEFAULT_LOGANATRICE_CATALOG=[{"id": "talons", "name": "Talons Loganatrice", "price": "79,99 €", "sizes": ["35", "36", "37", "38", "39", "40", "41"], "desc": "Talons rose pailleté avec logo Loganatrice.", "cat": "Talons", "images": ["talons.png"]}, {"id": "robe-courte", "name": "Robe courte Loganatrice", "price": "59,99 €", "sizes": ["XS", "S", "M", "L", "XL"], "desc": "Robe courte entièrement rose pailleté, sans logo.", "cat": "Robes", "images": ["robe-courte.png"]}, {"id": "robe-longue", "name": "Robe longue Loganatrice", "price": "89,99 €", "sizes": ["XS", "S", "M", "L", "XL"], "desc": "Robe longue rose pailleté, coupe élégante, sans logo.", "cat": "Robes", "images": ["robe-longue.png"]}, {"id": "jupe", "name": "Jupe Loganatrice", "price": "49,99 €", "sizes": ["XS", "S", "M", "L", "XL"], "desc": "Jupe rose pailleté assortie à la collection.", "cat": "Jupes", "images": ["jupe.png"]}, {"id": "casquette", "name": "Casquette Loganatrice", "price": "24,99 €", "sizes": ["Unique"], "desc": "Casquette rose pailleté avec logo de la boutique.", "cat": "Casquettes", "images": ["casquette.png"]}, {"id": "casque-bluetooth", "name": "Casque Bluetooth Loganatrice", "price": "89,99 €", "sizes": ["Unique"], "desc": "Casque Bluetooth rose pailleté avec logo Loganatrice.", "cat": "Casques", "images": ["casque-bluetooth.png"]}, {"id": "sac", "name": "Sac Loganatrice", "price": "54,99 €", "sizes": ["Unique"], "desc": "Sac rose pailleté avec logo Loganatrice.", "cat": "Sacs", "images": ["sac.png"]}, {"id": "accessoires", "name": "Set d'accessoires Loganatrice", "price": "29,99 €", "sizes": ["Unique"], "desc": "Set d'accessoires rose pailleté.", "cat": "Accessoires", "images": ["accessoires.png"]}, {"id": "doudoune", "name": "Doudoune Loganatrice", "price": "99,99 €", "sizes": ["XS", "S", "M", "L", "XL"], "desc": "Doudoune rose pailleté avec logo Loganatrice.", "cat": "Doudounes", "images": ["doudoune.png"]}];
+let activeStore='loganator';
+let cloudRow=null;
+let cloudDraft=null;
+let loaded=false;
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const deepClone=o=>JSON.parse(JSON.stringify(o));
+function premiumOK(){try{return typeof v16Can==='function'&&v16Can()}catch(e){return false}}
+function storeName(s){return s==='loganatrice'?'🌸 LOGANATRICE':'🔵 LOGANATOR'}
+function baseLoganatorCatalog(){
+  return (Array.isArray(products)?products:[]).map(x=>deepClone(x));
+}
+function normalizeCat(p){
+  const x={...p};
+  x.id=String(x.id||('local-'+Date.now()));
+  x.name=x.name||'Produit';
+  x.price=Number(x.price)||0;
+  x.cat=x.cat||x.category||'Hauts';
+  x.category=x.cat;
+  x.description=x.description||((x.details||[]).join('\n'));
+  x.details=Array.isArray(x.details)?x.details:(x.description?[x.description]:[]);
+  x.sizes=Array.isArray(x.sizes)&&x.sizes.length?x.sizes:['Unique'];
+  x.images=Array.isArray(x.images)&&x.images.length?x.images:[x.image||x.image_url||''];
+  x.image=x.image||x.image_url||x.images[0]||'';
+  x.image_url=x.image_url||x.image||'';
+  x.stock=Number(x.stock)||0;
+  return x;
+}
+async function loadCloud(){
+  if(!window.LOGANATOR_SB) return false;
+  const r=await window.LOGANATOR_SB.from('store_settings').select('*').eq('id',1).maybeSingle();
+  if(r.error) throw r.error;
+  cloudRow=r.data||{id:1,draft:{},published:{}};
+  cloudDraft=(cloudRow.draft&&typeof cloudRow.draft==='object')?cloudRow.draft:{};
+  if(!cloudDraft[MS_KEY]||typeof cloudDraft[MS_KEY]!=='object') cloudDraft[MS_KEY]={};
+  const ms=cloudDraft[MS_KEY];
+  if(!ms.loganator) ms.loganator={catalog:baseLoganatorCatalog(),settings:{},promos:[]};
+  if(!Array.isArray(ms.loganator.catalog)||!ms.loganator.catalog.length) ms.loganator.catalog=baseLoganatorCatalog();
+  if(!ms.loganatrice) ms.loganatrice={catalog:DEFAULT_LOGANATRICE_CATALOG.map(normalizeCat),settings:{},promos:[]};
+  if(!Array.isArray(ms.loganatrice.catalog)||!ms.loganatrice.catalog.length) ms.loganatrice.catalog=DEFAULT_LOGANATRICE_CATALOG.map(normalizeCat);
+  loaded=true;
+  return true;
+}
+async function saveCloud(publish=true){
+  if(!window.LOGANATOR_SB) throw new Error('Supabase indisponible.');
+  cloudDraft=cloudDraft||{};
+  cloudDraft[MS_KEY]=cloudDraft[MS_KEY]||{};
+  const payload={id:1,draft:cloudDraft,updated_at:new Date().toISOString()};
+  if(publish) payload.published={...(cloudRow?.published||{}),[MS_KEY]:deepClone(cloudDraft[MS_KEY])};
+  const r=await window.LOGANATOR_SB.from('store_settings').upsert(payload);
+  if(r.error) throw r.error;
+  cloudRow={...(cloudRow||{}),...payload};
+}
+function getStore(){return cloudDraft?.[MS_KEY]?.[activeStore]||{}}
+function setStoreData(data){cloudDraft[MS_KEY][activeStore]=data}
+async function selectStore(store){
+  if(!premiumOK()) return alert('Accès réservé aux membres PREMIUM 👑');
+  activeStore=store;
+  if(!loaded) await loadCloud();
+  const data=getStore();
+  const catalog=(data.catalog||[]).map(normalizeCat);
+  products.splice(0,products.length,...catalog);
+  try{renderPremiumList()}catch(e){}
+  const cards=document.getElementById('v26StoreCards');
+  if(cards) cards.innerHTML=['loganator','loganatrice'].map(s=>`<div class="v16-box" style="cursor:pointer;border:2px solid ${s===activeStore?'#a78bfa':'var(--line)'}" onclick="window.v26SelectStore('${s}')"><h3>${storeName(s)}</h3><div class="v16-muted">${s===activeStore?'✅ Boutique actuellement contrôlée':'Cliquer pour contrôler cette boutique'}</div><button class="${s===activeStore?'primary':'btn'}" type="button">${s===activeStore?'ACTIVE':'CONTROLER'}</button></div>`).join('');
+  const info=document.getElementById('v26StoreInfo'); if(info) info.innerHTML=`<b>${storeName(activeStore)}</b><br>${catalog.length} produit(s) dans le catalogue cloud.<br><span class="v16-muted">Les onglets Produits, Site et Promotions agissent sur cette boutique.</span>`;
+  const status=document.getElementById('v26StoreStatus'); if(status) status.textContent='Boutique active : '+storeName(activeStore);
+  try{v16LoadTools()}catch(e){}
+  try{if(document.querySelector('[data-v16-tab="site"]')?.classList.contains('active'))v16LoadSettings()}catch(e){}
+  try{if(document.querySelector('[data-v16-tab="promos"]')?.classList.contains('active'))v16LoadPromos()}catch(e){}
+}
+window.v26SelectStore=selectStore;
+window.v26GetActiveStore=()=>activeStore;
+
+async function saveProductCloud(p){
+  if(!premiumOK()) throw new Error('Accès Premium requis.');
+  if(!loaded) await loadCloud();
+  const data=getStore();
+  data.catalog=Array.isArray(data.catalog)?data.catalog:[];
+  const idx=data.catalog.findIndex(x=>String(x.id)===String(p.id));
+  if(idx>=0)data.catalog[idx]={...data.catalog[idx],...p}; else data.catalog.push(p);
+  setStoreData(data); await saveCloud(true);
+  products.splice(0,products.length,...data.catalog.map(normalizeCat));
+  renderPremiumList(); try{render()}catch(e){}
+}
+window.deletePremiumProduct=async function(id){
+  if(!premiumOK()||!confirm('Supprimer ce produit de '+storeName(activeStore)+' ?'))return;
+  if(!loaded) await loadCloud();
+  const data=getStore(); data.catalog=(data.catalog||[]).filter(x=>String(x.id)!==String(id)); setStoreData(data);
+  await saveCloud(true); products.splice(0,products.length,...data.catalog.map(normalizeCat));
+  renderPremiumList(); try{render()}catch(e){}; v16Notice('✅ Produit supprimé de '+storeName(activeStore)+'.',true);
+};
+window.editPremiumProduct=function(id){
+  const p=products.find(x=>String(x.id)===String(id)); if(!p)return;
+  document.getElementById('premiumEditorTitle').textContent='Modifier un produit — '+storeName(activeStore);
+  document.getElementById('premiumId').value=id; document.getElementById('premiumName').value=p.name||'';
+  document.getElementById('premiumPrice').value=p.price||0; document.getElementById('premiumCompare').value=p.compare_at_price||'';
+  document.getElementById('premiumCat').value=p.cat||p.category||''; document.getElementById('premiumStock').value=p.stock??0;
+  document.getElementById('premiumSizes').value=(p.sizes||[]).join(','); document.getElementById('premiumBadge').value=p.badge||'';
+  document.getElementById('premiumDetails').value=p.description||((p.details||[]).join('\n'));
+  document.getElementById('premiumFeatured').checked=!!p.is_featured; document.getElementById('premiumPopular').checked=!!p.is_popular;
+  document.getElementById('premiumNew').checked=p.is_new!==false; document.getElementById('premiumPublished').checked=p.is_published!==false;
+  document.getElementById('premiumPublishAt').value=p.publish_at?new Date(p.publish_at).toISOString().slice(0,16):'';
+  document.getElementById('premiumImage').value=''; document.getElementById('premiumEditor').classList.add('open');
+};
+window.newPremiumProduct=function(){
+  document.getElementById('premiumEditorTitle').textContent='Ajouter un produit — '+storeName(activeStore);
+  ['premiumId','premiumName','premiumCompare','premiumPublishAt','premiumDetails'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('premiumPrice').value=0; document.getElementById('premiumCat').value='Hauts'; document.getElementById('premiumStock').value=0;
+  document.getElementById('premiumSizes').value='XS,S,M,L,XL'; document.getElementById('premiumBadge').value='';
+  document.getElementById('premiumFeatured').checked=false; document.getElementById('premiumPopular').checked=false;
+  document.getElementById('premiumNew').checked=true; document.getElementById('premiumPublished').checked=true; document.getElementById('premiumImage').value='';
+  document.getElementById('premiumEditor').classList.add('open');
+};
+function bindProductForm(){
+  const form=document.getElementById('premiumForm'); if(!form)return;
+  const clean=form.cloneNode(true); form.replaceWith(clean);
+  clean.addEventListener('submit',async e=>{
+    e.preventDefault(); if(!premiumOK())return alert('Accès Premium requis.');
+    try{
+      if(!loaded) await loadCloud();
+      const id=document.getElementById('premiumId').value.trim();
+      const old=products.find(x=>String(x.id)===String(id))||{};
+      const file=document.getElementById('premiumImage').files[0]; let image=old.image||old.image_url||'';
+      if(file && window.v12Upload) image=await window.v12Upload(file);
+      const p=normalizeCat({...old,id:id||('cloud-'+Date.now().toString(36)),name:document.getElementById('premiumName').value.trim(),
+        price:Number(document.getElementById('premiumPrice').value)||0,compare_at_price:document.getElementById('premiumCompare').value?Number(document.getElementById('premiumCompare').value):null,
+        cat:document.getElementById('premiumCat').value,category:document.getElementById('premiumCat').value,stock:Number(document.getElementById('premiumStock').value)||0,
+        sizes:document.getElementById('premiumSizes').value.split(',').map(x=>x.trim()).filter(Boolean),badge:document.getElementById('premiumBadge').value||null,
+        description:document.getElementById('premiumDetails').value.trim(),details:document.getElementById('premiumDetails').value.trim().split(/\r?\n/).filter(Boolean),
+        is_featured:document.getElementById('premiumFeatured').checked,is_popular:document.getElementById('premiumPopular').checked,is_new:document.getElementById('premiumNew').checked,
+        is_published:document.getElementById('premiumPublished').checked,publish_at:document.getElementById('premiumPublishAt').value?new Date(document.getElementById('premiumPublishAt').value).toISOString():null,
+        image,image_url:image,images:[image]});
+      await saveProductCloud(p); closeEditor(); v16Notice('✅ Produit enregistré dans le cloud pour '+storeName(activeStore)+'.',true);
+    }catch(err){alert('Erreur : '+(err.message||err))}
+  });
+}
+async function loadCloudProducts(){
+  if(!premiumOK())return;
+  if(!loaded) await loadCloud();
+  await selectStore(activeStore);
+}
+window.v16LoadStoreCloud=loadCloudProducts;
+
+// Cloud site settings
+window.v16LoadSettings=async function(){
+  if(!premiumOK())return;
+  if(!loaded) await loadCloud();
+  const x=getStore().settings||{};
+  const defaults=activeStore==='loganatrice'?{heroTitle:'LOGANATRICE',heroText:'Le même esprit de présentation premium, en rose pailleté. 💗✨',heroButton:'Découvrir la boutique'}:{heroTitle:'PORTE TON LOGANATOR.',heroText:'La boutique de la chaîne, avec les vraies photos de tes créations.',heroButton:'VOIR LA COLLECTION',bannerText:'🚚 LIVRAISON OFFERTE À PARTIR DE 80€',dropText:''};
+  document.getElementById('v16HeroTitle').value=x.heroTitle||defaults.heroTitle;
+  document.getElementById('v16HeroText').value=x.heroText||defaults.heroText; document.getElementById('v16HeroButton').value=x.heroButton||defaults.heroButton;
+  document.getElementById('v16BannerText').value=x.bannerText||defaults.bannerText||''; document.getElementById('v16DropText').value=x.dropText||defaults.dropText||'';
+  ['New','Popular','Promos','Drop'].forEach(k=>{const el=document.getElementById('v16Show'+k);if(el)el.checked=x['show'+k]!==false}); v16PreviewSettings();
+};
+window.v16SaveDraft=async function(){if(!premiumOK())return;if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(false);v16Notice('💾 Brouillon cloud enregistré pour '+storeName(activeStore)+'.',true)};
+window.v16PublishDraft=async function(){if(!premiumOK())return;if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(true);v16Notice('🚀 Modifications publiées sur '+storeName(activeStore)+'.',true)};
+
+// Cloud promos
+window.v16LoadPromos=async function(){
+  const box=document.getElementById('v16PromoList'); if(!box||!premiumOK())return;
+  if(!loaded)await loadCloud(); const arr=getStore().promos||[];
+  box.innerHTML=arr.map((p,i)=>`<div class="v16-line"><span><b>${esc(p.code)}</b> · ${p.type==='percent'?p.value+'%':Number(p.value).toFixed(2)+'€'} ${p.active?'🟢':'🔴'}</span><button class="btn" onclick="window.v26ToggleCloudPromo(${i})">${p.active?'Désactiver':'Activer'}</button></div>`).join('')||'<div class="v16-muted">Aucun code pour cette boutique.</div>';
+};
+window.v26ToggleCloudPromo=async function(i){if(!loaded)await loadCloud();const d=getStore();d.promos=d.promos||[];if(!d.promos[i])return;d.promos[i].active=!d.promos[i].active;setStoreData(d);await saveCloud(true);v16LoadPromos()};
+window.v16CreatePromo=async function(){
+  if(!premiumOK())return;if(!loaded)await loadCloud();
+  const d=getStore();d.promos=d.promos||[];
+  const code=document.getElementById('v16PromoCode').value.trim().toUpperCase(); if(!code)return alert('Entre un code.');
+  d.promos.push({code,type:document.getElementById('v16PromoType').value,value:Number(document.getElementById('v16PromoValue').value)||0,min_order:Number(document.getElementById('v16PromoMin').value)||0,max_uses:Number(document.getElementById('v16PromoMax').value)||null,starts_at:document.getElementById('v16PromoStart').value?new Date(document.getElementById('v16PromoStart').value).toISOString():null,ends_at:document.getElementById('v16PromoEnd').value?new Date(document.getElementById('v16PromoEnd').value).toISOString():null,active:true});
+  setStoreData(d);await saveCloud(true);v16LoadPromos();
+};
+window.v16LoadOrders=async function(){
+  if(!premiumOK())return;
+  const box=document.getElementById('v16OrderRows');if(!box)return;
+  if(activeStore==='loganatrice'){box.innerHTML='<tr><td colspan="6">🌸 LOGANATRICE : le paiement actuel de cette version est simulé, donc aucune commande réelle n’est enregistrée.</td></tr>';return;}
+  // Preserve the existing LOGANATOR order manager.
+  const r=await window.LOGANATOR_SB.from('orders').select('id,email,total,status,payment_status,created_at').order('created_at',{ascending:false}).limit(200);
+  if(r.error){box.innerHTML='<tr><td colspan="6">'+esc(r.error.message)+'</td></tr>';return;}
+  box.innerHTML=(r.data||[]).map(o=>`<tr><td>${new Date(o.created_at).toLocaleString('fr-FR')}</td><td>${esc(o.email||'—')}</td><td>${Number(o.total).toFixed(2)}€</td><td><select onchange='window.v26SetLoganatorOrderStatus(${JSON.stringify(o.id)},this.value)'><option value="pending" ${o.status==='pending'?'selected':''}>En attente</option><option value="preparation" ${o.status==='preparation'?'selected':''}>Préparation</option><option value="shipped" ${o.status==='shipped'?'selected':''}>Expédiée</option><option value="delivered" ${o.status==='delivered'?'selected':''}>Livrée</option><option value="cancelled" ${o.status==='cancelled'?'selected':''}>Annulée</option></select></td><td>${esc(o.payment_status)}</td><td></td></tr>`).join('')||'<tr><td colspan="6">Aucune commande.</td></tr>';
+};
+window.v26SetLoganatorOrderStatus=async function(id,status){const r=await window.LOGANATOR_SB.from('orders').update({status}).eq('id',id);if(r.error)return alert(r.error.message);v16Notice('✅ Statut mis à jour.',true)};
+window.v16LoadStats=async function(){
+  if(!premiumOK())return;
+  if(activeStore==='loganatrice'){
+    const n=products.length;
+    const a=document.getElementById('v16Visits'),b=document.getElementById('v16Views'),c=document.getElementById('v16Adds'),d=document.getElementById('v16Orders');
+    if(a)a.textContent='—'; if(b)b.textContent=n; if(c)c.textContent='—'; if(d)d.textContent='0';
+    const pop=document.getElementById('v16Popular'); if(pop)pop.innerHTML='<div class="v16-muted">Statistiques de visites non branchées sur cette version de Loganatrice.</div>';
+    const alerts=document.getElementById('v16Alerts'); if(alerts)alerts.innerHTML='<div class="v16-good">✅ Catalogue Loganatrice chargé depuis le cloud.</div>';
+    const recent=document.getElementById('v16Recent'); if(recent)recent.innerHTML='<div class="v16-muted">Aucune commande réelle : le paiement Loganatrice est encore simulé.</div>';
+    return;
+  }
+  try{
+    const r=await window.LOGANATOR_SB.from('analytics_events').select('event_type,product_id,metadata,created_at').order('created_at',{ascending:false}).limit(1000);
+    if(r.error)throw r.error;
+    const a=r.data||[], orders=await window.LOGANATOR_SB.from('orders').select('id,total,status,created_at,email').limit(1000);
+    document.getElementById('v16Visits').textContent=a.filter(x=>x.event_type==='visit').length;
+    document.getElementById('v16Views').textContent=a.filter(x=>x.event_type==='product_view').length;
+    document.getElementById('v16Adds').textContent=a.filter(x=>x.event_type==='cart_add').length;
+    document.getElementById('v16Orders').textContent=(orders.data||[]).length;
+    const counts={};a.filter(x=>x.event_type==='product_view').forEach(x=>counts[x.product_id]=(counts[x.product_id]||0)+1);
+    const pop=Object.entries(counts).sort((x,y)=>y[1]-x[1]).slice(0,5);
+    document.getElementById('v16Popular').innerHTML=pop.length?pop.map(([id,n])=>{const p=products.find(x=>String(x.id)===String(id));return `<div class="v16-line"><span>${v16Esc(p?.name||'Produit')}</span><b>${n} vues</b></div>`}).join(''):'<div class="v16-muted">Pas encore assez de données.</div>';
+    const low=products.filter(p=>Number(p.stock??0)<=3);
+    document.getElementById('v16Alerts').innerHTML=low.length?low.map(p=>`<div class="v16-alert">⚠️ <b>${v16Esc(p.name)}</b> : stock faible (${Number(p.stock??0)})</div>`).join(''):'<div class="v16-good">✅ Aucun stock faible.</div>';
+  }catch(e){premiumMessage('⚠️ Statistiques indisponibles : '+(e.message||e),false)}
+};
+window.v16SetTab=v16SetTab;
+
+// Add store UI behavior and cloud load
+const oldOpen=window.openPremium;
+window.openPremium=async function(){
+  if(!premiumOK())return alert('Accès réservé aux membres PREMIUM 👑');
+  await loadCloud();
+  await selectStore(activeStore);
+  bindProductForm();
+  const modal=document.getElementById('premiumModal'); if(modal)modal.classList.add('open');
+  try{v16LoadStats()}catch(e){}; try{v16LoadSettings()}catch(e){}; try{v16LoadPromos()}catch(e){}; try{v16LoadTools()}catch(e){}
+};
+const oldClose=window.closePremium;
+window.closePremium=async function(){
+  try{
+    activeStore='loganator';
+    if(loaded) await selectStore('loganator');
+  }catch(e){}
+  const modal=document.getElementById('premiumModal'); if(modal)modal.classList.remove('open');
+};
+// extend tab handler by wrapping
+const origTab=window.v16SetTab;
+window.v16SetTab=function(name){
+  if(name==='stores'){selectStore(activeStore);return;}
+  return origTab(name);
+};
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-v16-tab="stores"]'); if(b){e.preventDefault();selectStore(activeStore);}
+});
+window.addEventListener('load',()=>setTimeout(()=>{if(window.LOGANATOR_SB&&premiumOK()){loadCloud().catch(()=>{});}},1200));
 })();
 </script>
 
