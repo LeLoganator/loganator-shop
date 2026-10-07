@@ -1038,7 +1038,6 @@ async function saveCloud(publish=true){
 function getStore(){return cloudDraft?.[MS_KEY]?.[activeStore]||{}}
 function setStoreData(data){cloudDraft[MS_KEY][activeStore]=data}
 async function selectStore(store){
-  if(!premiumOK()) return alert('Accès réservé aux membres PREMIUM 👑');
   activeStore=store;
   if(!loaded) await loadCloud();
   const data=getStore();
@@ -1057,7 +1056,6 @@ window.v26SelectStore=selectStore;
 window.v26GetActiveStore=()=>activeStore;
 
 async function saveProductCloud(p){
-  if(!premiumOK()) throw new Error('Accès Premium requis.');
   if(!loaded) await loadCloud();
   const data=getStore();
   data.catalog=Array.isArray(data.catalog)?data.catalog:[];
@@ -1068,7 +1066,7 @@ async function saveProductCloud(p){
   renderPremiumList(); try{render()}catch(e){}
 }
 window.deletePremiumProduct=async function(id){
-  if(!premiumOK()||!confirm('Supprimer ce produit de '+storeName(activeStore)+' ?'))return;
+  if(!confirm('Supprimer ce produit de '+storeName(activeStore)+' ?'))return;
   if(!loaded) await loadCloud();
   const data=getStore(); data.catalog=(data.catalog||[]).filter(x=>String(x.id)!==String(id)); setStoreData(data);
   await saveCloud(true); products.splice(0,products.length,...data.catalog.map(normalizeCat));
@@ -1100,7 +1098,7 @@ function bindProductForm(){
   const form=document.getElementById('premiumForm'); if(!form)return;
   const clean=form.cloneNode(true); form.replaceWith(clean);
   clean.addEventListener('submit',async e=>{
-    e.preventDefault(); if(!premiumOK())return alert('Accès Premium requis.');
+    e.preventDefault();
     try{
       if(!loaded) await loadCloud();
       const id=document.getElementById('premiumId').value.trim();
@@ -1120,7 +1118,6 @@ function bindProductForm(){
   });
 }
 async function loadCloudProducts(){
-  if(!premiumOK())return;
   if(!loaded) await loadCloud();
   await selectStore(activeStore);
 }
@@ -1128,7 +1125,6 @@ window.v16LoadStoreCloud=loadCloudProducts;
 
 // Cloud site settings
 window.v16LoadSettings=async function(){
-  if(!premiumOK())return;
   if(!loaded) await loadCloud();
   const x=getStore().settings||{};
   const defaults=activeStore==='loganatrice'?{heroTitle:'LOGANATRICE',heroText:'Le même esprit de présentation premium, en rose pailleté. 💗✨',heroButton:'Découvrir la boutique'}:{heroTitle:'PORTE TON LOGANATOR.',heroText:'La boutique de la chaîne, avec les vraies photos de tes créations.',heroButton:'VOIR LA COLLECTION',bannerText:'🚚 LIVRAISON OFFERTE À PARTIR DE 80€',dropText:''};
@@ -1137,25 +1133,24 @@ window.v16LoadSettings=async function(){
   document.getElementById('v16BannerText').value=x.bannerText||defaults.bannerText||''; document.getElementById('v16DropText').value=x.dropText||defaults.dropText||'';
   ['New','Popular','Promos','Drop'].forEach(k=>{const el=document.getElementById('v16Show'+k);if(el)el.checked=x['show'+k]!==false}); v16PreviewSettings();
 };
-window.v16SaveDraft=async function(){if(!premiumOK())return;if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(false);v16Notice('💾 Brouillon cloud enregistré pour '+storeName(activeStore)+'.',true)};
-window.v16PublishDraft=async function(){if(!premiumOK())return;if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(true);v16Notice('🚀 Modifications publiées sur '+storeName(activeStore)+'.',true)};
+window.v16SaveDraft=async function(){if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(false);v16Notice('💾 Brouillon cloud enregistré pour '+storeName(activeStore)+'.',true)};
+window.v16PublishDraft=async function(){if(!loaded)await loadCloud();const d=getStore();d.settings={...d.settings,...v16SettingsObj()};setStoreData(d);await saveCloud(true);v16Notice('🚀 Modifications publiées sur '+storeName(activeStore)+'.',true)};
 
 // Cloud promos
 window.v16LoadPromos=async function(){
-  const box=document.getElementById('v16PromoList'); if(!box||!premiumOK())return;
+  const box=document.getElementById('v16PromoList'); if(!box)return;
   if(!loaded)await loadCloud(); const arr=getStore().promos||[];
   box.innerHTML=arr.map((p,i)=>`<div class="v16-line"><span><b>${esc(p.code)}</b> · ${p.type==='percent'?p.value+'%':Number(p.value).toFixed(2)+'€'} ${p.active?'🟢':'🔴'}</span><button class="btn" onclick="window.v26ToggleCloudPromo(${i})">${p.active?'Désactiver':'Activer'}</button></div>`).join('')||'<div class="v16-muted">Aucun code pour cette boutique.</div>';
 };
 window.v26ToggleCloudPromo=async function(i){if(!loaded)await loadCloud();const d=getStore();d.promos=d.promos||[];if(!d.promos[i])return;d.promos[i].active=!d.promos[i].active;setStoreData(d);await saveCloud(true);v16LoadPromos()};
 window.v16CreatePromo=async function(){
-  if(!premiumOK())return;if(!loaded)await loadCloud();
+  if(!loaded)await loadCloud();
   const d=getStore();d.promos=d.promos||[];
   const code=document.getElementById('v16PromoCode').value.trim().toUpperCase(); if(!code)return alert('Entre un code.');
   d.promos.push({code,type:document.getElementById('v16PromoType').value,value:Number(document.getElementById('v16PromoValue').value)||0,min_order:Number(document.getElementById('v16PromoMin').value)||0,max_uses:Number(document.getElementById('v16PromoMax').value)||null,starts_at:document.getElementById('v16PromoStart').value?new Date(document.getElementById('v16PromoStart').value).toISOString():null,ends_at:document.getElementById('v16PromoEnd').value?new Date(document.getElementById('v16PromoEnd').value).toISOString():null,active:true});
   setStoreData(d);await saveCloud(true);v16LoadPromos();
 };
 window.v16LoadOrders=async function(){
-  if(!premiumOK())return;
   const box=document.getElementById('v16OrderRows');if(!box)return;
   if(activeStore==='loganatrice'){box.innerHTML='<tr><td colspan="6">🌸 LOGANATRICE : le paiement actuel de cette version est simulé, donc aucune commande réelle n’est enregistrée.</td></tr>';return;}
   // Preserve the existing LOGANATOR order manager.
@@ -1165,7 +1160,6 @@ window.v16LoadOrders=async function(){
 };
 window.v26SetLoganatorOrderStatus=async function(id,status){const r=await window.LOGANATOR_SB.from('orders').update({status}).eq('id',id);if(r.error)return alert(r.error.message);v16Notice('✅ Statut mis à jour.',true)};
 window.v16LoadStats=async function(){
-  if(!premiumOK())return;
   if(activeStore==='loganatrice'){
     const n=products.length;
     const a=document.getElementById('v16Visits'),b=document.getElementById('v16Views'),c=document.getElementById('v16Adds'),d=document.getElementById('v16Orders');
@@ -1195,11 +1189,14 @@ window.v16SetTab=v16SetTab;
 // Add store UI behavior and cloud load
 const oldOpen=window.openPremium;
 window.openPremium=async function(){
-  if(!premiumOK())return alert('Accès réservé aux membres PREMIUM 👑');
-  await loadCloud();
-  await selectStore(activeStore);
+  // Utilise exactement le contrôle Premium existant de la V26.4.
+  // Aucune nouvelle vérification de sécurité n'est ajoutée ici.
+  await oldOpen();
+  const modal=document.getElementById('premiumModal');
+  if(!modal || !modal.classList.contains('open')) return;
+  try{await loadCloud();}catch(e){v16Notice('⚠️ Cloud boutiques indisponible : '+(e.message||e),false);return;}
+  try{await selectStore(activeStore);}catch(e){}
   bindProductForm();
-  const modal=document.getElementById('premiumModal'); if(modal)modal.classList.add('open');
   try{v16LoadStats()}catch(e){}; try{v16LoadSettings()}catch(e){}; try{v16LoadPromos()}catch(e){}; try{v16LoadTools()}catch(e){}
 };
 const oldClose=window.closePremium;
