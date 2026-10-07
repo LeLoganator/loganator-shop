@@ -43,6 +43,7 @@ if (!empty($settings['maintenance']) && !current_user()) {
 <!doctype html>
 <html lang="fr">
 <head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title><?= $title ?> — Maintenance</title>
@@ -54,14 +55,6 @@ body{min-height:100vh;display:grid;place-items:center;text-align:center}
 .maintenance p{margin:0;color:#b8b8c5;font-size:clamp(17px,3vw,22px);line-height:1.5}
 .dot{width:10px;height:10px;border-radius:50%;background:#fff;display:inline-block;margin-right:10px;vertical-align:middle;box-shadow:0 0 18px #fff}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-window.LOGANATOR_SB = window.supabase.createClient(
-  'https://aidaqphingkvvevgbeyk.supabase.co',
-  'sb_publishable_g3yTfPLGBasbLU4Q3LEi0w_P6b8ROLM',
-  { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
-);
-</script>
 </head>
 <body>
 <main class="maintenance" aria-live="polite">
@@ -410,23 +403,26 @@ update();
 <script>
 // LOGANATOR V27 — fonctionnement autonome : PHP + JSON, sans Supabase.
 const LOGANATOR_PREMIUM=["gauducheaulogan@gmail.com","leloganator@gmail.com","alexisprouillac@gmail.com","theteamsloganator@gmail.com"];
-const LOGANATOR_API='';
-let LOGANATOR_USER=null;
+const LOGANATOR_API='api';
+const LOGANATOR_SB_URL='https://aidaqphingkvvevgbeyk.supabase.co';
+const LOGANATOR_SB_KEY='sb_publishable_g3yTfPLGBasbLU4Q3LEi0w_P6b8ROLM';
+let LOGANATOR_SB=null, LOGANATOR_USER=null;
+try{ if(window.supabase?.createClient) LOGANATOR_SB=window.supabase.createClient(LOGANATOR_SB_URL,LOGANATOR_SB_KEY); }catch(e){ console.warn('Supabase Auth:',e.message); }
 function premiumEmail(){return (LOGANATOR_USER?.email||'').toLowerCase()}
 function isLoganatorPremium(){return !!LOGANATOR_USER && (LOGANATOR_USER.role==='premium' || LOGANATOR_PREMIUM.includes(premiumEmail()))}
 function showAccountMessage(m){const el=document.getElementById('accountArea');if(el)el.innerHTML=m}
-async function apiFetch(path,options={}){const r=await fetch(path,{credentials:'same-origin',...options});let d={};try{d=await r.json()}catch{}if(!r.ok||d.ok===false)throw new Error(d.error||('Erreur HTTP '+r.status));return d}
+async function apiFetch(path,options={}){const r=await fetch('index.php?api='+encodeURIComponent(path),{credentials:'same-origin',...options});let d={};try{d=await r.json()}catch{}if(!r.ok||d.ok===false)throw new Error(d.error||('Erreur HTTP '+r.status));return d}
 window.openAccount=async function(){
   if(LOGANATOR_USER){if(isLoganatorPremium()){openPremium();return}showAccountMessage(`<p>Connecté avec <b>${esc(LOGANATOR_USER.email)}</b>.</p><button class="btn" onclick="premiumLogout()">Se déconnecter</button>`)}
-  else showAccountMessage(`<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" onclick="v12Login()">SE CONNECTER</button></div><div id="v12Msg" class="notice">Connexion Premium sécurisée par Supabase Auth.</div><div style="margin-top:10px;font-size:.9em;opacity:.75">Première installation : ouvre <b>setup.php</b> une seule fois pour créer le compte administrateur.</div>`);
+  else showAccountMessage(`<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" onclick="v12Login()">SE CONNECTER</button></div><div id="v12Msg" class="notice">Connexion Premium autonome. Aucun Supabase.</div><div style="margin-top:10px;font-size:.9em;opacity:.75">Première installation : ouvre <b>setup.php</b> une seule fois pour créer le compte administrateur.</div>`);
   document.getElementById('authTitle').textContent=LOGANATOR_USER?'Mon compte':'Connexion Premium';
   document.getElementById('accountModal').classList.add('open');
 }
 function v12msg(m){const e=document.getElementById('v12Msg');if(e)e.textContent=m}
-window.v12Login=async function(){const email=document.getElementById('v12Email')?.value.trim().toLowerCase(),password=document.getElementById('v12Password')?.value;if(!email||!password)return v12msg('Remplis les deux champs.');try{if(!window.LOGANATOR_SB?.auth)throw new Error('Connexion indisponible.');const r=await window.LOGANATOR_SB.auth.signInWithPassword({email,password});if(r.error)throw r.error;LOGANATOR_USER={email:r.data.user?.email||email,role:LOGANATOR_PREMIUM.includes((r.data.user?.email||email).toLowerCase())?'premium':'user',id:r.data.user?.id||null};closeModal('accountModal');document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 COMPTE';await v12LoadProducts();render();openPremium()}catch(e){v12msg('❌ '+(e.message||'Connexion impossible.'))}}
-window.v12Signup=async function(){v12msg('La création du compte se fait une seule fois via setup.php.');window.open('setup.php','_blank')}
-window.v12Reset=async function(){v12msg('Pour changer le mot de passe, recrée-le côté hébergement ou demande une réinitialisation via le panneau de ton hébergeur. Aucun service externe n’est utilisé.')}
-window.premiumLogout=async function(){try{if(window.LOGANATOR_SB?.auth)await window.LOGANATOR_SB.auth.signOut()}catch{}LOGANATOR_USER=null;closePremium();closeModal('accountModal');document.getElementById('accountBtn').textContent='👤 COMPTE'}
+window.v12Login=async function(){const email=document.getElementById('v12Email')?.value.trim(),password=document.getElementById('v12Password')?.value;if(!email||!password)return v12msg('Remplis les deux champs.');try{if(!LOGANATOR_SB?.auth)throw new Error('Connexion Supabase indisponible.');const {data,error}=await LOGANATOR_SB.auth.signInWithPassword({email,password});if(error)throw error;const u=data.user;LOGANATOR_USER={email:(u?.email||email).toLowerCase(),role:LOGANATOR_PREMIUM.includes((u?.email||email).toLowerCase())?'premium':'user',id:u?.id||null};closeModal('accountModal');document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 COMPTE';await v12LoadProducts();render();if(isLoganatorPremium())openPremium()}catch(e){v12msg('❌ '+(e.message||'Connexion impossible.'))}}
+window.v12Signup=async function(){const email=document.getElementById('v12Email')?.value.trim(),password=document.getElementById('v12Password')?.value;if(!email||password.length<6)return v12msg('E-mail valide + mot de passe de 6 caractères minimum.');try{const {error}=await LOGANATOR_SB.auth.signUp({email,password,options:{emailRedirectTo:location.href}});v12msg(error?'❌ '+error.message:'✅ Compte créé. Vérifie ton e-mail si une confirmation est demandée.')}catch(e){v12msg('❌ '+e.message)}}
+window.v12Reset=async function(){const email=document.getElementById('v12Email')?.value.trim();if(!email)return v12msg('Entre ton e-mail.');try{const {error}=await LOGANATOR_SB.auth.resetPasswordForEmail(email,{redirectTo:location.href});v12msg(error?'❌ '+error.message:'✅ Si le compte existe, un e-mail de réinitialisation a été envoyé.')}catch(e){v12msg('❌ '+e.message)}}
+window.premiumLogout=async function(){try{await LOGANATOR_SB?.auth?.signOut()}catch{}LOGANATOR_USER=null;closePremium();closeModal('accountModal');document.getElementById('accountBtn').textContent='👤 COMPTE'}
 function premiumMessage(m,ok=false){const e=document.getElementById('premiumMsg');if(e){e.textContent=m;e.className='admin-msg'+(ok?' ok':'')}}
 window.openPremium=async function(){if(!isLoganatorPremium())return alert('Accès réservé aux membres PREMIUM 👑');await v12LoadProducts();render();renderPremiumList();document.getElementById('premiumModal').classList.add('open')}
 window.closePremium=function(){document.getElementById('premiumModal').classList.remove('open')}
@@ -446,7 +442,7 @@ function closePremiumMembers(){document.getElementById('premiumMembersModal').cl
 function loadPremiumMembers(){const box=document.getElementById('premiumMembersList');if(!box)return;box.innerHTML=`<div class="admin-card"><div><b>${esc(LOGANATOR_USER?.email||'Compte Premium')}</b><div class="muted">Administrateur Premium autonome</div></div></div>`}
 function addPremiumMember(){alert('La gestion des comptes se fait sur l’hébergement, sans Supabase.')}
 function removePremiumMember(){alert('La gestion des comptes se fait sur l’hébergement, sans Supabase.')}
-async function bootV12(){try{const me=await apiFetch('auth.php?action=me');LOGANATOR_USER=me.user||null}catch{}document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 COMPTE';await v12LoadProducts();render()}
+async function bootV12(){try{if(LOGANATOR_SB?.auth){const {data}=await LOGANATOR_SB.auth.getSession();const u=data?.session?.user;if(u){const email=(u.email||'').toLowerCase();LOGANATOR_USER={email,role:LOGANATOR_PREMIUM.includes(email)?'premium':'user',id:u.id||null};}}}catch(e){console.warn('Session Supabase:',e.message)}document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 COMPTE';await v12LoadProducts();render();if(LOGANATOR_SB?.auth)LOGANATOR_SB.auth.onAuthStateChange((_event,session)=>{const u=session?.user;if(u){const email=(u.email||'').toLowerCase();LOGANATOR_USER={email,role:LOGANATOR_PREMIUM.includes(email)?'premium':'user',id:u.id||null}}else LOGANATOR_USER=null;document.getElementById('accountBtn').textContent=isLoganatorPremium()?'👑 PREMIUM':'👤 COMPTE';});}
 bootV12();
 setInterval(async()=>{if(document.hidden)return;try{await v12LoadProducts();render()}catch(e){}},5000);
 </script>\n
@@ -732,7 +728,7 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
     if(typeof window.loadPremiumMembers==='function')window.loadPremiumMembers();
   };
 
-  // Authentication is handled by Supabase Auth for login/session.
+  // Authentication is handled by the PHP session in api/auth.php.
 
   const oldLogout=window.premiumLogout;
   window.premiumLogout=async function(){if(oldLogout)await oldLogout();window.V22_PREMIUM=false;await refresh()};
@@ -899,16 +895,16 @@ window.__LOGANATOR_OPEN_ACCOUNT=function(){var m=document.getElementById("accoun
   'use strict';
   const PREMIUM_ALLOW=['gauducheaulogan@gmail.com','leloganator@gmail.com','alexisprouillac@gmail.com','theteamsloganator@gmail.com'];
   function el(id){return document.getElementById(id)}
-  async function currentUser(){try{const r=await window.LOGANATOR_SB.auth.getUser();const u=r.data?.user;if(u){window.LOGANATOR_USER={email:u.email||'',role:PREMIUM_ALLOW.includes((u.email||'').toLowerCase())?'premium':'user',id:u.id};return window.LOGANATOR_USER}window.LOGANATOR_USER=null;return null}catch(e){return window.LOGANATOR_USER||null}}
+  async function currentUser(){try{const r=await apiFetch('auth.php?action=me');window.LOGANATOR_USER=r.user||null;return window.LOGANATOR_USER}catch(e){return window.LOGANATOR_USER||null}}
   async function isPremium(user){return !!(user&&user.role==='premium')}
   function showModal(){const m=el('accountModal');if(!m)return null;m.style.display='flex';m.style.visibility='visible';m.style.opacity='1';m.classList.add('open');return m}
   function hideAccount(){const m=el('accountModal');if(m){m.classList.remove('open');m.style.display='none';m.style.visibility='hidden';m.style.opacity='0'}}
   function safe(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
   function msg(t){const x=el('v12Msg');if(x)x.textContent=t}
   function renderLogged(user,premium){const title=el('authTitle'),area=el('accountArea');if(title)title.textContent='Mon compte';if(!area)return;area.innerHTML='<p>Connecté avec <b>'+safe(user.email)+'</b>.</p>'+(premium?'<div class="v26-account-note">👑 <b>Compte PREMIUM détecté</b><br>Ton espace Premium fonctionne directement sur ton hébergement.</div><div class="v26-premium-access"><button class="primary" type="button" id="v26Premium">👑 OUVRIR PREMIUM</button><button class="btn" type="button" id="v26Logout">SE DÉCONNECTER</button></div>':'<div class="v26-account-note">Compte connecté.</div><div class="v26-premium-access"><button class="btn" type="button" id="v26Logout">SE DÉCONNECTER</button></div>');const p=el('v26Premium');if(p)p.onclick=()=>window.openPremium();const lo=el('v26Logout');if(lo)lo.onclick=async()=>{await window.premiumLogout();showAccount()}}
-  function renderLogin(){const title=el('authTitle'),area=el('accountArea');if(title)title.textContent='Connexion Premium';if(!area)return;area.innerHTML='<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v26Login">SE CONNECTER</button></div><div id="v12Msg" class="notice">Connexion Premium sécurisée par Supabase Auth.</div><div style="margin-top:10px;font-size:.9em;opacity:.75">Première installation : ouvre <b>setup.php</b> une seule fois.</div>';el('v26Login').onclick=()=>window.v12Login()}
+  function renderLogin(){const title=el('authTitle'),area=el('accountArea');if(title)title.textContent='Connexion Premium';if(!area)return;area.innerHTML='<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" autocomplete="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" autocomplete="current-password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" type="button" id="v26Login">SE CONNECTER</button></div><div id="v12Msg" class="notice">Connexion Premium autonome — aucun Supabase.</div><div style="margin-top:10px;font-size:.9em;opacity:.75">Première installation : ouvre <b>setup.php</b> une seule fois.</div>';el('v26Login').onclick=()=>window.v12Login()}
   async function showAccount(){showModal();const user=await currentUser();if(user)renderLogged(user,await isPremium(user));else renderLogin()}
-  window.v26Login=window.v12Login=async function(){const email=(el('v12Email')?.value||'').trim().toLowerCase(),password=el('v12Password')?.value||'';if(!email||!password)return msg('Remplis ton e-mail et ton mot de passe.');try{const r=await window.LOGANATOR_SB.auth.signInWithPassword({email,password});if(r.error)throw r.error;const u=r.data?.user;if(!u)throw new Error('Utilisateur introuvable.');window.LOGANATOR_USER={email:u.email||email,role:PREMIUM_ALLOW.includes((u.email||email).toLowerCase())?'premium':'user',id:u.id};const premium=await isPremium(window.LOGANATOR_USER);if(premium){hideAccount();await window.openPremium()}else renderLogged(window.LOGANATOR_USER,false)}catch(e){msg('❌ '+(e.message||'Connexion impossible.'))}};
+  window.v26Login=window.v12Login=async function(){const email=(el('v12Email')?.value||'').trim().toLowerCase(),password=el('v12Password')?.value||'';if(!email||!password)return msg('Remplis ton e-mail et ton mot de passe.');try{const r=await apiFetch('auth.php?action=login',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({email,password})});window.LOGANATOR_USER=r.user;const premium=await isPremium(r.user);if(premium){hideAccount();await window.openPremium()}else renderLogged(r.user,false)}catch(e){msg('❌ '+e.message)}};
   window.v26Signup=window.v12Signup=async function(){window.open('setup.php','_blank')};
   window.v26Reset=window.v12Reset=async function(){msg('Le changement de mot de passe se fait dans la configuration de l’hébergement. Aucun service externe n’est utilisé.')};
   window.openPremium=async function(){try{hideAccount();const user=await currentUser();if(!(await isPremium(user))){alert('👑 Accès réservé aux membres PREMIUM.');return false}const shell=el('v25Shell');if(shell){shell.classList.add('open');shell.setAttribute('aria-hidden','false');const dash=document.querySelector('.v25-page[data-page="dashboard"]');document.querySelectorAll('.v25-page').forEach(x=>x.classList.remove('active'));if(dash)dash.classList.add('active');await v12LoadProducts();if(typeof window.v25RefreshDashboard==='function')await window.v25RefreshDashboard();return true}const old=el('premiumModal');if(old){old.classList.add('open');old.style.display='flex';await v12LoadProducts();return true}return false}catch(e){console.error(e);alert('Le panneau Premium ne peut pas être ouvert.');return false}};
