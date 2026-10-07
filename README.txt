@@ -1,14 +1,13 @@
-LOGANATOR V27 — PRODUITS PUBLICS SANS SUPABASE
+LOGANATOR V27 — SANS SUPABASE + MAINTENANCE SERVEUR
 
-Cette version remplace le catalogue Supabase par un mini-backend PHP sans base de données.
+Le catalogue et les paramètres fonctionnent avec PHP + fichiers JSON sur ton hébergement.
+Aucun Supabase n'est nécessaire.
 
-→ data/products.json = catalogue public
-→ api/products.php = lecture/ajout/modification/suppression
-→ api/upload.php = images produits
-→ api/auth.php = connexion Premium par session PHP
-→ setup.php = création initiale du compte Premium
-→ uploads/products/ = images envoyées depuis Premium
+MAINTENANCE :
+Premium > Control Center > Paramètres > Mode maintenance > Activé > Enregistrer.
 
-Installation : voir INSTALLATION-V27-SANS-SUPABASE.txt
+Quand la maintenance est activée, le serveur renvoie directement une page 503 contenant uniquement :
+« Le site est en cours de maintenance ».
+La boutique n'est pas envoyée au visiteur public.
 
-IMPORTANT : nécessite PHP 8+ et un hébergement capable d'écrire dans data/ et uploads/products/.
+Une session Premium connectée peut continuer à ouvrir le site et le Control Center pour administrer la boutique.
