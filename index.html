@@ -150,7 +150,8 @@ const products=[
 {id:1,name:"Hoodie LOGANATOR",price:49.9,cat:"Hauts",image:"photo-5.jpg",details:["Hoodie LOGANATOR","Design officiel LOGANATOR","Photo produit incluse","Tailles à définir"]},
 {id:2,name:"Doudoune LOGANATOR",price:89.9,cat:"Doudounes",image:"photo-9.png",details:["Doudoune LOGANATOR","Coupe épaisse et large","Design blanc LOGANATOR","Tailles à définir"]},
 {id:3,name:"Baggy LOGANATOR",price:59.9,cat:"Bas",image:"photo-13.png",details:["Baggy LOGANATOR","Coupe large / streetwear","Design LOGANATOR","Tailles à définir"]},
-{id:4,name:"Chaussures LOGANATOR",price:79.9,cat:"Chaussures",image:"photo-6.png",details:["Chaussures LOGANATOR","Design personnalisé LOGANATOR","Photo produit incluse","Tailles à définir"]}];
+{id:4,name:"Chaussures LOGANATOR",price:79.9,cat:"Chaussures",image:"photo-6.png",details:["Chaussures LOGANATOR","Design personnalisé LOGANATOR","Photo produit incluse","Tailles à définir"]},
+{id:"pack-gaming-neon-bleu",name:"Pack Gaming LOGANATOR Néon Bleu",price:100,cat:"Gaming",category:"Gaming",stock:200,image:"photo-15.png",image_url:"photo-15.png",description:"Pack gaming complet LOGANATOR avec clavier mécanique AZERTY, souris haute précision, tapis de souris XXL et télécommande RGB.",details:["Clavier mécanique AZERTY","Souris haute précision jusqu'à 16 000 DPI","Tapis de souris XXL ultra fluide","Télécommande RGB incluse","RGB personnalisable"],sizes:[],is_published:true,is_new:true,is_featured:true}];
 
 let cart=JSON.parse(localStorage.getItem('loganatorCart')||'[]'),
     favorites=JSON.parse(localStorage.getItem('loganatorFavorites')||'[]');
@@ -375,7 +376,12 @@ async function v12LoadProducts(){
  if(!LOGANATOR_SB)return;
  const {data,error}=await LOGANATOR_SB.from('products').select('*').order('created_at',{ascending:true});
  if(error){console.warn('Supabase products:',error.message);return;}
- if(data&&data.length){products.splice(0,products.length,...data.map(dbToProduct));}
+ if(data&&data.length){
+   const remote=data.map(dbToProduct);
+   const merged=[...remote];
+   products.forEach(local=>{if(!merged.some(x=>String(x.id)===String(local.id)))merged.push(local)});
+   products.splice(0,products.length,...merged);
+ }
 }
 function renderPremiumList(){document.getElementById('premiumList').innerHTML=products.map(p=>`<div class="admin-card"><img src="${p.image}" alt="${p.name}"><div><b>${p.name}</b><div class="muted">${Number(p.price).toFixed(2)}€ · ${p.cat}</div></div><div class="admin-actions"><button class="btn" onclick='downloadPremiumImage(${JSON.stringify(p.id)})'>⬇️ Télécharger l’image</button><button class="btn" onclick='editPremiumProduct(${JSON.stringify(p.id)})'>✏️ Modifier</button><button class="btn" onclick='deletePremiumProduct(${JSON.stringify(p.id)})'>🗑️ Supprimer</button></div></div>`).join('')}
 window.editPremiumProduct=function(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;document.getElementById('premiumEditorTitle').textContent='Modifier le produit';document.getElementById('premiumId').value=id;document.getElementById('premiumName').value=p.name;document.getElementById('premiumPrice').value=p.price;document.getElementById('premiumCat').value=p.cat;document.getElementById('premiumDetails').value=(p.details||[]).join('\n');document.getElementById('premiumImage').value='';document.getElementById('premiumEditor').classList.add('open')}
@@ -445,6 +451,8 @@ const _openPremium=window.openPremium;window.openPremium=async function(){if(!v1
   store.orders=Array.isArray(store.orders)?store.orders:[];
   store.members=Array.isArray(store.members)?store.members:[];
   store.events=Array.isArray(store.events)?store.events:[];
+  const v27Seed={id:'pack-gaming-neon-bleu',name:'Pack Gaming LOGANATOR Néon Bleu',price:100,cat:'Gaming',category:'Gaming',stock:200,image:'photo-15.png',image_url:'photo-15.png',description:'Pack gaming complet LOGANATOR avec clavier mécanique AZERTY, souris haute précision, tapis de souris XXL et télécommande RGB.',details:['Clavier mécanique AZERTY',"Souris haute précision jusqu'à 16 000 DPI",'Tapis de souris XXL ultra fluide','Télécommande RGB incluse','RGB personnalisable'],sizes:[],is_published:true,is_new:true,is_featured:true};
+  if(!store.products.some(x=>String(x.id)==='pack-gaming-neon-bleu')){store.products.push(v27Seed)}
   save(store);
 
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
