@@ -1,10 +1,13 @@
-LOGANATOR — VERSION PREMIUM SANS BLOCAGE
+LOGANATOR — VERSION CORRIGÉE
 
-Ce dossier contient le site complet extrait de la version originale,
-avec ses images, fichiers et ressources.
+Corrections :
+- Accès au centre Premium sans vérification de liste Premium.
+- Après connexion, le bouton Premium ouvre directement le Control Center.
+- Catalogue conservé avec les produits existants.
+- Pack Gaming LOGANATOR Néon Bleu ajouté avec son vrai fichier photo-15.png.
+- Les produits de base Hoodie, Doudoune, Baggy et Chaussures sont conservés.
+- Les anciens fichiers/images du site sont inclus.
 
-Le fichier index.html a été remplacé par la version sans blocage Premium.
-
-IMPORTANT :
-- Conserve toute l'arborescence du dossier lors de l'envoi sur l'hébergement.
-- Ne supprime pas les dossiers contenant les images/assets.
+Installation :
+- Envoie tout le contenu de ce dossier sur ton hébergement.
+- Conserve index.html et toutes les images à la même racine.
