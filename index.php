@@ -5,6 +5,23 @@
 declare(strict_types=1);
 require __DIR__ . '/api/bootstrap.php';
 
+// API fallback through index.php: certains hébergeurs renvoient 405 sur les POST vers /api/*.php.
+// Toutes les actions AJAX peuvent donc passer par ce fichier unique.
+if (isset($_GET['api'])) {
+    $api = (string)$_GET['api'];
+    $parts = parse_url($api);
+    $apiFile = basename((string)($parts['path'] ?? ''));
+    if (!in_array($apiFile, ['auth.php','products.php','upload.php','settings.php'], true)) {
+        json_response(['ok'=>false,'error'=>'API inconnue.'], 404);
+    }
+    if (!empty($parts['query'])) {
+        parse_str($parts['query'], $apiQuery);
+        foreach ($apiQuery as $k=>$v) $_GET[$k] = $v;
+    }
+    require __DIR__ . '/api/' . $apiFile;
+    exit;
+}
+
 $settingsFile = __DIR__ . '/data/settings.json';
 $settings = [
     'name' => 'LOGANATOR',
@@ -390,7 +407,7 @@ let LOGANATOR_SB=null, LOGANATOR_USER=null;
 function premiumEmail(){return (LOGANATOR_USER?.email||'').toLowerCase()}
 function isLoganatorPremium(){return !!LOGANATOR_USER && (LOGANATOR_USER.role==='premium' || LOGANATOR_PREMIUM.includes(premiumEmail()))}
 function showAccountMessage(m){const el=document.getElementById('accountArea');if(el)el.innerHTML=m}
-async function apiFetch(path,options={}){const r=await fetch(LOGANATOR_API+'/'+path,{credentials:'same-origin',...options});let d={};try{d=await r.json()}catch{}if(!r.ok||d.ok===false)throw new Error(d.error||('Erreur HTTP '+r.status));return d}
+async function apiFetch(path,options={}){const r=await fetch('index.php?api='+encodeURIComponent(path),{credentials:'same-origin',...options});let d={};try{d=await r.json()}catch{}if(!r.ok||d.ok===false)throw new Error(d.error||('Erreur HTTP '+r.status));return d}
 window.openAccount=async function(){
   if(LOGANATOR_USER){if(isLoganatorPremium()){openPremium();return}showAccountMessage(`<p>Connecté avec <b>${esc(LOGANATOR_USER.email)}</b>.</p><button class="btn" onclick="premiumLogout()">Se déconnecter</button>`)}
   else showAccountMessage(`<div class="field"><label>Adresse e-mail</label><input id="v12Email" type="email" placeholder="ton@email.com"></div><br><div class="field"><label>Mot de passe</label><input id="v12Password" type="password" placeholder="••••••••"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px"><button class="primary" onclick="v12Login()">SE CONNECTER</button></div><div id="v12Msg" class="notice">Connexion Premium autonome. Aucun Supabase.</div><div style="margin-top:10px;font-size:.9em;opacity:.75">Première installation : ouvre <b>setup.php</b> une seule fois pour créer le compte administrateur.</div>`);
@@ -828,7 +845,7 @@ document.body.classList.add('v25');
   $('v25SaveGame').addEventListener('click',()=>{const c=cfg();c.game={level:Number($('v25Level').value)||1,points:Number($('v25Points').value)||0,badges:$('v25Badges').value};saveCfg(c)});
   async function loadServerSettings(){
     try{
-      const d=await fetch('api/settings.php',{credentials:'same-origin',cache:'no-store'}).then(r=>r.json());
+      const d=await apiFetch('settings.php');
       if(!d.ok)throw new Error(d.error||'Impossible de charger les paramètres.');
       const s=d.settings||{};
       $('v25SettingName').value=s.name||'LOGANATOR';
@@ -842,7 +859,7 @@ document.body.classList.add('v25');
     const payload={name:$('v25SettingName').value.trim()||'LOGANATOR',currency:$('v25Currency').value,freeShip:Number($('v25FreeShip').value)||80,maintenance:$('v25Maintenance').value==='true'};
     const btn=$('v25SaveSettings');btn.disabled=true;
     try{
-      const r=await fetch('api/settings.php',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),cache:'no-store'});
+      const r=await apiFetch('settings.php',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),cache:'no-store'});
       const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||('Erreur HTTP '+r.status));
       const c=cfg();c.settings={...payload};saveCfg(c);
       $('v25SettingsStatus').textContent=payload.maintenance?'🔴 MAINTENANCE ACTIVÉE — le public voit maintenant uniquement « Le site est en cours de maintenance ».':'🟢 MAINTENANCE DÉSACTIVÉE — la boutique est de nouveau publique.';
@@ -1143,8 +1160,7 @@ window.addEventListener('load',()=>setTimeout(()=>{if(window.LOGANATOR_SB&&premi
 // on recharge rapidement : index.php renverra alors uniquement la page de maintenance.
 (function(){
   setInterval(function(){
-    fetch('api/settings.php',{credentials:'same-origin',cache:'no-store'})
-      .then(function(r){return r.json()})
+    apiFetch('settings.php')
       .then(function(d){if(d&&d.ok&&d.settings&&d.settings.maintenance) location.reload()})
       .catch(function(){/* réseau temporairement indisponible : ne pas casser la boutique */});
   },5000);
