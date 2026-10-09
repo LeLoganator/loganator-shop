@@ -167,7 +167,6 @@ drop policy if exists v16_premium_members_owner on public.premium_members;
 drop policy if exists v16_product_meta_public_select on public.product_meta;
 drop policy if exists v16_product_meta_premium_write on public.product_meta;
 drop policy if exists v16_settings_premium on public.store_settings;
-drop policy if exists v30_public_maintenance_read on public.store_settings;
 drop policy if exists v16_promo_public_read on public.promo_codes;
 drop policy if exists v16_promo_premium_write on public.promo_codes;
 drop policy if exists v16_orders_owner_read on public.orders;
@@ -193,9 +192,6 @@ create policy v16_product_meta_public_select on public.product_meta for select t
 create policy v16_product_meta_premium_write on public.product_meta for all to authenticated using (public.is_premium()) with check (public.is_premium());
 
 create policy v16_settings_premium on public.store_settings for all to authenticated using (public.is_premium()) with check (public.is_premium());
-
--- V30: les visiteurs doivent pouvoir lire uniquement l'état de maintenance publié.
-create policy v30_public_maintenance_read on public.store_settings for select to anon, authenticated using (true);
 
 create policy v16_promo_public_read on public.promo_codes for select to anon, authenticated using (active = true and (starts_at is null or starts_at <= now()) and (ends_at is null or ends_at >= now()));
 create policy v16_promo_premium_write on public.promo_codes for all to authenticated using (public.is_premium()) with check (public.is_premium());
